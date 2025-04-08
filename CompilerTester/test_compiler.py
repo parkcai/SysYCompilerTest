@@ -522,9 +522,12 @@ def test_compiler_with_testcase_set(
     
     
 if __name__ == "__main__":
+    
     test_compiler_with_testcase_set(
         compiler_name = "Compiler1",
         compiler_level = 9,
         testcase_set_name = "CourseOriginal",
         testcase_level = 5,
     )
+    
+    
