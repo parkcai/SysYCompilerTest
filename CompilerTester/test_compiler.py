@@ -424,19 +424,40 @@ def run_test(mode: TestMode, compiler: CompilerInfo, case: TestCase) -> TestResu
     output = os.path.join(compiler.working_dir, TEMP_OUTPUT_FILE)
     obj = os.path.join(compiler.working_dir, TEMP_OBJECT_FILE)
     exe = os.path.join(compiler.working_dir, TEMP_EXECUTABLE_FILE)
+    
     # compile test case
     cmd = f'{compiler.compile_cmd} {mode.to_opt()} {case.source_file} -o {output}'
     if result := execute(cmd, COMP_TIMEOUT_SEC, TestStatus.COMP_ERROR,
                          TestStatus.COMP_TIME_EXCEEDED):
         return result
+    
     # check output file
     if not os.path.exists(output):
         return TestResult(TestStatus.OUTPUT_NOT_FOUND)
+    
     # assembly output file
     asm = asm_koopa if mode == TestMode.KOOPA else asm_riscv
     if result := asm(output, obj, exe):
+        cleanup(output, obj, exe)  # Cleanup on assembly error
         return result
-    return run_output(mode, case, exe)
+    
+    test_result = run_output(mode, case, exe)
+    
+    # Cleanup intermediate files after the test
+    cleanup(output, obj, exe)
+    
+    return test_result
+
+def cleanup(*files):
+    '''
+    Deletes the specified files.
+    '''
+    for file in files:
+        try:
+            if os.path.exists(file):
+                os.remove(file)
+        except Exception as e:
+            print(f"Error deleting file {file}: {e}")
 
 
 def run_tests(mode: TestMode, compiler: CompilerInfo, cases: List[TestCase]):
@@ -523,11 +544,13 @@ def test_compiler_with_testcase_set(
     
 if __name__ == "__main__":
     
-    test_compiler_with_testcase_set(
-        compiler_name = "Compiler1",
-        compiler_level = 9,
-        testcase_set_name = "CourseOriginal",
-        testcase_level = 5,
-    )
+    for compiler_no in range(1, 7):
+        for testcase_level in range(7, 9):
+            test_compiler_with_testcase_set(
+                compiler_name = f"Compiler{compiler_no}",
+                compiler_level = 9,
+                testcase_set_name = "CourseOriginal",
+                testcase_level = testcase_level,
+            )
     
     

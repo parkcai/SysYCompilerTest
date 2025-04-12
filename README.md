@@ -30,4 +30,16 @@
 
 [2] 北大编译实践教学用编译器开发环境 https://github.com/pku-minic/compiler-dev/tree/master
 
-[3] 本人作业 https://gitlab.eduxiji.net/pku2200011363/compiler-of-parkcai
+[3] 本人作业（Compiler1） https://gitlab.eduxiji.net/pku2200011363/compiler-of-parkcai
+
+[4] vvvvsv 作业（Compiler2） https://github.com/vvvvsv/PKU-SysY-Compiler
+
+[5] GeorgeMLP 作业（Compiler3） https://github.com/GeorgeMLP/sysy-compiler
+
+[6] ZhaoChunshan 作业（Compiler4） https://github.com/ZhaoChunshan/SysyCompiler
+
+[7] CaptainChen 作业（Compiler5） https://gitee.com/CaptainChen/stupid-sys-y2-rv
+
+[8] NovaPigeon 作业（Compiler6） https://github.com/NovaPigeon/sysy-compiler
+
+[9] eVen-p 作业（Compiler7） https://github.com/eVen-p/SysY-Compiler
