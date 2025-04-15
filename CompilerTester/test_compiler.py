@@ -606,29 +606,30 @@ def run_riscv_asm(
 if __name__ == "__main__":
     
     # 测试编译器
-    # for compiler_no in range(1, 7):
-    #     for testcase_level in range(9, 10):
-    #         test_compiler_with_testcase_set(
-    #             compiler_name = f"Compiler{compiler_no}",
-    #             compiler_level = 9,
-    #             testcase_set_name = "Diophantine",
-    #             testcase_level = testcase_level,
-    #         )
+    testcase_set_name = "awesome-sysy"
+    for compiler_no in range(1, 7):
+        for testcase_level in range(9, 10):
+            test_compiler_with_testcase_set(
+                compiler_name = f"Compiler{compiler_no}",
+                compiler_level = 9,
+                testcase_set_name = testcase_set_name,
+                testcase_level = testcase_level,
+            )
             
     # 使用编译器，输出RISC-V汇编文件至output_path
-    use_compiler(
-        compiler_name = "Compiler2",
-        compiler_level = 9,
-        input_path = WORKINGTABLE_PATH + "diophantine.c",
-        output_path = WORKINGTABLE_PATH + "diophantine.S",
-    )
+    # use_compiler(
+    #     compiler_name = "Compiler2",
+    #     compiler_level = 9,
+    #     input_path = WORKINGTABLE_PATH + "diophantine.c",
+    #     output_path = WORKINGTABLE_PATH + "diophantine.S",
+    # )
     
     # 模拟RISC-V汇编文件的运行，输出运行结果至output_path
-    run_riscv_asm(
-        riscv_asm_path = WORKINGTABLE_PATH + "diophantine.S",
-        output_path = WORKINGTABLE_PATH + "diophantine.out",
-        input_path = WORKINGTABLE_PATH + "diophantine.in",
-    )
+    # run_riscv_asm(
+    #     riscv_asm_path = WORKINGTABLE_PATH + "diophantine.S",
+    #     output_path = WORKINGTABLE_PATH + "diophantine.out",
+    #     input_path = WORKINGTABLE_PATH + "diophantine.in",
+    # )
 
     pass
     
