@@ -481,9 +481,15 @@ def run_tests(mode: TestMode, compiler: CompilerInfo, cases: List[TestCase]):
     
 # ---------------------- parkcai append ----------------------
 
-WORKINGTABLE_PATH = "/root/SysYCompilerTest/WorkingTable/"
-COMPILERS_PATH = "/root/SysYCompilerTest/Compilers/"
-TESTCASESETS_PATH = "/root/SysYCompilerTest/TestcaseSets/"
+
+PROJECT_PATH = "/root/SysYCompilerTest/"
+WORKINGTABLE_PATH = PROJECT_PATH + "WorkingTable/"
+COMPILERS_PATH = PROJECT_PATH + "Compilers/"
+TESTCASESETS_PATH = PROJECT_PATH + "TestcaseSets/"
+
+
+def guarantee_path_exist(path):
+    if not os.path.exists(path): os.makedirs(path)
 
 
 def get_testcase_names(testcase_path: str) -> List[str]:
@@ -554,28 +560,76 @@ def use_compiler(
     if result := execute(cmd, COMP_TIMEOUT_SEC, TestStatus.COMP_ERROR, TestStatus.COMP_TIME_EXCEEDED):
         return result
     
+def run_riscv_asm(
+    riscv_asm_path,
+    output_path,
+    input_path = None,
+):
+    
+    temp_working_directory = tempfile.mkdtemp() + "/"
+    guarantee_path_exist(temp_working_directory)
+    obj = temp_working_directory + TEMP_OBJECT_FILE
+    exe = temp_working_directory + TEMP_EXECUTABLE_FILE
+    
+    asm_flags = '-target riscv32-unknown-linux-elf -march=rv32im -mabi=ilp32'
+    cmd = f'clang {riscv_asm_path} -c -o {obj} {asm_flags}'
+    execute(cmd, ASM_TIMEOUT_SEC, TestStatus.ASM_ERROR, TestStatus.ASM_TIME_EXCEEDED)
+    lib_flags = f'-L{LIBRARY_PATH}/riscv32 -lsysy'
+    cmd = f'ld.lld {obj} {lib_flags} -o {exe}'
+    execute(cmd, ASM_TIMEOUT_SEC, TestStatus.ASM_ERROR, TestStatus.ASM_TIME_EXCEEDED)
+    
+    inputs = None
+    if input_path:
+        with open(input_path, 'r') as f:
+            inputs = f.read().encode('utf-8')
+    exe = f'qemu-riscv32-static {exe}'
+    result = subprocess.run(
+        shlex.split(exe), 
+        timeout=RUN_TIMEOUT_SEC,
+        stdout=subprocess.PIPE, 
+        stderr=subprocess.PIPE,
+        input=inputs
+    )
+    stdout, _ = decode_result(result)
+    if not stdout or stdout.endswith('\n'):
+        out = f'{stdout}{result.returncode}'
+    else:
+        out = f'{stdout}\n{result.returncode}'
+    with open(output_path, "w") as f:
+       f.write(out)
+
+    cmd = f"rm -rf {temp_working_directory}"
+    subprocess.run(shlex.split(cmd))
     
     
     
 if __name__ == "__main__":
     
     # 测试编译器
-    # for compiler_no in range(1, 2):
-    #     for testcase_level in range(7, 9):
-    #         test_compiler_with_testcase_set(
-    #             compiler_name = f"Compiler{compiler_no}",
-    #             compiler_level = 9,
-    #             testcase_set_name = "CourseOriginal",
-    #             testcase_level = testcase_level,
-    #         )
+    for compiler_no in range(1, 7):
+        for testcase_level in range(9, 10):
+            test_compiler_with_testcase_set(
+                compiler_name = f"Compiler{compiler_no}",
+                compiler_level = 9,
+                testcase_set_name = "Diophantine",
+                testcase_level = testcase_level,
+            )
             
     # 使用编译器
-    use_compiler(
-        compiler_name = "Compiler2",
-        compiler_level = 9,
-        input_path = WORKINGTABLE_PATH + "diophantine.c",
-        output_path = WORKINGTABLE_PATH + "diophantine.S",
-    )
+    # use_compiler(
+    #     compiler_name = "Compiler2",
+    #     compiler_level = 9,
+    #     input_path = WORKINGTABLE_PATH + "diophantine.c",
+    #     output_path = WORKINGTABLE_PATH + "diophantine.S",
+    # )
+    
+    # 模拟RISC-V汇编文件的运行，输出运行结果至output_path
+    # run_riscv_asm(
+    #     riscv_asm_path = WORKINGTABLE_PATH + "diophantine.S",
+    #     output_path = WORKINGTABLE_PATH + "diophantine.out",
+    #     input_path = WORKINGTABLE_PATH + "diophantine.in",
+    # )
+    
     
     pass
     

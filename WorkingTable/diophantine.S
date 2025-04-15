@@ -60001,9 +60001,9 @@ STMTIF_END_259:
   .text
   .globl Solve_Diophantine1_interface
 Solve_Diophantine1_interface:
-  li t0, -3392
+  li t0, -3408
   add sp, sp, t0
-  li t0, 3388
+  li t0, 3404
   add t0, t0, sp
   sw ra, 0(t0)
   li t0, 0
@@ -62457,293 +62457,290 @@ Solve_Diophantine1_interface:
   addi t6, sp, 1720
   lw a0, 0(t6)
   call print_line
-  call getint
-  addi t6, sp, 1728
-  sw a0, 0(t6)
-  addi t6, sp, 1728
-  lw t0, 0(t6)
+  la t0, SYM_TABLE_0_newline
+  li t1, 0
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
   addi t6, sp, 1724
+  sw t0, 0(t6)
+  addi t6, sp, 1724
+  lw a0, 0(t6)
+  call print_line
+  call getint
+  addi t6, sp, 1732
+  sw a0, 0(t6)
+  addi t6, sp, 1732
+  lw t0, 0(t6)
+  addi t6, sp, 1728
   sw t0, 0(t6)
   li t0, 0
   li t1, 80
   add t0, t0, t1
-  addi t6, sp, 1928
-  sw t0, 0(t6)
-  li t0, 0
-  li t1, 108
-  add t0, t0, t1
   addi t6, sp, 1932
   sw t0, 0(t6)
   li t0, 0
-  li t1, 101
+  li t1, 108
   add t0, t0, t1
   addi t6, sp, 1936
   sw t0, 0(t6)
   li t0, 0
-  li t1, 97
+  li t1, 101
   add t0, t0, t1
   addi t6, sp, 1940
   sw t0, 0(t6)
   li t0, 0
-  li t1, 115
+  li t1, 97
   add t0, t0, t1
   addi t6, sp, 1944
   sw t0, 0(t6)
   li t0, 0
-  li t1, 101
+  li t1, 115
   add t0, t0, t1
   addi t6, sp, 1948
   sw t0, 0(t6)
   li t0, 0
-  li t1, 32
+  li t1, 101
   add t0, t0, t1
   addi t6, sp, 1952
   sw t0, 0(t6)
   li t0, 0
-  li t1, 105
+  li t1, 32
   add t0, t0, t1
   addi t6, sp, 1956
   sw t0, 0(t6)
   li t0, 0
-  li t1, 110
+  li t1, 105
   add t0, t0, t1
   addi t6, sp, 1960
   sw t0, 0(t6)
   li t0, 0
-  li t1, 112
+  li t1, 110
   add t0, t0, t1
   addi t6, sp, 1964
   sw t0, 0(t6)
   li t0, 0
-  li t1, 117
+  li t1, 112
   add t0, t0, t1
   addi t6, sp, 1968
   sw t0, 0(t6)
   li t0, 0
-  li t1, 116
+  li t1, 117
   add t0, t0, t1
   addi t6, sp, 1972
   sw t0, 0(t6)
   li t0, 0
-  li t1, 32
+  li t1, 116
   add t0, t0, t1
   addi t6, sp, 1976
   sw t0, 0(t6)
   li t0, 0
-  li t1, 98
+  li t1, 32
   add t0, t0, t1
   addi t6, sp, 1980
   sw t0, 0(t6)
   li t0, 0
-  li t1, 32
+  li t1, 98
   add t0, t0, t1
   addi t6, sp, 1984
   sw t0, 0(t6)
   li t0, 0
-  li t1, 40
+  li t1, 32
   add t0, t0, t1
   addi t6, sp, 1988
   sw t0, 0(t6)
   li t0, 0
-  li t1, 98
+  li t1, 40
   add t0, t0, t1
   addi t6, sp, 1992
   sw t0, 0(t6)
   li t0, 0
-  li t1, 32
+  li t1, 98
   add t0, t0, t1
   addi t6, sp, 1996
   sw t0, 0(t6)
   li t0, 0
-  li t1, 115
+  li t1, 32
   add t0, t0, t1
   addi t6, sp, 2000
   sw t0, 0(t6)
   li t0, 0
-  li t1, 104
+  li t1, 115
   add t0, t0, t1
   addi t6, sp, 2004
   sw t0, 0(t6)
   li t0, 0
-  li t1, 111
+  li t1, 104
   add t0, t0, t1
   addi t6, sp, 2008
   sw t0, 0(t6)
   li t0, 0
-  li t1, 117
+  li t1, 111
   add t0, t0, t1
   addi t6, sp, 2012
   sw t0, 0(t6)
   li t0, 0
-  li t1, 108
+  li t1, 117
   add t0, t0, t1
   addi t6, sp, 2016
   sw t0, 0(t6)
   li t0, 0
-  li t1, 100
+  li t1, 108
   add t0, t0, t1
   addi t6, sp, 2020
   sw t0, 0(t6)
   li t0, 0
-  li t1, 32
+  li t1, 100
   add t0, t0, t1
   addi t6, sp, 2024
   sw t0, 0(t6)
   li t0, 0
-  li t1, 98
+  li t1, 32
   add t0, t0, t1
   addi t6, sp, 2028
   sw t0, 0(t6)
   li t0, 0
-  li t1, 101
+  li t1, 98
   add t0, t0, t1
   addi t6, sp, 2032
   sw t0, 0(t6)
   li t0, 0
-  li t1, 32
+  li t1, 101
   add t0, t0, t1
   addi t6, sp, 2036
   sw t0, 0(t6)
   li t0, 0
-  li t1, 97
+  li t1, 32
   add t0, t0, t1
   addi t6, sp, 2040
   sw t0, 0(t6)
   li t0, 0
-  li t1, 32
+  li t1, 97
   add t0, t0, t1
   addi t6, sp, 2044
   sw t0, 0(t6)
   li t0, 0
-  li t1, 112
+  li t1, 32
   add t0, t0, t1
   li t6, 2048
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 111
+  li t1, 112
   add t0, t0, t1
   li t6, 2052
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 115
+  li t1, 111
   add t0, t0, t1
   li t6, 2056
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 105
+  li t1, 115
   add t0, t0, t1
   li t6, 2060
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 116
+  li t1, 105
   add t0, t0, t1
   li t6, 2064
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 105
+  li t1, 116
   add t0, t0, t1
   li t6, 2068
+  add t6, t6, sp
+  sw t0, 0(t6)
+  li t0, 0
+  li t1, 105
+  add t0, t0, t1
+  li t6, 2072
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 118
   add t0, t0, t1
-  li t6, 2072
-  add t6, t6, sp
-  sw t0, 0(t6)
-  li t0, 0
-  li t1, 101
-  add t0, t0, t1
   li t6, 2076
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 32
+  li t1, 101
   add t0, t0, t1
   li t6, 2080
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 105
+  li t1, 32
   add t0, t0, t1
   li t6, 2084
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 110
+  li t1, 105
   add t0, t0, t1
   li t6, 2088
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 116
+  li t1, 110
   add t0, t0, t1
   li t6, 2092
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 101
+  li t1, 116
   add t0, t0, t1
   li t6, 2096
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 103
+  li t1, 101
   add t0, t0, t1
   li t6, 2100
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 101
+  li t1, 103
   add t0, t0, t1
   li t6, 2104
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 114
+  li t1, 101
   add t0, t0, t1
   li t6, 2108
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 41
+  li t1, 114
   add t0, t0, t1
   li t6, 2112
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 58
+  li t1, 41
   add t0, t0, t1
   li t6, 2116
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 10
+  li t1, 58
   add t0, t0, t1
   li t6, 2120
   add t6, t6, sp
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 0
-  li t2, 4
-  mul t1, t1, t2
+  li t0, 0
+  li t1, 10
   add t0, t0, t1
   li t6, 2124
   add t6, t6, sp
   sw t0, 0(t6)
-  addi t6, sp, 1928
-  lw t0, 0(t6)
-  li t6, 2124
-  add t6, t6, sp
-  lw t6, 0(t6)
-  sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 1
+  addi t0, sp, 1736
+  li t1, 0
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -62756,8 +62753,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 2
+  addi t0, sp, 1736
+  li t1, 1
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -62770,8 +62767,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 3
+  addi t0, sp, 1736
+  li t1, 2
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -62784,8 +62781,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 4
+  addi t0, sp, 1736
+  li t1, 3
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -62798,8 +62795,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 5
+  addi t0, sp, 1736
+  li t1, 4
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -62812,8 +62809,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 6
+  addi t0, sp, 1736
+  li t1, 5
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -62826,8 +62823,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 7
+  addi t0, sp, 1736
+  li t1, 6
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -62840,8 +62837,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 8
+  addi t0, sp, 1736
+  li t1, 7
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -62854,8 +62851,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 9
+  addi t0, sp, 1736
+  li t1, 8
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -62868,8 +62865,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 10
+  addi t0, sp, 1736
+  li t1, 9
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -62882,8 +62879,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 11
+  addi t0, sp, 1736
+  li t1, 10
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -62896,8 +62893,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 12
+  addi t0, sp, 1736
+  li t1, 11
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -62910,8 +62907,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 13
+  addi t0, sp, 1736
+  li t1, 12
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -62924,8 +62921,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 14
+  addi t0, sp, 1736
+  li t1, 13
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -62938,8 +62935,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 15
+  addi t0, sp, 1736
+  li t1, 14
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -62952,8 +62949,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 16
+  addi t0, sp, 1736
+  li t1, 15
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -62966,8 +62963,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 17
+  addi t0, sp, 1736
+  li t1, 16
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -62980,8 +62977,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 18
+  addi t0, sp, 1736
+  li t1, 17
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -62994,8 +62991,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 19
+  addi t0, sp, 1736
+  li t1, 18
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63008,8 +63005,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 20
+  addi t0, sp, 1736
+  li t1, 19
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63022,8 +63019,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 21
+  addi t0, sp, 1736
+  li t1, 20
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63036,8 +63033,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 22
+  addi t0, sp, 1736
+  li t1, 21
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63050,8 +63047,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 23
+  addi t0, sp, 1736
+  li t1, 22
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63064,8 +63061,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 24
+  addi t0, sp, 1736
+  li t1, 23
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63078,8 +63075,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 25
+  addi t0, sp, 1736
+  li t1, 24
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63092,8 +63089,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 26
+  addi t0, sp, 1736
+  li t1, 25
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63106,8 +63103,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 27
+  addi t0, sp, 1736
+  li t1, 26
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63120,8 +63117,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 28
+  addi t0, sp, 1736
+  li t1, 27
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63134,8 +63131,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 29
+  addi t0, sp, 1736
+  li t1, 28
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63148,8 +63145,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 30
+  addi t0, sp, 1736
+  li t1, 29
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63163,8 +63160,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 31
+  addi t0, sp, 1736
+  li t1, 30
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63178,8 +63175,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 32
+  addi t0, sp, 1736
+  li t1, 31
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63193,8 +63190,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 33
+  addi t0, sp, 1736
+  li t1, 32
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63208,8 +63205,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 34
+  addi t0, sp, 1736
+  li t1, 33
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63223,8 +63220,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 35
+  addi t0, sp, 1736
+  li t1, 34
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63238,8 +63235,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 36
+  addi t0, sp, 1736
+  li t1, 35
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63253,8 +63250,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 37
+  addi t0, sp, 1736
+  li t1, 36
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63268,8 +63265,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 38
+  addi t0, sp, 1736
+  li t1, 37
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63283,8 +63280,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 39
+  addi t0, sp, 1736
+  li t1, 38
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63298,8 +63295,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 40
+  addi t0, sp, 1736
+  li t1, 39
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63313,8 +63310,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 41
+  addi t0, sp, 1736
+  li t1, 40
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63328,8 +63325,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 42
+  addi t0, sp, 1736
+  li t1, 41
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63343,8 +63340,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 43
+  addi t0, sp, 1736
+  li t1, 42
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63358,8 +63355,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 44
+  addi t0, sp, 1736
+  li t1, 43
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63373,8 +63370,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 45
+  addi t0, sp, 1736
+  li t1, 44
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63388,8 +63385,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 46
+  addi t0, sp, 1736
+  li t1, 45
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63403,8 +63400,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 47
+  addi t0, sp, 1736
+  li t1, 46
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63418,8 +63415,8 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 48
+  addi t0, sp, 1736
+  li t1, 47
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63433,108 +63430,123 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  addi t0, sp, 1732
-  li t1, 0
+  addi t0, sp, 1736
+  li t1, 48
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
   li t6, 2320
   add t6, t6, sp
   sw t0, 0(t6)
+  li t6, 2124
+  add t6, t6, sp
+  lw t0, 0(t6)
   li t6, 2320
+  add t6, t6, sp
+  lw t6, 0(t6)
+  sw t0, 0(t6)
+  addi t0, sp, 1736
+  li t1, 0
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  li t6, 2324
+  add t6, t6, sp
+  sw t0, 0(t6)
+  li t6, 2324
+  add t6, t6, sp
+  lw a0, 0(t6)
+  call print_line
+  la t0, SYM_TABLE_0_newline
+  li t1, 0
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  li t6, 2328
+  add t6, t6, sp
+  sw t0, 0(t6)
+  li t6, 2328
   add t6, t6, sp
   lw a0, 0(t6)
   call print_line
   call getint
-  li t6, 2328
+  li t6, 2336
   add t6, t6, sp
   sw a0, 0(t6)
-  li t6, 2328
+  li t6, 2336
   add t6, t6, sp
   lw t0, 0(t6)
-  li t6, 2324
+  li t6, 2332
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 80
   add t0, t0, t1
-  li t6, 2548
+  li t6, 2556
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 108
   add t0, t0, t1
-  li t6, 2552
-  add t6, t6, sp
-  sw t0, 0(t6)
-  li t0, 0
-  li t1, 101
-  add t0, t0, t1
-  li t6, 2556
-  add t6, t6, sp
-  sw t0, 0(t6)
-  li t0, 0
-  li t1, 97
-  add t0, t0, t1
   li t6, 2560
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 115
+  li t1, 101
   add t0, t0, t1
   li t6, 2564
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 101
+  li t1, 97
   add t0, t0, t1
   li t6, 2568
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 32
+  li t1, 115
   add t0, t0, t1
   li t6, 2572
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 105
+  li t1, 101
   add t0, t0, t1
   li t6, 2576
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 110
+  li t1, 32
   add t0, t0, t1
   li t6, 2580
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 112
+  li t1, 105
   add t0, t0, t1
   li t6, 2584
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 117
+  li t1, 110
   add t0, t0, t1
   li t6, 2588
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 116
+  li t1, 112
   add t0, t0, t1
   li t6, 2592
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 32
+  li t1, 117
   add t0, t0, t1
   li t6, 2596
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 99
+  li t1, 116
   add t0, t0, t1
   li t6, 2600
   add t6, t6, sp
@@ -63546,85 +63558,85 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 40
+  li t1, 99
   add t0, t0, t1
   li t6, 2608
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 99
+  li t1, 32
   add t0, t0, t1
   li t6, 2612
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 32
+  li t1, 40
   add t0, t0, t1
   li t6, 2616
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 115
+  li t1, 99
   add t0, t0, t1
   li t6, 2620
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 104
+  li t1, 32
   add t0, t0, t1
   li t6, 2624
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 111
+  li t1, 115
   add t0, t0, t1
   li t6, 2628
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 117
+  li t1, 104
   add t0, t0, t1
   li t6, 2632
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 108
+  li t1, 111
   add t0, t0, t1
   li t6, 2636
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 100
+  li t1, 117
   add t0, t0, t1
   li t6, 2640
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 32
+  li t1, 108
   add t0, t0, t1
   li t6, 2644
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 98
+  li t1, 100
   add t0, t0, t1
   li t6, 2648
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 101
+  li t1, 32
   add t0, t0, t1
   li t6, 2652
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 32
+  li t1, 98
   add t0, t0, t1
   li t6, 2656
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 97
+  li t1, 101
   add t0, t0, t1
   li t6, 2660
   add t6, t6, sp
@@ -63636,31 +63648,31 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 112
+  li t1, 97
   add t0, t0, t1
   li t6, 2668
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 111
+  li t1, 32
   add t0, t0, t1
   li t6, 2672
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 115
+  li t1, 112
   add t0, t0, t1
   li t6, 2676
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 105
+  li t1, 111
   add t0, t0, t1
   li t6, 2680
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 116
+  li t1, 115
   add t0, t0, t1
   li t6, 2684
   add t6, t6, sp
@@ -63672,49 +63684,49 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 118
+  li t1, 116
   add t0, t0, t1
   li t6, 2692
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 101
+  li t1, 105
   add t0, t0, t1
   li t6, 2696
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 32
+  li t1, 118
   add t0, t0, t1
   li t6, 2700
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 105
+  li t1, 101
   add t0, t0, t1
   li t6, 2704
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 110
+  li t1, 32
   add t0, t0, t1
   li t6, 2708
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 116
+  li t1, 105
   add t0, t0, t1
   li t6, 2712
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 101
+  li t1, 110
   add t0, t0, t1
   li t6, 2716
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 103
+  li t1, 116
   add t0, t0, t1
   li t6, 2720
   add t6, t6, sp
@@ -63726,94 +63738,74 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 114
+  li t1, 103
   add t0, t0, t1
   li t6, 2728
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 32
+  li t1, 101
   add t0, t0, t1
   li t6, 2732
+  add t6, t6, sp
+  sw t0, 0(t6)
+  li t0, 0
+  li t1, 114
+  add t0, t0, t1
+  li t6, 2736
+  add t6, t6, sp
+  sw t0, 0(t6)
+  li t0, 0
+  li t1, 32
+  add t0, t0, t1
+  li t6, 2740
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 62
   add t0, t0, t1
-  li t6, 2736
+  li t6, 2744
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 61
   add t0, t0, t1
-  li t6, 2740
+  li t6, 2748
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 32
   add t0, t0, t1
-  li t6, 2744
+  li t6, 2752
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 50
   add t0, t0, t1
-  li t6, 2748
+  li t6, 2756
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 41
   add t0, t0, t1
-  li t6, 2752
+  li t6, 2760
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 58
   add t0, t0, t1
-  li t6, 2756
+  li t6, 2764
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 10
   add t0, t0, t1
-  li t6, 2760
+  li t6, 2768
   add t6, t6, sp
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
   li t1, 0
-  li t2, 4
-  mul t1, t1, t2
-  add t0, t0, t1
-  li t6, 2764
-  add t6, t6, sp
-  sw t0, 0(t6)
-  li t6, 2548
-  add t6, t6, sp
-  lw t0, 0(t6)
-  li t6, 2764
-  add t6, t6, sp
-  lw t6, 0(t6)
-  sw t0, 0(t6)
-  li t0, 2332
-  add t0, t0, sp
-  li t1, 1
-  li t2, 4
-  mul t1, t1, t2
-  add t0, t0, t1
-  li t6, 2768
-  add t6, t6, sp
-  sw t0, 0(t6)
-  li t6, 2552
-  add t6, t6, sp
-  lw t0, 0(t6)
-  li t6, 2768
-  add t6, t6, sp
-  lw t6, 0(t6)
-  sw t0, 0(t6)
-  li t0, 2332
-  add t0, t0, sp
-  li t1, 2
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63827,9 +63819,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 3
+  li t1, 1
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63843,9 +63835,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 4
+  li t1, 2
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63859,9 +63851,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 5
+  li t1, 3
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63875,9 +63867,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 6
+  li t1, 4
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63891,9 +63883,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 7
+  li t1, 5
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63907,9 +63899,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 8
+  li t1, 6
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63923,9 +63915,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 9
+  li t1, 7
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63939,9 +63931,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 10
+  li t1, 8
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63955,9 +63947,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 11
+  li t1, 9
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63971,9 +63963,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 12
+  li t1, 10
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -63987,9 +63979,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 13
+  li t1, 11
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64003,9 +63995,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 14
+  li t1, 12
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64019,9 +64011,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 15
+  li t1, 13
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64035,9 +64027,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 16
+  li t1, 14
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64051,9 +64043,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 17
+  li t1, 15
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64067,9 +64059,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 18
+  li t1, 16
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64083,9 +64075,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 19
+  li t1, 17
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64099,9 +64091,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 20
+  li t1, 18
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64115,9 +64107,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 21
+  li t1, 19
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64131,9 +64123,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 22
+  li t1, 20
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64147,9 +64139,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 23
+  li t1, 21
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64163,9 +64155,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 24
+  li t1, 22
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64179,9 +64171,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 25
+  li t1, 23
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64195,9 +64187,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 26
+  li t1, 24
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64211,9 +64203,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 27
+  li t1, 25
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64227,9 +64219,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 28
+  li t1, 26
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64243,9 +64235,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 29
+  li t1, 27
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64259,9 +64251,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 30
+  li t1, 28
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64275,9 +64267,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 31
+  li t1, 29
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64291,9 +64283,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 32
+  li t1, 30
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64307,9 +64299,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 33
+  li t1, 31
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64323,9 +64315,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 34
+  li t1, 32
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64339,9 +64331,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 35
+  li t1, 33
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64355,9 +64347,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 36
+  li t1, 34
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64371,9 +64363,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 37
+  li t1, 35
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64387,9 +64379,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 38
+  li t1, 36
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64403,9 +64395,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 39
+  li t1, 37
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64419,9 +64411,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 40
+  li t1, 38
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64435,9 +64427,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 41
+  li t1, 39
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64451,9 +64443,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 42
+  li t1, 40
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64467,9 +64459,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 43
+  li t1, 41
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64483,9 +64475,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 44
+  li t1, 42
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64499,9 +64491,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 45
+  li t1, 43
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64515,9 +64507,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 46
+  li t1, 44
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64531,9 +64523,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 47
+  li t1, 45
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64547,9 +64539,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 48
+  li t1, 46
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64563,9 +64555,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 49
+  li t1, 47
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64579,9 +64571,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 50
+  li t1, 48
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64595,9 +64587,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 51
+  li t1, 49
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64611,9 +64603,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 52
+  li t1, 50
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64627,9 +64619,9 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 53
+  li t1, 51
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -64643,71 +64635,115 @@ Solve_Diophantine1_interface:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 2332
+  li t0, 2340
   add t0, t0, sp
-  li t1, 0
+  li t1, 52
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
   li t6, 2980
   add t6, t6, sp
   sw t0, 0(t6)
+  li t6, 2764
+  add t6, t6, sp
+  lw t0, 0(t6)
   li t6, 2980
+  add t6, t6, sp
+  lw t6, 0(t6)
+  sw t0, 0(t6)
+  li t0, 2340
+  add t0, t0, sp
+  li t1, 53
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  li t6, 2984
+  add t6, t6, sp
+  sw t0, 0(t6)
+  li t6, 2768
+  add t6, t6, sp
+  lw t0, 0(t6)
+  li t6, 2984
+  add t6, t6, sp
+  lw t6, 0(t6)
+  sw t0, 0(t6)
+  li t0, 2340
+  add t0, t0, sp
+  li t1, 0
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  li t6, 2988
+  add t6, t6, sp
+  sw t0, 0(t6)
+  li t6, 2988
+  add t6, t6, sp
+  lw a0, 0(t6)
+  call print_line
+  la t0, SYM_TABLE_0_newline
+  li t1, 0
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  li t6, 2992
+  add t6, t6, sp
+  sw t0, 0(t6)
+  li t6, 2992
   add t6, t6, sp
   lw a0, 0(t6)
   call print_line
   call getint
-  li t6, 2988
+  li t6, 3000
   add t6, t6, sp
   sw a0, 0(t6)
-  li t6, 2988
-  add t6, t6, sp
-  lw t0, 0(t6)
-  li t6, 2984
-  add t6, t6, sp
-  sw t0, 0(t6)
-  addi t6, sp, 1724
-  lw t0, 0(t6)
-  li t6, 2992
-  add t6, t6, sp
-  sw t0, 0(t6)
-  li t6, 2324
+  li t6, 3000
   add t6, t6, sp
   lw t0, 0(t6)
   li t6, 2996
   add t6, t6, sp
   sw t0, 0(t6)
-  li t6, 2984
-  add t6, t6, sp
+  addi t6, sp, 1728
   lw t0, 0(t6)
-  li t6, 3000
+  li t6, 3004
   add t6, t6, sp
   sw t0, 0(t6)
-  li t6, 2992
+  li t6, 2332
+  add t6, t6, sp
+  lw t0, 0(t6)
+  li t6, 3008
+  add t6, t6, sp
+  sw t0, 0(t6)
+  li t6, 2996
+  add t6, t6, sp
+  lw t0, 0(t6)
+  li t6, 3012
+  add t6, t6, sp
+  sw t0, 0(t6)
+  li t6, 3004
   add t6, t6, sp
   lw a0, 0(t6)
-  li t6, 2996
+  li t6, 3008
   add t6, t6, sp
   lw a1, 0(t6)
-  li t6, 3000
+  li t6, 3012
   add t6, t6, sp
   lw a2, 0(t6)
   call set_abc_v1
   la t6, SYM_TABLE_0_assertion
   lw t0, 0(t6)
-  li t6, 3004
+  li t6, 3016
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t6, 3004
+  li t6, 3016
   add t6, t6, sp
   lw t1, 0(t6)
   xor t0, t0, t1
   seqz t0, t0
-  li t6, 3008
+  li t6, 3020
   add t6, t6, sp
   sw t0, 0(t6)
-  li t6, 3008
+  li t6, 3020
   add t6, t6, sp
   lw t0, 0(t6)
   bnez t0, DOUBLE_JUMP_STMTIF_THEN_262
@@ -64715,10 +64751,10 @@ Solve_Diophantine1_interface:
 DOUBLE_JUMP_STMTIF_THEN_262:
   j STMTIF_THEN_262
 STMTIF_THEN_262:
-  li t0, 3388
+  li t0, 3404
   add t0, t0, sp
   lw ra, 0(t0)
-  li t0, 3392
+  li t0, 3408
   add sp, sp, t0
   ret
 STMTIF_END_262:
@@ -64727,7 +64763,7 @@ STMTIF_END_262:
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
-  li t6, 3012
+  li t6, 3024
   add t6, t6, sp
   sw t0, 0(t6)
   la t0, SYM_TABLE_0_string_y
@@ -64735,47 +64771,47 @@ STMTIF_END_262:
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
-  li t6, 3016
+  li t6, 3028
   add t6, t6, sp
   sw t0, 0(t6)
   la t6, SYM_TABLE_0_strlen_x
   lw t0, 0(t6)
-  li t6, 3020
+  li t6, 3032
   add t6, t6, sp
   sw t0, 0(t6)
   la t6, SYM_TABLE_0_strlen_y
   lw t0, 0(t6)
-  li t6, 3024
+  li t6, 3036
   add t6, t6, sp
   sw t0, 0(t6)
-  li t6, 3012
+  li t6, 3024
   add t6, t6, sp
   lw a0, 0(t6)
-  li t6, 3016
+  li t6, 3028
   add t6, t6, sp
   lw a1, 0(t6)
-  li t6, 3020
+  li t6, 3032
   add t6, t6, sp
   lw a2, 0(t6)
-  li t6, 3024
+  li t6, 3036
   add t6, t6, sp
   lw a3, 0(t6)
   call set_xy_name_v1
   la t6, SYM_TABLE_0_assertion
   lw t0, 0(t6)
-  li t6, 3028
+  li t6, 3040
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t6, 3028
+  li t6, 3040
   add t6, t6, sp
   lw t1, 0(t6)
   xor t0, t0, t1
   seqz t0, t0
-  li t6, 3032
+  li t6, 3044
   add t6, t6, sp
   sw t0, 0(t6)
-  li t6, 3032
+  li t6, 3044
   add t6, t6, sp
   lw t0, 0(t6)
   bnez t0, DOUBLE_JUMP_STMTIF_THEN_263
@@ -64783,29 +64819,29 @@ STMTIF_END_262:
 DOUBLE_JUMP_STMTIF_THEN_263:
   j STMTIF_THEN_263
 STMTIF_THEN_263:
-  li t0, 3388
+  li t0, 3404
   add t0, t0, sp
   lw ra, 0(t0)
-  li t0, 3392
+  li t0, 3408
   add sp, sp, t0
   ret
 STMTIF_END_263:
   call Solve_Diophantine1
   la t6, SYM_TABLE_0_assertion
   lw t0, 0(t6)
-  li t6, 3036
+  li t6, 3048
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t6, 3036
+  li t6, 3048
   add t6, t6, sp
   lw t1, 0(t6)
   xor t0, t0, t1
   seqz t0, t0
-  li t6, 3040
+  li t6, 3052
   add t6, t6, sp
   sw t0, 0(t6)
-  li t6, 3040
+  li t6, 3052
   add t6, t6, sp
   lw t0, 0(t6)
   bnez t0, DOUBLE_JUMP_STMTIF_THEN_264
@@ -64813,19 +64849,19 @@ STMTIF_END_263:
 DOUBLE_JUMP_STMTIF_THEN_264:
   j STMTIF_THEN_264
 STMTIF_THEN_264:
-  li t0, 3388
+  li t0, 3404
   add t0, t0, sp
   lw ra, 0(t0)
-  li t0, 3392
+  li t0, 3408
   add sp, sp, t0
   ret
 STMTIF_END_264:
   la t6, SYM_TABLE_0_solver_v1_success
   lw t0, 0(t6)
-  li t6, 3044
+  li t6, 3056
   add t6, t6, sp
   sw t0, 0(t6)
-  li t6, 3044
+  li t6, 3056
   add t6, t6, sp
   lw t0, 0(t6)
   bnez t0, DOUBLE_JUMP_STMTIF_THEN_265
@@ -64836,19 +64872,19 @@ STMTIF_THEN_265:
   call print_solution_v1
   la t6, SYM_TABLE_0_assertion
   lw t0, 0(t6)
-  li t6, 3048
+  li t6, 3060
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t6, 3048
+  li t6, 3060
   add t6, t6, sp
   lw t1, 0(t6)
   xor t0, t0, t1
   seqz t0, t0
-  li t6, 3052
+  li t6, 3064
   add t6, t6, sp
   sw t0, 0(t6)
-  li t6, 3052
+  li t6, 3064
   add t6, t6, sp
   lw t0, 0(t6)
   bnez t0, DOUBLE_JUMP_STMTIF_THEN_266
@@ -64859,216 +64895,168 @@ STMTIF_ELSE_265:
   li t0, 0
   li t1, 91
   add t0, t0, t1
-  li t6, 3164
+  li t6, 3176
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 83
   add t0, t0, t1
-  li t6, 3168
+  li t6, 3180
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 111
   add t0, t0, t1
-  li t6, 3172
+  li t6, 3184
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 108
   add t0, t0, t1
-  li t6, 3176
+  li t6, 3188
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 118
   add t0, t0, t1
-  li t6, 3180
+  li t6, 3192
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 101
   add t0, t0, t1
-  li t6, 3184
+  li t6, 3196
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 114
   add t0, t0, t1
-  li t6, 3188
+  li t6, 3200
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 32
   add t0, t0, t1
-  li t6, 3192
+  li t6, 3204
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 86
   add t0, t0, t1
-  li t6, 3196
+  li t6, 3208
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 49
   add t0, t0, t1
-  li t6, 3200
+  li t6, 3212
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
   li t1, 93
   add t0, t0, t1
-  li t6, 3204
-  add t6, t6, sp
-  sw t0, 0(t6)
-  li t0, 0
-  li t1, 32
-  add t0, t0, t1
-  li t6, 3208
-  add t6, t6, sp
-  sw t0, 0(t6)
-  li t0, 0
-  li t1, 115
-  add t0, t0, t1
-  li t6, 3212
-  add t6, t6, sp
-  sw t0, 0(t6)
-  li t0, 0
-  li t1, 111
-  add t0, t0, t1
   li t6, 3216
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 108
+  li t1, 32
   add t0, t0, t1
   li t6, 3220
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 118
+  li t1, 115
   add t0, t0, t1
   li t6, 3224
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 101
+  li t1, 111
   add t0, t0, t1
   li t6, 3228
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 114
+  li t1, 108
   add t0, t0, t1
   li t6, 3232
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 32
+  li t1, 118
   add t0, t0, t1
   li t6, 3236
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 102
+  li t1, 101
   add t0, t0, t1
   li t6, 3240
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 97
+  li t1, 114
   add t0, t0, t1
   li t6, 3244
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 105
+  li t1, 32
   add t0, t0, t1
   li t6, 3248
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 108
+  li t1, 102
   add t0, t0, t1
   li t6, 3252
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 101
+  li t1, 97
   add t0, t0, t1
   li t6, 3256
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 100
+  li t1, 105
   add t0, t0, t1
   li t6, 3260
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 33
+  li t1, 108
   add t0, t0, t1
   li t6, 3264
   add t6, t6, sp
   sw t0, 0(t6)
   li t0, 0
-  li t1, 10
+  li t1, 101
   add t0, t0, t1
   li t6, 3268
   add t6, t6, sp
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 0
+  li t1, 100
+  add t0, t0, t1
+  li t6, 3272
+  add t6, t6, sp
+  sw t0, 0(t6)
+  li t0, 0
+  li t1, 33
+  add t0, t0, t1
+  li t6, 3276
+  add t6, t6, sp
+  sw t0, 0(t6)
+  li t0, 0
+  li t1, 10
+  add t0, t0, t1
+  li t6, 3280
+  add t6, t6, sp
+  sw t0, 0(t6)
+  li t0, 3068
   add t0, t0, sp
   li t1, 0
-  li t2, 4
-  mul t1, t1, t2
-  add t0, t0, t1
-  li t6, 3272
-  add t6, t6, sp
-  sw t0, 0(t6)
-  li t6, 3164
-  add t6, t6, sp
-  lw t0, 0(t6)
-  li t6, 3272
-  add t6, t6, sp
-  lw t6, 0(t6)
-  sw t0, 0(t6)
-  li t0, 3056
-  add t0, t0, sp
-  li t1, 1
-  li t2, 4
-  mul t1, t1, t2
-  add t0, t0, t1
-  li t6, 3276
-  add t6, t6, sp
-  sw t0, 0(t6)
-  li t6, 3168
-  add t6, t6, sp
-  lw t0, 0(t6)
-  li t6, 3276
-  add t6, t6, sp
-  lw t6, 0(t6)
-  sw t0, 0(t6)
-  li t0, 3056
-  add t0, t0, sp
-  li t1, 2
-  li t2, 4
-  mul t1, t1, t2
-  add t0, t0, t1
-  li t6, 3280
-  add t6, t6, sp
-  sw t0, 0(t6)
-  li t6, 3172
-  add t6, t6, sp
-  lw t0, 0(t6)
-  li t6, 3280
-  add t6, t6, sp
-  lw t6, 0(t6)
-  sw t0, 0(t6)
-  li t0, 3056
-  add t0, t0, sp
-  li t1, 3
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65082,9 +65070,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 4
+  li t1, 1
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65098,9 +65086,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 5
+  li t1, 2
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65114,9 +65102,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 6
+  li t1, 3
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65130,9 +65118,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 7
+  li t1, 4
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65146,9 +65134,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 8
+  li t1, 5
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65162,9 +65150,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 9
+  li t1, 6
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65178,9 +65166,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 10
+  li t1, 7
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65194,9 +65182,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 11
+  li t1, 8
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65210,9 +65198,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 12
+  li t1, 9
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65226,9 +65214,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 13
+  li t1, 10
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65242,9 +65230,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 14
+  li t1, 11
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65258,9 +65246,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 15
+  li t1, 12
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65274,9 +65262,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 16
+  li t1, 13
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65290,9 +65278,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 17
+  li t1, 14
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65306,9 +65294,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 18
+  li t1, 15
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65322,9 +65310,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 19
+  li t1, 16
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65338,9 +65326,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 20
+  li t1, 17
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65354,9 +65342,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 21
+  li t1, 18
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65370,9 +65358,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 22
+  li t1, 19
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65386,9 +65374,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 23
+  li t1, 20
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65402,9 +65390,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 24
+  li t1, 21
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65418,9 +65406,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 25
+  li t1, 22
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65434,9 +65422,9 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 26
+  li t1, 23
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
@@ -65450,34 +65438,82 @@ STMTIF_ELSE_265:
   add t6, t6, sp
   lw t6, 0(t6)
   sw t0, 0(t6)
-  li t0, 3056
+  li t0, 3068
   add t0, t0, sp
-  li t1, 0
+  li t1, 24
   li t2, 4
   mul t1, t1, t2
   add t0, t0, t1
   li t6, 3380
   add t6, t6, sp
   sw t0, 0(t6)
+  li t6, 3272
+  add t6, t6, sp
+  lw t0, 0(t6)
   li t6, 3380
+  add t6, t6, sp
+  lw t6, 0(t6)
+  sw t0, 0(t6)
+  li t0, 3068
+  add t0, t0, sp
+  li t1, 25
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  li t6, 3384
+  add t6, t6, sp
+  sw t0, 0(t6)
+  li t6, 3276
+  add t6, t6, sp
+  lw t0, 0(t6)
+  li t6, 3384
+  add t6, t6, sp
+  lw t6, 0(t6)
+  sw t0, 0(t6)
+  li t0, 3068
+  add t0, t0, sp
+  li t1, 26
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  li t6, 3388
+  add t6, t6, sp
+  sw t0, 0(t6)
+  li t6, 3280
+  add t6, t6, sp
+  lw t0, 0(t6)
+  li t6, 3388
+  add t6, t6, sp
+  lw t6, 0(t6)
+  sw t0, 0(t6)
+  li t0, 3068
+  add t0, t0, sp
+  li t1, 0
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  li t6, 3392
+  add t6, t6, sp
+  sw t0, 0(t6)
+  li t6, 3392
   add t6, t6, sp
   lw a0, 0(t6)
   call print_line
   j STMTIF_END_265
 STMTIF_THEN_266:
-  li t0, 3388
+  li t0, 3404
   add t0, t0, sp
   lw ra, 0(t0)
-  li t0, 3392
+  li t0, 3408
   add sp, sp, t0
   ret
 STMTIF_END_266:
   j STMTIF_END_265
 STMTIF_END_265:
-  li t0, 3388
+  li t0, 3404
   add t0, t0, sp
   lw ra, 0(t0)
-  li t0, 3392
+  li t0, 3408
   add sp, sp, t0
   ret
 
@@ -65763,17 +65799,167 @@ STMTIF_END_268:
   .text
   .globl main
 main:
-  li t0, -16
+  li t0, -112
   add sp, sp, t0
-  li t0, 12
+  li t0, 108
   add t0, t0, sp
   sw ra, 0(t0)
-  call Solve_Diophantine1_interface
-  li a0, 0
-  li t0, 12
+  li t0, 0
+  li t1, 0
+  add t0, t0, t1
+  addi t6, sp, 4
+  sw t0, 0(t6)
+  addi t6, sp, 4
+  lw t0, 0(t6)
+  addi t6, sp, 0
+  sw t0, 0(t6)
+  call getint
+  addi t6, sp, 12
+  sw a0, 0(t6)
+  addi t6, sp, 12
+  lw t0, 0(t6)
+  addi t6, sp, 8
+  sw t0, 0(t6)
+  la t0, SYM_TABLE_0_string_x
+  li t1, 0
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  addi t6, sp, 16
+  sw t0, 0(t6)
+  la t0, SYM_TABLE_0_string_y
+  li t1, 0
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  addi t6, sp, 20
+  sw t0, 0(t6)
+  la t6, SYM_TABLE_0_strlen_x
+  lw t0, 0(t6)
+  addi t6, sp, 24
+  sw t0, 0(t6)
+  la t6, SYM_TABLE_0_strlen_y
+  lw t0, 0(t6)
+  addi t6, sp, 28
+  sw t0, 0(t6)
+  addi t6, sp, 16
+  lw a0, 0(t6)
+  addi t6, sp, 20
+  lw a1, 0(t6)
+  addi t6, sp, 24
+  lw a2, 0(t6)
+  addi t6, sp, 28
+  lw a3, 0(t6)
+  call set_xy_name_v1
+  j STMTWHILE_ENTRY_57
+STMTWHILE_ENTRY_57:
+  addi t6, sp, 0
+  lw t0, 0(t6)
+  addi t6, sp, 32
+  sw t0, 0(t6)
+  addi t6, sp, 8
+  lw t0, 0(t6)
+  addi t6, sp, 36
+  sw t0, 0(t6)
+  addi t6, sp, 32
+  lw t0, 0(t6)
+  addi t6, sp, 36
+  lw t1, 0(t6)
+  slt t0, t0, t1
+  addi t6, sp, 40
+  sw t0, 0(t6)
+  addi t6, sp, 40
+  lw t0, 0(t6)
+  bnez t0, DOUBLE_JUMP_STMTWHILE_BODY_57
+  j STMTWHILE_END_57
+DOUBLE_JUMP_STMTWHILE_BODY_57:
+  j STMTWHILE_BODY_57
+STMTWHILE_BODY_57:
+  call getint
+  addi t6, sp, 48
+  sw a0, 0(t6)
+  addi t6, sp, 48
+  lw t0, 0(t6)
+  addi t6, sp, 44
+  sw t0, 0(t6)
+  call getint
+  addi t6, sp, 56
+  sw a0, 0(t6)
+  addi t6, sp, 56
+  lw t0, 0(t6)
+  addi t6, sp, 52
+  sw t0, 0(t6)
+  call getint
+  addi t6, sp, 64
+  sw a0, 0(t6)
+  addi t6, sp, 64
+  lw t0, 0(t6)
+  addi t6, sp, 60
+  sw t0, 0(t6)
+  addi t6, sp, 44
+  lw t0, 0(t6)
+  addi t6, sp, 68
+  sw t0, 0(t6)
+  addi t6, sp, 52
+  lw t0, 0(t6)
+  addi t6, sp, 72
+  sw t0, 0(t6)
+  addi t6, sp, 60
+  lw t0, 0(t6)
+  addi t6, sp, 76
+  sw t0, 0(t6)
+  addi t6, sp, 68
+  lw a0, 0(t6)
+  addi t6, sp, 72
+  lw a1, 0(t6)
+  addi t6, sp, 76
+  lw a2, 0(t6)
+  call set_abc_v1
+  call Solve_Diophantine1
+  call print_solution_v1
+  la t0, SYM_TABLE_0_newline
+  li t1, 0
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  addi t6, sp, 80
+  sw t0, 0(t6)
+  addi t6, sp, 80
+  lw a0, 0(t6)
+  call print_line
+  addi t6, sp, 0
+  lw t0, 0(t6)
+  addi t6, sp, 84
+  sw t0, 0(t6)
+  li t0, 0
+  li t1, 1
+  add t0, t0, t1
+  addi t6, sp, 88
+  sw t0, 0(t6)
+  addi t6, sp, 84
+  lw t0, 0(t6)
+  addi t6, sp, 88
+  lw t1, 0(t6)
+  add t0, t0, t1
+  addi t6, sp, 92
+  sw t0, 0(t6)
+  addi t6, sp, 92
+  lw t0, 0(t6)
+  addi t6, sp, 0
+  sw t0, 0(t6)
+  j STMTWHILE_ENTRY_57
+STMTWHILE_END_57:
+  li t0, 0
+  li t1, 0
+  add t0, t0, t1
+  addi t6, sp, 96
+  sw t0, 0(t6)
+  addi t6, sp, 96
+  lw a0, 0(t6)
+  li t0, 108
   add t0, t0, sp
   lw ra, 0(t0)
-  li t0, 16
+  li t0, 112
   add sp, sp, t0
   ret
 
