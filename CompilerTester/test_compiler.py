@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-
-
 '''
 [Acknowledgement]   Zeyu Cai   25/04/08
     This testing script of our Software Engineering homework relies heavily on 
@@ -484,7 +481,7 @@ def run_tests(mode: TestMode, compiler: CompilerInfo, cases: List[TestCase]):
     
 # ---------------------- parkcai append ----------------------
 
-
+WORKINGTABLE_PATH = "/root/SysYCompilerTest/WorkingTable/"
 COMPILERS_PATH = "/root/SysYCompilerTest/Compilers/"
 TESTCASESETS_PATH = "/root/SysYCompilerTest/TestcaseSets/"
 
@@ -515,7 +512,7 @@ def test_compiler_with_testcase_set(
     compiler_level: int,
     testcase_set_name: str,
     testcase_level: int 
-) -> float:
+):
     
     compiler_to_test = build_repo(
         repo_dir = COMPILERS_PATH + f"{compiler_name}/lv{compiler_level}/",
@@ -541,16 +538,46 @@ def test_compiler_with_testcase_set(
     
     compiler_to_test.clean()
     
+def use_compiler(
+    compiler_name,
+    compiler_level,
+    input_path,
+    output_path,
+):
+    
+    compiler_to_use = build_repo(
+        repo_dir = COMPILERS_PATH + f"{compiler_name}/lv{compiler_level}/",
+        working_dir = COMPILERS_PATH + f"{compiler_name}/lv{compiler_level}/build",
+    ) 
+    
+    cmd = f'{compiler_to_use.compile_cmd} {TestMode.RISCV.to_opt()} {input_path} -o {output_path}'
+    if result := execute(cmd, COMP_TIMEOUT_SEC, TestStatus.COMP_ERROR, TestStatus.COMP_TIME_EXCEEDED):
+        return result
+    
+    
+    
     
 if __name__ == "__main__":
     
-    for compiler_no in range(1, 7):
-        for testcase_level in range(7, 9):
-            test_compiler_with_testcase_set(
-                compiler_name = f"Compiler{compiler_no}",
-                compiler_level = 9,
-                testcase_set_name = "CourseOriginal",
-                testcase_level = testcase_level,
-            )
+    # 测试编译器
+    # for compiler_no in range(1, 2):
+    #     for testcase_level in range(7, 9):
+    #         test_compiler_with_testcase_set(
+    #             compiler_name = f"Compiler{compiler_no}",
+    #             compiler_level = 9,
+    #             testcase_set_name = "CourseOriginal",
+    #             testcase_level = testcase_level,
+    #         )
+            
+    # 使用编译器
+    use_compiler(
+        compiler_name = "Compiler2",
+        compiler_level = 9,
+        input_path = WORKINGTABLE_PATH + "diophantine.c",
+        output_path = WORKINGTABLE_PATH + "diophantine.S",
+    )
+    
+    pass
+    
     
     
