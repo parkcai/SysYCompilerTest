@@ -10,7 +10,7 @@
 
 - 运行 docker run -it --rm -v /path/to/your/downloaded/program:/root/SysYCompilerTest maxxing/compiler-dev bash 以创建上述环境的临时容器并挂载项目目录；请自行替换 /path/to/your/downloaded/program ，如在 Windows 系统上可能替换成：docker run -it --rm -v D:\MyGithubPrograms\SysYCompilerTest:/root/SysYCompilerTest maxxing/compiler-dev bash
 
-- 之后怎么办，只有天知道。
+- CompilerTester 中的 test_compiler.py 封装了三个函数：test_compiler_with_testcase_set, use_compiler, run_riscv_asm，可以自由在 main.py 中使用；使用方法：在容器内部运行 python3 /root/SysYCompilerTest/CompilerTester/main.py
 
 ## 研究目的
 
