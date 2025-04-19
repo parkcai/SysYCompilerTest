@@ -606,8 +606,11 @@ def run_riscv_asm(
 if __name__ == "__main__":
     
     # 测试编译器
-    testcase_set_name = "awesome-sysy"
-    for compiler_no in range(1, 7):
+    testcase_set_name = [
+        "CourseOriginal",
+        "awesome-sysy",
+    ][0]
+    for compiler_no in range(5, 6):
         for testcase_level in range(9, 10):
             test_compiler_with_testcase_set(
                 compiler_name = f"Compiler{compiler_no}",
@@ -618,7 +621,7 @@ if __name__ == "__main__":
             
     # 使用编译器，输出RISC-V汇编文件至output_path
     # use_compiler(
-    #     compiler_name = "Compiler2",
+    #     compiler_name = "Compiler5",
     #     compiler_level = 9,
     #     input_path = WORKINGTABLE_PATH + "diophantine.c",
     #     output_path = WORKINGTABLE_PATH + "diophantine.S",

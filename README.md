@@ -41,5 +41,3 @@
 [7] CaptainChen 作业（Compiler5） https://gitee.com/CaptainChen/stupid-sys-y2-rv
 
 [8] NovaPigeon 作业（Compiler6） https://github.com/NovaPigeon/sysy-compiler
-
-[9] eVen-p 作业（Compiler7） https://github.com/eVen-p/SysY-Compiler
