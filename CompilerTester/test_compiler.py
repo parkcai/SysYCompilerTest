@@ -15,7 +15,6 @@ __all__ = [
 
 
 from dataclasses import dataclass
-from enum import Enum, auto, unique
 import multiprocessing
 import os
 import re
@@ -24,6 +23,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from enum import Enum, auto, unique
 from typing import List, Optional, Tuple
 import uuid
 

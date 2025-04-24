@@ -1,0 +1,14 @@
+******.c******
+int main() {
+  int x = getint();
+  int y = getint();
+  putint(x + y);
+  int c = getch();
+  putch(c);
+  putch(33);
+  putch(10);
+  return 0;
+}
+
+******.in******
+11 32 a
