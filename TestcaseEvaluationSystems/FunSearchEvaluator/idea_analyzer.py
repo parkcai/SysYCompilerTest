@@ -359,14 +359,27 @@ def remove_comments(code: str) -> str:
     return code
 
 
-class ConstExpValidator(Transformer):
+class SysYValidator(Transformer):
     def const_exp(self, children):
         node = children[0]
-        if self.contains_disallowed_expr(node):
-            raise ValueError("const_exp 中不能包含 lval 或函数调用表达式")
+        if self.contains_constexp_disallowed_expr(node):
+            raise ValueError(
+                "SysY语言的常整数（const int）定义与C语言有所不同，"
+                "ConstExp必须能在编译期被求值，因此不能含有函数调用或变量/数组引用！"
+            )
+        return node
+    
+    def init_val(self, children):
+        node = Tree("init_val", children)
+        if isinstance(children[0], Tree) and children[0].data == "init_val":
+            if self.contains_initval_disallowed_expr(node):
+                raise ValueError(
+                    "为了避免函数求值顺序不确定所导致的未定义行为，"
+                    "用于初始化数组的InitVal下不可以出现函数调用！"
+                )
         return node
 
-    def contains_disallowed_expr(self, node):
+    def contains_constexp_disallowed_expr(self, node):
         if isinstance(node, Tree):
             # 禁止 lval 节点
             if node.data == "lval":
@@ -376,15 +389,24 @@ class ConstExpValidator(Transformer):
                 if len(node.children) >= 1 and isinstance(node.children[0], Token) and node.children[0].type == "IDENT":
                     return True
             # 递归检查所有子节点
-            return any(self.contains_disallowed_expr(child) for child in node.children)
+            return any(self.contains_constexp_disallowed_expr(child) for child in node.children)
         return False
-
+    
+    def contains_initval_disallowed_expr(self, node):
+        if isinstance(node, Tree):
+            # 禁止函数调用：unary_exp -> IDENT "(" ...
+            if node.data == "unary_exp":
+                if len(node.children) >= 1 and isinstance(node.children[0], Token) and node.children[0].type == "IDENT":
+                    return True
+            # 递归检查所有子节点
+            return any(self.contains_initval_disallowed_expr(child) for child in node.children)
+        return False
 
 def check_c_code(c_file : str, grammar : str) -> tuple[bool, str]:
     parser = Lark(grammar)
     try:
         tree = parser.parse(remove_comments(c_file))
-        validator = ConstExpValidator()
+        validator = SysYValidator()
         validator.transform(tree)
         return True, None
     except Exception as e:
@@ -400,19 +422,23 @@ def check_semantic_correctness(c_code: str) -> tuple[bool, str]:
     exe_filename = c_filename + ".out"
     
     try:
-        # 捕获 stderr 输出
-        result = subprocess.run(
-            [
-                "gcc", "-Wuninitialized", "-Werror", "-O1",
-                c_filename, "-o", exe_filename
-            ],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.PIPE,
-            text=True  # 返回字符串而不是 bytes
-        )
-        success = result.returncode == 0
-        error_message = result.stderr.strip()
-        return success, error_message
+        try:
+            # 设置 timeout=20 限制运行时间为 20 秒
+            result = subprocess.run(
+                [
+                    "gcc", "-Wuninitialized", "-Werror", "-O1",
+                    c_filename, "-o", exe_filename
+                ],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.PIPE,
+                text=True,
+                timeout=20  # ⏱️ 设置时间限制为 20 秒
+            )
+            success = result.returncode == 0
+            error_message = result.stderr.strip()
+            return success, error_message
+        except subprocess.TimeoutExpired:
+            raise RuntimeError("gcc 编译超时：超过 20 秒未完成")
     finally:
         os.remove(c_filename)
         if os.path.exists(exe_filename):
