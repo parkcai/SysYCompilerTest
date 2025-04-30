@@ -522,14 +522,25 @@ def analyze_idea(idea_path, output_path):
     if in_file is not None:
         with open(in_filepath, 'w', encoding='utf-8', newline = "\n") as f:
             f.write(in_file)
+            
+    compile_timeout = 3
+    run_timeout = 3
 
     # 使用 gcc 编译 .c_full 文件
-    compile_result = subprocess.run(
-        ['gcc', c_filepath_full, '-o', exe_filepath],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True
-    )
+    try:
+        compile_result = subprocess.run(
+            ['gcc', c_filepath_full, '-o', exe_filepath],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=compile_timeout,
+        )
+    except Exception as e:
+        if isinstance(e, subprocess.TimeoutExpired):
+            print(f"在analyze {idea_path}的过程中发生了错误：编译时间超过了限定的{compile_timeout:.1f}秒！")
+        else:
+            print(f"在analyze {idea_path}的过程中发生了错误：\n{e}")
+        return
 
     if compile_result.returncode != 0:
         # 编译失败：写入 stderr 到 .out 文件
@@ -540,20 +551,37 @@ def analyze_idea(idea_path, output_path):
         with open(out_filepath, 'w', encoding='utf-8', newline='\n') as fout:
             if in_file is not None:
                 with open(in_filepath, 'r', encoding='utf-8') as fin:
+                    try:
+                        run_result = subprocess.run(
+                            [exe_filepath],
+                            stdin=fin,
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.STDOUT,
+                            text=True,
+                            timeout=run_timeout,
+                        )
+                    except Exception as e:
+                        if isinstance(e, subprocess.TimeoutExpired):
+                            print(f"在analyze {idea_path}的过程中发生了错误：运行时间超过了限定的{run_timeout:.1f}秒！")
+                        else:
+                            print(f"在analyze {idea_path}的过程中发生了错误：\n{e}")
+                        return
+                    
+            else:
+                try:
                     run_result = subprocess.run(
                         [exe_filepath],
-                        stdin=fin,
                         stdout=subprocess.PIPE,
                         stderr=subprocess.STDOUT,
-                        text=True
+                        text=True,
+                        timeout=run_timeout,
                     )
-            else:
-                run_result = subprocess.run(
-                    [exe_filepath],
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.STDOUT,
-                    text=True
-                )
+                except Exception as e:
+                    if isinstance(e, subprocess.TimeoutExpired):
+                        print(f"在analyze {idea_path}的过程中发生了错误：运行时间超过了限定的{run_timeout:.1f}秒！")
+                    else:
+                        print(f"在analyze {idea_path}的过程中发生了错误：\n{e}")
+                    return
                 
             # 统一换行符为 \n
             output = run_result.stdout.replace('\r\n', '\n')
@@ -568,10 +596,14 @@ def analyze_idea(idea_path, output_path):
                 fout.write(f"\n{run_result.returncode}\n")
                 
     # 清理临时文件
-    if os.path.exists(exe_filepath):
-        os.remove(exe_filepath)
-    if os.path.exists(c_filepath_full):
-        os.remove(c_filepath_full)
+    try:
+        if os.path.exists(exe_filepath):
+            os.remove(exe_filepath)
+        if os.path.exists(c_filepath_full):
+            os.remove(c_filepath_full)
+    except Exception as e:
+        print(f"在analyze {idea_path}的过程中发生了错误：清理临时文件时，\n{e}")
+        
         
         
 def guarantee_path_exist(path):
