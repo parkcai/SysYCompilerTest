@@ -1,0 +1,11 @@
+*.DS_Store
+/build
+/debug
+README.md
+compiler.sh
+*.txt
+__pycache__
+output.py
+functional
+outputs
+run.sh

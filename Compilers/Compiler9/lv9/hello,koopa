@@ -1,0 +1,433 @@
+global @program_length_0 = alloc i32, 0
+global @program_0 = alloc [i32, 65536], zeroinit
+global @tape_0 = alloc [i32, 65536], zeroinit
+global @input_0 = alloc [i32, 65536], zeroinit
+global @input_length_0 = alloc i32, 0
+global @output_0 = alloc [i32, 65536], zeroinit
+global @output_length_0 = alloc i32, 0
+decl @getint(): i32
+decl @getch(): i32
+decl @getarray(*i32): i32
+decl @putint(i32)
+decl @putch(i32)
+decl @putarray(i32, *i32)
+decl @starttime()
+decl @stoptime()
+fun @get_bf_char(): i32 {
+%get_bf_char_entry:
+    @get_0 = alloc i32
+    %0 = call @getch()
+    store %0, @get_0
+    jump %while_entry_0
+%while_entry_0:
+    %1 = load @get_0
+    %2 = ne %1, 62
+    @L_AND_RESULT_0 = alloc i32
+    store 0, @L_AND_RESULT_0
+    %3 = ne %2, 0
+    br %3, %L_AND_BLOCK_1, %L_AND_BLOCK_2
+%L_AND_BLOCK_1:
+    %6 = load @get_0
+    %7 = ne %6, 60
+    %4 = ne %7, 0
+    store %4, @L_AND_RESULT_0
+    jump %L_AND_BLOCK_2
+%L_AND_BLOCK_2:
+    %5 = load @L_AND_RESULT_0
+    @L_AND_RESULT_1 = alloc i32
+    store 0, @L_AND_RESULT_1
+    %8 = ne %5, 0
+    br %8, %L_AND_BLOCK_3, %L_AND_BLOCK_4
+%L_AND_BLOCK_3:
+    %11 = load @get_0
+    %12 = ne %11, 43
+    %9 = ne %12, 0
+    store %9, @L_AND_RESULT_1
+    jump %L_AND_BLOCK_4
+%L_AND_BLOCK_4:
+    %10 = load @L_AND_RESULT_1
+    @L_AND_RESULT_2 = alloc i32
+    store 0, @L_AND_RESULT_2
+    %13 = ne %10, 0
+    br %13, %L_AND_BLOCK_5, %L_AND_BLOCK_6
+%L_AND_BLOCK_5:
+    %16 = load @get_0
+    %17 = ne %16, 45
+    %14 = ne %17, 0
+    store %14, @L_AND_RESULT_2
+    jump %L_AND_BLOCK_6
+%L_AND_BLOCK_6:
+    %15 = load @L_AND_RESULT_2
+    @L_AND_RESULT_3 = alloc i32
+    store 0, @L_AND_RESULT_3
+    %18 = ne %15, 0
+    br %18, %L_AND_BLOCK_7, %L_AND_BLOCK_8
+%L_AND_BLOCK_7:
+    %21 = load @get_0
+    %22 = ne %21, 91
+    %19 = ne %22, 0
+    store %19, @L_AND_RESULT_3
+    jump %L_AND_BLOCK_8
+%L_AND_BLOCK_8:
+    %20 = load @L_AND_RESULT_3
+    @L_AND_RESULT_4 = alloc i32
+    store 0, @L_AND_RESULT_4
+    %23 = ne %20, 0
+    br %23, %L_AND_BLOCK_9, %L_AND_BLOCK_10
+%L_AND_BLOCK_9:
+    %26 = load @get_0
+    %27 = ne %26, 93
+    %24 = ne %27, 0
+    store %24, @L_AND_RESULT_4
+    jump %L_AND_BLOCK_10
+%L_AND_BLOCK_10:
+    %25 = load @L_AND_RESULT_4
+    @L_AND_RESULT_5 = alloc i32
+    store 0, @L_AND_RESULT_5
+    %28 = ne %25, 0
+    br %28, %L_AND_BLOCK_11, %L_AND_BLOCK_12
+%L_AND_BLOCK_11:
+    %31 = load @get_0
+    %32 = ne %31, 46
+    %29 = ne %32, 0
+    store %29, @L_AND_RESULT_5
+    jump %L_AND_BLOCK_12
+%L_AND_BLOCK_12:
+    %30 = load @L_AND_RESULT_5
+    @L_AND_RESULT_6 = alloc i32
+    store 0, @L_AND_RESULT_6
+    %33 = ne %30, 0
+    br %33, %L_AND_BLOCK_13, %L_AND_BLOCK_14
+%L_AND_BLOCK_13:
+    %36 = load @get_0
+    %37 = ne %36, 44
+    %34 = ne %37, 0
+    store %34, @L_AND_RESULT_6
+    jump %L_AND_BLOCK_14
+%L_AND_BLOCK_14:
+    %35 = load @L_AND_RESULT_6
+    @L_AND_RESULT_7 = alloc i32
+    store 0, @L_AND_RESULT_7
+    %38 = ne %35, 0
+    br %38, %L_AND_BLOCK_15, %L_AND_BLOCK_16
+%L_AND_BLOCK_15:
+    %41 = load @get_0
+    %42 = ne %41, 35
+    %39 = ne %42, 0
+    store %39, @L_AND_RESULT_7
+    jump %L_AND_BLOCK_16
+%L_AND_BLOCK_16:
+    %40 = load @L_AND_RESULT_7
+    br %40, %while_body_0, %while_end_0
+%while_body_0:
+    %43 = call @getch()
+    store %43, @get_0
+    jump %while_entry_0
+%while_end_0:
+    %45 = load @get_0
+    ret %45
+}
+fun @read_program() {
+%read_program_entry:
+    @get_1 = alloc i32
+    %46 = call @get_bf_char()
+    store %46, @get_1
+    jump %while_entry_17
+%while_entry_17:
+    %47 = load @get_1
+    %48 = ne %47, 35
+    br %48, %while_body_17, %while_end_17
+%while_body_17:
+    %49 = load @get_1
+    %50 = load @program_length_0
+    %ptr_program_0_0_array_51 = getelemptr @program_0, %50
+    store %49, %ptr_program_0_0_array_51
+    %52 = call @get_bf_char()
+    store %52, @get_1
+    %54 = load @program_length_0
+    %55 = add %54, 1
+    store %55, @program_length_0
+    jump %while_entry_17
+%while_end_17:
+    @verify_0 = alloc i32
+    %57 = call @getch()
+    store %57, @verify_0
+    %58 = load @verify_0
+    %59 = ne %58, 105
+    br %59, %then_18, %end_18
+%then_18:
+    ret
+%end_18:
+    %60 = call @getint()
+    store %60, @input_length_0
+    %62 = call @getch()
+    @i_0 = alloc i32
+    store 0, @i_0
+    jump %while_entry_19
+%while_entry_19:
+    %63 = load @i_0
+    %64 = load @input_length_0
+    %65 = lt %63, %64
+    br %65, %while_body_19, %while_end_19
+%while_body_19:
+    %66 = call @getch()
+    %67 = load @i_0
+    %ptr_input_0_0_array_68 = getelemptr @input_0, %67
+    store %66, %ptr_input_0_0_array_68
+    %69 = load @i_0
+    %70 = add %69, 1
+    store %70, @i_0
+    jump %while_entry_19
+%while_end_19:
+    ret
+}
+fun @run_program() {
+%run_program_entry:
+    @ip_0 = alloc i32
+    store 0, @ip_0
+    @read_head_0 = alloc i32
+    store 0, @read_head_0
+    @input_head_0 = alloc i32
+    store 0, @input_head_0
+    @return_address_0 = alloc [i32, 512]
+    @return_address_top_0 = alloc i32
+    store 0, @return_address_top_0
+    store 0, @output_length_0
+    jump %while_entry_20
+%while_entry_20:
+    %73 = load @ip_0
+    %74 = load @program_length_0
+    %75 = lt %73, %74
+    br %75, %while_body_20, %while_end_20
+%while_body_20:
+    @code_0 = alloc i32
+    %76 = load @ip_0
+    %ptr_program_0_0_array_77 = getelemptr @program_0, %76
+    %77 = load %ptr_program_0_0_array_77
+    store %77, @code_0
+    %78 = load @code_0
+    %79 = eq %78, 62
+    br %79, %then_21, %else_21
+%then_21:
+    %80 = load @read_head_0
+    %81 = add %80, 1
+    store %81, @read_head_0
+    jump %end_21
+%else_21:
+    %83 = load @code_0
+    %84 = eq %83, 60
+    br %84, %then_22, %else_22
+%then_22:
+    %85 = load @read_head_0
+    %86 = sub %85, 1
+    store %86, @read_head_0
+    jump %end_22
+%else_22:
+    %88 = load @code_0
+    %89 = eq %88, 43
+    br %89, %then_23, %else_23
+%then_23:
+    %90 = load @read_head_0
+    %ptr_tape_0_0_array_91 = getelemptr @tape_0, %90
+    %91 = load %ptr_tape_0_0_array_91
+    %92 = add %91, 1
+    %93 = load @read_head_0
+    %ptr_tape_0_0_array_94 = getelemptr @tape_0, %93
+    store %92, %ptr_tape_0_0_array_94
+    jump %end_23
+%else_23:
+    %95 = load @code_0
+    %96 = eq %95, 45
+    br %96, %then_24, %else_24
+%then_24:
+    %97 = load @read_head_0
+    %ptr_tape_0_0_array_98 = getelemptr @tape_0, %97
+    %98 = load %ptr_tape_0_0_array_98
+    %99 = sub %98, 1
+    %100 = load @read_head_0
+    %ptr_tape_0_0_array_101 = getelemptr @tape_0, %100
+    store %99, %ptr_tape_0_0_array_101
+    jump %end_24
+%else_24:
+    %102 = load @code_0
+    %103 = eq %102, 91
+    br %103, %then_25, %else_25
+%then_25:
+    @val_0 = alloc i32
+    %104 = load @read_head_0
+    %ptr_tape_0_0_array_105 = getelemptr @tape_0, %104
+    %105 = load %ptr_tape_0_0_array_105
+    store %105, @val_0
+    %106 = load @val_0
+    %107 = ne %106, 0
+    br %107, %then_26, %else_26
+%then_26:
+    %108 = load @ip_0
+    %109 = load @return_address_top_0
+    %ptr_return_address_0_0_array_110 = getelemptr @return_address_0, %109
+    store %108, %ptr_return_address_0_0_array_110
+    %111 = load @return_address_top_0
+    %112 = add %111, 1
+    store %112, @return_address_top_0
+    jump %end_26
+%else_26:
+    @loop_0 = alloc i32
+    store 1, @loop_0
+    jump %while_entry_27
+%while_entry_27:
+    %114 = load @loop_0
+    %115 = gt %114, 0
+    br %115, %while_body_27, %while_end_27
+%while_body_27:
+    %116 = load @ip_0
+    %117 = add %116, 1
+    store %117, @ip_0
+    %119 = load @ip_0
+    %ptr_program_0_0_array_120 = getelemptr @program_0, %119
+    %120 = load %ptr_program_0_0_array_120
+    %121 = eq %120, 93
+    br %121, %then_28, %end_28
+%then_28:
+    %122 = load @loop_0
+    %123 = sub %122, 1
+    store %123, @loop_0
+    jump %end_28
+%end_28:
+    %125 = load @ip_0
+    %ptr_program_0_0_array_126 = getelemptr @program_0, %125
+    %126 = load %ptr_program_0_0_array_126
+    %127 = eq %126, 91
+    br %127, %then_29, %end_29
+%then_29:
+    %128 = load @loop_0
+    %129 = add %128, 1
+    store %129, @loop_0
+    jump %end_29
+%end_29:
+    jump %while_entry_27
+%while_end_27:
+    jump %end_26
+%end_26:
+    jump %end_25
+%else_25:
+    %131 = load @code_0
+    %132 = eq %131, 93
+    br %132, %then_30, %else_30
+%then_30:
+    @val_1 = alloc i32
+    %133 = load @read_head_0
+    %ptr_tape_0_0_array_134 = getelemptr @tape_0, %133
+    %134 = load %ptr_tape_0_0_array_134
+    store %134, @val_1
+    %135 = load @val_1
+    %136 = eq %135, 0
+    br %136, %then_31, %else_31
+%then_31:
+    %137 = load @return_address_top_0
+    %138 = sub %137, 1
+    store %138, @return_address_top_0
+    jump %end_31
+%else_31:
+    %140 = load @return_address_top_0
+    %141 = sub %140, 1
+    %ptr_return_address_0_0_array_142 = getelemptr @return_address_0, %141
+    %142 = load %ptr_return_address_0_0_array_142
+    store %142, @ip_0
+    jump %end_31
+%end_31:
+    jump %end_30
+%else_30:
+    %144 = load @code_0
+    %145 = eq %144, 46
+    br %145, %then_32, %else_32
+%then_32:
+    %146 = load @read_head_0
+    %ptr_tape_0_0_array_147 = getelemptr @tape_0, %146
+    %147 = load %ptr_tape_0_0_array_147
+    %148 = load @output_length_0
+    %ptr_output_0_0_array_149 = getelemptr @output_0, %148
+    store %147, %ptr_output_0_0_array_149
+    %150 = load @output_length_0
+    %151 = add %150, 1
+    store %151, @output_length_0
+    jump %end_32
+%else_32:
+    %153 = load @code_0
+    %154 = eq %153, 44
+    br %154, %then_33, %end_33
+%then_33:
+    %155 = load @input_head_0
+    %156 = load @input_length_0
+    %157 = ge %155, %156
+    br %157, %then_34, %else_34
+%then_34:
+    %158 = load @read_head_0
+    %ptr_tape_0_0_array_159 = getelemptr @tape_0, %158
+    store 0, %ptr_tape_0_0_array_159
+    jump %end_34
+%else_34:
+    %160 = load @input_head_0
+    %ptr_input_0_0_array_161 = getelemptr @input_0, %160
+    %161 = load %ptr_input_0_0_array_161
+    %162 = load @read_head_0
+    %ptr_tape_0_0_array_163 = getelemptr @tape_0, %162
+    store %161, %ptr_tape_0_0_array_163
+    %164 = load @input_head_0
+    %165 = add %164, 1
+    store %165, @input_head_0
+    jump %end_34
+%end_34:
+    jump %end_33
+%end_33:
+    jump %end_32
+%end_32:
+    jump %end_30
+%end_30:
+    jump %end_25
+%end_25:
+    jump %end_24
+%end_24:
+    jump %end_23
+%end_23:
+    jump %end_22
+%end_22:
+    jump %end_21
+%end_21:
+    %167 = load @ip_0
+    %168 = add %167, 1
+    store %168, @ip_0
+    jump %while_entry_20
+%while_end_20:
+    ret
+}
+fun @output_() {
+%output__entry:
+    @i_1 = alloc i32
+    store 0, @i_1
+    jump %while_entry_35
+%while_entry_35:
+    %170 = load @i_1
+    %171 = load @output_length_0
+    %172 = lt %170, %171
+    br %172, %while_body_35, %while_end_35
+%while_body_35:
+    %173 = load @i_1
+    %ptr_output_0_0_array_174 = getelemptr @output_0, %173
+    %174 = load %ptr_output_0_0_array_174
+    call @putch(%174)
+    %175 = load @i_1
+    %176 = add %175, 1
+    store %176, @i_1
+    jump %while_entry_35
+%while_end_35:
+    ret
+}
+fun @main(): i32 {
+%main_entry:
+    call @read_program()
+    call @starttime()
+    call @run_program()
+    call @stoptime()
+    call @output_()
+    ret 0
+}

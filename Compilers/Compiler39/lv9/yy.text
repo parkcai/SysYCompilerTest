@@ -1,0 +1,16 @@
+int x;
+
+void f1(int x, int y) {
+    x = x + 1;
+    y = y + 1;
+}
+
+int f2(int y) {
+    x = x + 1;
+    {
+        int x = 222;
+
+    }
+    y = y + 1;
+    return x;
+}

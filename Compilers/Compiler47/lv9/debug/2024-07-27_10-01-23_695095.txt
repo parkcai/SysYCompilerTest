@@ -1,0 +1,6 @@
+build/compiler
+-koopa
+hello.c
+-o
+hello.koopa
+调试

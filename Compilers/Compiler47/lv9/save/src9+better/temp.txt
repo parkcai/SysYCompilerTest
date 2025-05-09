@@ -1,0 +1,21 @@
+addsp imm 
+swsp imm dest
+ret dest
+binary dest pos1 pos2 str
+int dest
+load_global label dest
+load_star dest pos1
+move dest pos1
+store_global label dest
+store_star dest pos1
+branch pos1 str str2
+jump str
+save_ra
+call str
+store_para dest pos1
+save_ret dest
+load_ra
+load_para dest pos1 //为什么不把所有参数都放在栈上呢？因为有些函数不是我写的
+str str
+get_elem_global_pointer label pos1(offset) dest elem_size
+get_elem_pointer pos1(offset) dest pos2(base) elem_size

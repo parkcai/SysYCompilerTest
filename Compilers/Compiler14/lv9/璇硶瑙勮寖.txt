@@ -1,0 +1,55 @@
+CompUnit         ::= CompUnitItemList
+CompUnitItemList ::= CompUnitItem | CompUnitItemList CompUnitItem 
+CompUnitItem     ::= Decl | FuncDef
+
+Decl             ::= ConstDecl | VarDecl;
+ConstDecl        ::= CONST Type ConstDefList ';'
+ConstDefList     ::= ConstDef | ConstDefList ',' ConstDef
+Type             ::= "int" | "void";
+
+ConstDef         ::= IDENT ConstIndexList "=" ConstInitVal;
+ConstIndexList   ::= ε | ConstIndexList '[' ConstExp ']';
+ConstInitVal     ::= ConstExp | ConstArrayInitVal;
+ConstArrayInitVal::= '{' '}' | '{' ConstInitValList '}';
+ConstInitValList ::= ConstInitVal | ConstInitValList ',' ConstInitVal;
+
+VarDecl          ::= Type VarDefList ';'
+VarDefList       ::= VarDef | VarDefList ',' VarDef
+VarDef           ::= IDENT ConstIndexList | IDENT ConstIndexList '=' InitVal
+InitVal          ::= Exp | ArrayInitVal;
+ArrayInitVal     ::= '{' '}' | '{' InitValList '}';
+InitValList      ::= InitVal | InitValList ',' InitVal;
+
+FuncDef          ::= Type Ident '(' FuncFParams ')' Block
+FuncFParams      ::= ε | FuncFParamList      // Format Params
+FuncFParamList   ::= FuncFParam | FuncFParamList ',' FuncFParam
+FuncFParam       ::= Type IDENT | Type IDENT '[' ']' ConstIndexList
+
+Block            ::= '{' BlockItemList '}'
+BlockItemList    ::= ε | BlockItemList BlockItem
+BlockItem        ::= Decl | Stmt;
+
+Stmt             ::= Matched_Stmt | Open_Stmt
+Matched_Stmt     ::= LVal '=' Exp ';' | ';' | Exp ';' | Block | "return" ';' | "return" Exp ';'
+                   | IF '(' Exp ')' Matched_Stmt ELSE Matched_Stmt
+                   | WHILE '(' Exp ')' Matched_Stmt
+                   | BREAK ';' | CONTINUE ';'
+Open_Stmt        ::= IF '(' Exp ')' Stmt | IF '(' Exp ')' Matched_Stmt ELSE Open_Stmt
+                   | WHILE '(' Exp ')' Open_Stmt
+Exp              ::= LOrExp;
+LVal             ::= IDENT IndexList;
+IndexList        ::= ε | IndexList '[' Exp ']';
+PrimaryExp       ::= "(" Exp ")" | LVal | Number;
+Number           ::= INT_CONST;
+UnaryExp         ::= PrimaryExp | UnaryOp UnaryExp | IDENT "(" [FuncRParams] ")"
+UnaryOp          ::= "+" | "-" | "!";
+MulExp           ::= UnaryExp | MulExp ("*" | "/" | "%") UnaryExp;
+AddExp           ::= MulExp | AddExp ("+" | "-") MulExp;
+RelExp           ::= AddExp | RelExp ("<" | ">" | "<=" | ">=") AddExp;
+EqExp            ::= RelExp | EqExp ("==" | "!=") RelExp;
+LAndExp          ::= EqExp | LAndExp "&&" EqExp;
+LOrExp           ::= LAndExp | LOrExp "||" LAndExp;
+ConstExp         ::= Exp;
+
+FuncRParams      ::= ε | FuncRParamList  // Real Params
+FuncRParamList   ::= Exp | FuncFParamList ',' Exp

@@ -1,0 +1,348 @@
+// lalrpop 里的约定
+grammar;
+
+// 约束 lexer 的行为
+match {
+  r"\s*" => {},                      // 跳过空白符
+  r"//[^\n\r]*[\n\r]*" => {},         // 行注释
+  r"/\*[^*]*\*+(?:[^/*][^*]*\*+)*/" => {},  // 块注释
+  _
+}
+
+use crate::ast::*;
+
+// 解析器的入口规则是 `CompUnit`，表示一个完整的编译单元（即一个文件）
+pub CompUnit: CompUnit = {
+    <item: CompUnitItem> => CompUnit { items: vec![item] },
+    <prev: CompUnit> <item: CompUnitItem> => {
+        let mut items = prev.items;
+        items.push(item);
+        CompUnit { items }
+    },
+};
+
+CompUnitItem: CompUnitItem = {
+    Decl => CompUnitItem::Decl(<>),
+    FuncDef => CompUnitItem::FuncDef(<>),
+};
+
+
+// 定义函数
+FuncDef: FuncDef = {
+    <func_header: FuncHeader> <params: (FuncFParams)?> ")" <block: Block> => FuncDef {
+        func_type: func_header.func_type,
+        ident: func_header.ident,
+        params,
+        block,
+    },
+};
+
+// 定义函数头，包括 FuncType、Ident 和 "("
+FuncHeader: FuncHeader = {
+    "int" <ident: Ident> "(" => FuncHeader {
+        func_type: FuncType::Int,
+        ident,
+    },
+    "void" <ident: Ident> "(" => FuncHeader {
+        func_type: FuncType::Void,
+        ident,
+    },
+};
+
+// 定义函数类型，支持 void和int
+FuncType: FuncType = {
+    "void" => FuncType::Void,
+    "int" => FuncType::Int,
+};
+
+// 函数形式参数列表
+FuncFParams: FuncFParams = {
+    <func_fparam: FuncFParam> <mut params: (","<FuncFParam>)*> => {
+        FuncFParams {
+            func_fparam,
+            params: if params.is_empty() { None } else { Some(params) },
+        }
+    },
+};
+
+
+// 单个形式参数（支持数组参数）
+FuncFParam: FuncFParam = {
+    // 标量参数
+    <btype: BType> <ident: Ident> => FuncFParam {
+        btype,
+        ident,
+        dims: None,
+        is_array: false, // 标量参数
+    },
+    // 数组参数
+    <btype: BType> <ident: Ident> "[" "]" <dims: ("[" <ConstExp> "]")*> => FuncFParam {
+        btype,
+        ident,
+        dims: if dims.is_empty() { None } else { Some(dims) },
+        is_array: true, // 数组参数
+    },
+};
+
+// 定义代码块，由 `{}` 包裹，包含一条语句
+Block: Block = "{" <items:(BlockItem)*> "}" => Block { items };
+
+BlockItem: BlockItem = {
+  Decl => BlockItem::Decl(<>),
+  Stmt => BlockItem::Stmt(<>),
+}
+
+Decl: Decl = {
+  ConstDecl => Decl::ConstDecl(<>),
+  VarDecl => Decl::VarDecl(<>),
+}
+
+
+ConstDecl: ConstDecl ={
+   "const" "int"<def:ConstDef><mut defs:(","<ConstDef>)*> ";" => {
+      ConstDecl {
+         btype: BType::Int, 
+         def, 
+         defs: if defs.is_empty() { None } else { Some(defs) }, // 包装为 Option
+      }
+   },
+}
+
+VarDecl: VarDecl = {
+  "int" <def:VarDef><mut defs:(","<VarDef>)*> ";" => {
+    VarDecl {
+      btype: BType::Int,
+      def,
+      defs: if defs.is_empty() { None } else { Some(defs) }, // 包装为 Option
+    }
+  },
+}
+
+
+// 变量定义
+VarDef: VarDef = {
+    <ident: Ident> <dims: ("[" <ConstExp> "]")*> => VarDef {
+        ident,
+        sizes: if dims.is_empty() { None } else { Some(dims) },
+        initval: None,
+    },
+    <ident: Ident> <dims: ("[" <ConstExp> "]")*> "=" <initval: InitVal> => VarDef {
+        ident,
+        sizes: if dims.is_empty() { None } else { Some(dims) },
+        initval: Some(initval),
+    },
+};
+
+// 变量初始化值
+InitVal: InitVal = {
+    <exp: Exp> => InitVal::Single(exp),
+    "{" "}" => InitVal::Array(vec![]), // 空的花括号表示全零初始化
+    "{" <initval: InitVal> <mut initvals: ("," <InitVal>)*> "}" => InitVal::Array({
+        let mut values = vec![initval];
+        values.extend(initvals);
+        values
+    }),
+};
+
+BType: BType = "int" => BType::Int;
+
+// 常量定义
+ConstDef: ConstDef = {
+    <ident: Ident> <dims: ("[" <ConstExp> "]")*> "=" <constinitval: ConstInitVal> => ConstDef {
+        ident,
+        sizes: if dims.is_empty() { None } else { Some(dims) },
+        constinitval,
+    },
+};
+
+// 常量初始化值
+ConstInitVal: ConstInitVal = {
+    <constexp: ConstExp> => ConstInitVal::Single(constexp),
+    "{" "}" => ConstInitVal::Array(vec![]), // 空的花括号表示全零初始化
+    "{" <constinitval: ConstInitVal> <mut constinitvals: ("," <ConstInitVal>)*> "}" => ConstInitVal::Array({
+        let mut values = vec![constinitval];
+        values.extend(constinitvals);
+        values
+    }),
+};
+
+ConstExp: ConstExp = <exp: Exp> => ConstExp { exp };
+
+Stmt: Stmt = {
+    MatchedStmt => Stmt::Matched(Box::new(<>)),
+    OpenStmt => Stmt::Open(Box::new(<>)),
+    // while 语句
+};
+
+MatchedStmt: Stmt = {
+    // 已匹配的 if-else 语句
+    "if" "(" <cond: Exp> ")" <then_branch: MatchedStmt> "else" <else_branch: MatchedStmt>
+        => Stmt::IfElse {
+            cond,
+            then_branch: Box::new(then_branch),
+            else_branch: Some(Box::new(else_branch)),
+        },
+    // 其他已经匹配的语句
+    <stmt: NonIfStmt> => stmt,
+    // 其他已匹配语句，包括 while、break 和 continue
+    "while" "(" <cond: Exp> ")" <body: MatchedStmt> => Stmt::While { cond, body: Box::new(body) },
+    "break" ";" => Stmt::Break,
+    "continue" ";" => Stmt::Continue,
+};
+
+OpenStmt: Stmt = {
+    // 未匹配的 if 语句
+    "if" "(" <cond: Exp> ")" <then_branch: Stmt>
+        => Stmt::IfElse {
+            cond,
+            then_branch: Box::new(then_branch),
+            else_branch: None,
+        },
+    // if-else 的未匹配 else 部分
+    "if" "(" <cond: Exp> ")" <then_branch: MatchedStmt> "else" <else_branch: OpenStmt>
+        => Stmt::IfElse {
+            cond,
+            then_branch: Box::new(then_branch),
+            else_branch: Some(Box::new(else_branch)),
+        },
+    // 未匹配的 while 语句
+    "while" "(" <cond: Exp> ")" <body: OpenStmt> => Stmt::While { cond, body: Box::new(body) },
+};
+
+NonIfStmt: Stmt = {
+    // 非 if 语句
+    <lval: Lval> "=" <exp: Exp> ";" => Stmt::Assign { lval, exp },
+    "return" <exp: (Exp)?> ";" => Stmt::Return { exp },
+    Block => Stmt::Block(<>),
+    <exp: (Exp)?> ";" => Stmt::ExpStmt { exp },
+};
+
+// 定义表达式规则
+Exp: Exp = <lor: LOrExp> => Exp { lor: Box::new(lor) };
+
+
+PrimaryExp: PrimaryExp = {
+    "(" <Exp> ")" => PrimaryExp::Exp(Box::new(<>)),
+    Lval => PrimaryExp::Lval(<>),
+    Number => PrimaryExp::Number(<>),
+};
+
+// 左值（支持数组索引）
+Lval: Lval = {
+    <ident: Ident> <indices: ("[" <Exp> "]")*> => Lval {
+        ident,
+        indices:if indices.is_empty() { None } else { Some(indices) },
+    },
+};
+
+Number: i32 = <num:IntConst> => <>;
+
+// 一元表达式
+UnaryExp: UnaryExp = {
+  PrimaryExp => UnaryExp::Primary(<>),
+  "+" <UnaryExp> => <>,
+  <op: UnaryOp> <exp: UnaryExp> => UnaryExp::Unary(op, Box::new(exp)),
+  <ident: Ident> "(" <params: (FuncRParams)?> ")" => UnaryExp::Call {
+        ident,
+        args: params.map_or(vec![], |p| p.to_vec()), // 解包并转换为 Vec<Exp>
+  },
+}
+
+// 函数实际参数
+FuncRParams: FuncRParams = {
+    <exp: Exp> <mut exps: (","<Exp>)*> => {
+        FuncRParams {
+            exp,
+            exps: if exps.is_empty() { None } else { Some(exps) },
+        }
+    },
+}
+
+// 乘除模表达式
+MulExp: MulExp = {
+  UnaryExp => MulExp::Unary(<>),
+  <left: MulExp> <op: MulOp> <right: UnaryExp> => {
+    MulExp::MulUnary(Box::new(left), op, right)
+  },
+}
+
+// 加减表达式
+AddExp: AddExp = {
+  MulExp => AddExp::Mul(<>),
+  <left: AddExp> <op: AddOp> <right: MulExp> => {
+    AddExp::AddMul(Box::new(left), op, right)
+  },
+}
+
+// 关系运算表达式
+RelExp: RelExp = {
+  AddExp => RelExp::Add(<>),
+  <lhs: RelExp> <op: RelOp> <rhs: AddExp> => {
+    RelExp::RelAdd(Box::new(lhs), op, rhs)
+  },
+}
+
+//==和!=
+EqExp: EqExp = {
+  RelExp => EqExp::Rel(<>),
+  <lhs: EqExp> <op: EqOp> <rhs: RelExp> => {
+    EqExp::EqRel(Box::new(lhs), op, rhs)
+  },
+}
+
+// &&
+LAndExp: LAndExp = {
+  EqExp => LAndExp::Eq(<>),
+  <lhs: LAndExp> "&&" <rhs: EqExp> => {
+    LAndExp::LAndEq(Box::new(lhs), rhs)
+  },
+}
+
+// ||
+LOrExp: LOrExp = {
+  LAndExp => LOrExp::LAnd(<>),
+  <lhs: LOrExp> "||" <rhs: LAndExp> => {
+    LOrExp::LOrLAnd(Box::new(lhs), rhs)
+  },
+}
+
+UnaryOp: UnaryOp = {
+  "-" => UnaryOp::Neg,
+  "!" => UnaryOp::LNot,
+}
+
+MulOp: MulOp = {
+  "*" => MulOp::Mul,
+  "/" => MulOp::Div,
+  "%" => MulOp::Mod,
+}
+
+AddOp: AddOp = {
+  "+" => AddOp::Add,
+  "-" => AddOp::Sub,
+}
+
+RelOp: RelOp = {
+  "<" => RelOp::Lt,
+  ">" => RelOp::Gt,
+  "<=" => RelOp::Le,
+  ">=" => RelOp::Ge,
+}
+
+EqOp: EqOp = {
+  "==" => EqOp::Eq,
+  "!=" => EqOp::Neq,
+}
+
+//IntConst
+IntConst: i32 = {
+  r"[1-9][0-9]*" => i32::from_str_radix(<>, 10).unwrap(),
+  r"0[0-7]*" => i32::from_str_radix(<>, 8).unwrap(),
+  r"0[xX][0-9a-fA-F]+" => i32::from_str_radix(&<>[2..], 16).unwrap(),
+}
+
+// 定义标识符（函数名等）
+Ident: String = {
+    <id: r"[a-zA-Z_][a-zA-Z0-9_]*"> => id.to_string()
+};
+

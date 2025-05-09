@@ -1,0 +1,13 @@
+*.DS_Store
+/build
+/.vscode
+koopa.h
+/.devcontainer
+.dockerignore
+*.sh
+*.json
+src/jsoncpp.cpp
+src/json
+kira
+hello*
+*.S

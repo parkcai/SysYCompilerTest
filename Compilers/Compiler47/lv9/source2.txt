@@ -1,0 +1,5 @@
+int main() {
+  const int x = 2;
+  int y = 3*x+x*x+x/x+x%x;
+  return y;
+}

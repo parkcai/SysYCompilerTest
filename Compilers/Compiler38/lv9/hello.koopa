@@ -1,0 +1,284 @@
+decl @getint(): i32
+decl @getch(): i32
+decl @getarray(*i32): i32
+decl @putint(i32)
+decl @putch(i32)
+decl @putarray(i32, *i32)
+decl @starttime()
+decl @stoptime()
+
+fun @init(@_0_arr_P: *[[i32, 10], 10])
+{
+  %Block0:
+    @_0_arr_ = alloc *[[i32, 10], 10]
+    store @_0_arr_P, @_0_arr_
+    @_0_i_ = alloc i32
+    store 0, @_0_i_
+    jump %Block1
+  %Block1:
+    %T0 = load @_0_i_
+    %T1 = lt %T0, 10
+    br %T1, %Block2, %Block3
+  %Block2:
+    @_0_0_j_ = alloc i32
+    store 0, @_0_0_j_
+    jump %Block4
+  %Block4:
+    %T2 = load @_0_0_j_
+    %T3 = lt %T2, 10
+    br %T3, %Block5, %Block6
+  %Block5:
+    @_0_0_0_k_ = alloc i32
+    store 0, @_0_0_0_k_
+    jump %Block7
+  %Block7:
+    %T4 = load @_0_0_0_k_
+    %T5 = lt %T4, 10
+    br %T5, %Block8, %Block9
+  %Block8:
+    %T6 = load @_0_i_
+    %T7 = mul %T6, 100
+    %T8 = load @_0_0_j_
+    %T9 = mul %T8, 10
+    %T10 = add %T7, %T9
+    %T11 = load @_0_0_0_k_
+    %T12 = add %T10, %T11
+    %T13 = load @_0_arr_
+    %T15 = load @_0_i_
+    %T14 = getptr %T13, %T15
+    %T17 = load @_0_0_j_
+    %T16 = getelemptr %T14, %T17
+    %T19 = load @_0_0_0_k_
+    %T18 = getelemptr %T16, %T19
+    store %T12, %T18
+    %T20 = load @_0_0_0_k_
+    %T21 = add %T20, 1
+    store %T21, @_0_0_0_k_
+    jump %Block7
+  %Block9:
+    %T22 = load @_0_0_j_
+    %T23 = add %T22, 1
+    store %T23, @_0_0_j_
+    jump %Block4
+  %Block6:
+    %T24 = load @_0_i_
+    %T25 = add %T24, 1
+    store %T25, @_0_i_
+    jump %Block1
+  %Block3:
+    ret
+}
+fun @f1(@_1_a0_P: *i32, @_1_a1_P: *i32, @_1_a2_P: *i32, @_1_a3_P: *i32, @_1_a4_P: *i32, @_1_a5_P: *i32, @_1_a6_P: *i32, @_1_a7_P: *i32, @_1_a8_P: *i32, @_1_a9_P: *i32):i32
+{
+  %Block10:
+    @_1_a9_ = alloc *i32
+    store @_1_a9_P, @_1_a9_
+    @_1_a5_ = alloc *i32
+    store @_1_a5_P, @_1_a5_
+    @_1_a4_ = alloc *i32
+    store @_1_a4_P, @_1_a4_
+    @_1_a3_ = alloc *i32
+    store @_1_a3_P, @_1_a3_
+    @_1_a6_ = alloc *i32
+    store @_1_a6_P, @_1_a6_
+    @_1_a2_ = alloc *i32
+    store @_1_a2_P, @_1_a2_
+    @_1_a1_ = alloc *i32
+    store @_1_a1_P, @_1_a1_
+    @_1_a8_ = alloc *i32
+    store @_1_a8_P, @_1_a8_
+    @_1_a7_ = alloc *i32
+    store @_1_a7_P, @_1_a7_
+    @_1_a0_ = alloc *i32
+    store @_1_a0_P, @_1_a0_
+    %T26 = load @_1_a0_
+    %T27 = getptr %T26, 0
+    %T28 = load %T27
+    %T29 = load @_1_a1_
+    %T30 = getptr %T29, 1
+    %T31 = load %T30
+    %T32 = add %T28, %T31
+    %T33 = load @_1_a2_
+    %T34 = getptr %T33, 2
+    %T35 = load %T34
+    %T36 = add %T32, %T35
+    %T37 = load @_1_a3_
+    %T38 = getptr %T37, 3
+    %T39 = load %T38
+    %T40 = add %T36, %T39
+    %T41 = load @_1_a4_
+    %T42 = getptr %T41, 4
+    %T43 = load %T42
+    %T44 = add %T40, %T43
+    %T45 = load @_1_a5_
+    %T46 = getptr %T45, 5
+    %T47 = load %T46
+    %T48 = add %T44, %T47
+    %T49 = load @_1_a6_
+    %T50 = getptr %T49, 6
+    %T51 = load %T50
+    %T52 = add %T48, %T51
+    %T53 = load @_1_a7_
+    %T54 = getptr %T53, 7
+    %T55 = load %T54
+    %T56 = add %T52, %T55
+    %T57 = load @_1_a8_
+    %T58 = getptr %T57, 8
+    %T59 = load %T58
+    %T60 = add %T56, %T59
+    %T61 = load @_1_a9_
+    %T62 = getptr %T61, 9
+    %T63 = load %T62
+    %T64 = add %T60, %T63
+    ret %T64
+  %Block11:
+    ret 0
+}
+fun @f2(@_2_a0_P: *[i32, 10], @_2_a1_P: *i32, @_2_a2_PP: i32, @_2_a3_P: *i32, @_2_a4_P: *i32, @_2_a5_P: *[[i32, 10], 10], @_2_a6_P: *i32, @_2_a7_P: *i32, @_2_a8_PP: i32, @_2_a9_P: *[i32, 10]):i32
+{
+  %Block12:
+    @_2_a9_ = alloc *[i32, 10]
+    store @_2_a9_P, @_2_a9_
+    @_2_a5_ = alloc *[[i32, 10], 10]
+    store @_2_a5_P, @_2_a5_
+    @_2_a4_ = alloc *i32
+    store @_2_a4_P, @_2_a4_
+    @_2_a3_ = alloc *i32
+    store @_2_a3_P, @_2_a3_
+    @_2_a6_ = alloc *i32
+    store @_2_a6_P, @_2_a6_
+    @_2_a2_P = alloc i32
+    store @_2_a2_PP, @_2_a2_P
+    @_2_a1_ = alloc *i32
+    store @_2_a1_P, @_2_a1_
+    @_2_a8_P = alloc i32
+    store @_2_a8_PP, @_2_a8_P
+    @_2_a7_ = alloc *i32
+    store @_2_a7_P, @_2_a7_
+    @_2_a0_ = alloc *[i32, 10]
+    store @_2_a0_P, @_2_a0_
+    %T65 = load @_2_a0_
+    %T66 = getptr %T65, 0
+    %T67 = getelemptr %T66, 9
+    %T68 = load %T67
+    %T69 = load @_2_a1_
+    %T70 = getptr %T69, 1
+    %T71 = load %T70
+    %T72 = add %T68, %T71
+    %T73 = load @_2_a2_P
+    %T74 = add %T72, %T73
+    %T75 = load @_2_a3_
+    %T76 = getptr %T75, 3
+    %T77 = load %T76
+    %T78 = add %T74, %T77
+    %T79 = load @_2_a4_
+    %T80 = getptr %T79, 4
+    %T81 = load %T80
+    %T82 = add %T78, %T81
+    %T83 = load @_2_a5_
+    %T84 = getptr %T83, 5
+    %T85 = getelemptr %T84, 5
+    %T86 = getelemptr %T85, 5
+    %T87 = load %T86
+    %T88 = add %T82, %T87
+    %T89 = load @_2_a6_
+    %T90 = getptr %T89, 6
+    %T91 = load %T90
+    %T92 = add %T88, %T91
+    %T93 = load @_2_a7_
+    %T94 = getptr %T93, 7
+    %T95 = load %T94
+    %T96 = add %T92, %T95
+    %T97 = load @_2_a8_P
+    %T98 = add %T96, %T97
+    %T99 = load @_2_a9_
+    %T100 = getptr %T99, 9
+    %T101 = getelemptr %T100, 8
+    %T102 = load %T101
+    %T103 = add %T98, %T102
+    ret %T103
+  %Block13:
+    ret 0
+}
+fun @main():i32
+{
+  %Block14:
+    @_3_arr_ = alloc [[[i32, 10], 10], 10]
+    @_3_sum_ = alloc i32
+    store 0, @_3_sum_
+    %T105 = getelemptr @_3_arr_, 0
+    call @init(%T105)
+    %T106 = load @_3_sum_
+    %T108 = getelemptr @_3_arr_, 0
+    %T109 = getelemptr %T108, 0
+    %T110 = getelemptr %T109, 0
+    %T111 = getelemptr @_3_arr_, 1
+    %T112 = getelemptr %T111, 1
+    %T113 = getelemptr %T112, 0
+    %T114 = getelemptr @_3_arr_, 2
+    %T115 = getelemptr %T114, 2
+    %T116 = getelemptr %T115, 0
+    %T117 = getelemptr @_3_arr_, 3
+    %T118 = getelemptr %T117, 3
+    %T119 = getelemptr %T118, 0
+    %T120 = getelemptr @_3_arr_, 4
+    %T121 = getelemptr %T120, 4
+    %T122 = getelemptr %T121, 0
+    %T123 = getelemptr @_3_arr_, 5
+    %T124 = getelemptr %T123, 5
+    %T125 = getelemptr %T124, 0
+    %T126 = getelemptr @_3_arr_, 6
+    %T127 = getelemptr %T126, 6
+    %T128 = getelemptr %T127, 0
+    %T129 = getelemptr @_3_arr_, 7
+    %T130 = getelemptr %T129, 7
+    %T131 = getelemptr %T130, 0
+    %T132 = getelemptr @_3_arr_, 8
+    %T133 = getelemptr %T132, 8
+    %T134 = getelemptr %T133, 0
+    %T135 = getelemptr @_3_arr_, 9
+    %T136 = getelemptr %T135, 9
+    %T137 = getelemptr %T136, 0
+    %T107 = call @f1(%T110, %T113, %T116, %T119, %T122, %T125, %T128, %T131, %T134, %T137)
+    %T138 = add %T106, %T107
+    store %T138, @_3_sum_
+    %T139 = load @_3_sum_
+    %T141 = getelemptr @_3_arr_, 0
+    %T142 = getelemptr %T141, 0
+    %T143 = getelemptr @_3_arr_, 1
+    %T144 = getelemptr %T143, 1
+    %T145 = getelemptr %T144, 0
+    %T146 = getelemptr @_3_arr_, 2
+    %T147 = getelemptr %T146, 2
+    %T148 = getelemptr %T147, 2
+    %T149 = load %T148
+    %T150 = getelemptr @_3_arr_, 3
+    %T151 = getelemptr %T150, 3
+    %T152 = getelemptr %T151, 0
+    %T153 = getelemptr @_3_arr_, 4
+    %T154 = getelemptr %T153, 4
+    %T155 = getelemptr %T154, 0
+    %T156 = getelemptr @_3_arr_, 0
+    %T157 = getelemptr @_3_arr_, 6
+    %T158 = getelemptr %T157, 6
+    %T159 = getelemptr %T158, 0
+    %T160 = getelemptr @_3_arr_, 7
+    %T161 = getelemptr %T160, 7
+    %T162 = getelemptr %T161, 0
+    %T163 = getelemptr @_3_arr_, 8
+    %T164 = getelemptr %T163, 8
+    %T165 = getelemptr %T164, 8
+    %T166 = load %T165
+    %T167 = getelemptr @_3_arr_, 9
+    %T168 = getelemptr %T167, 0
+    %T140 = call @f2(%T142, %T145, %T149, %T152, %T155, %T156, %T159, %T162, %T166, %T168)
+    %T169 = add %T139, %T140
+    store %T169, @_3_sum_
+    %T171 = load @_3_sum_
+    call @putint(%T171)
+    call @putch(10)
+    ret 0
+  %Block15:
+    ret 0
+}
+

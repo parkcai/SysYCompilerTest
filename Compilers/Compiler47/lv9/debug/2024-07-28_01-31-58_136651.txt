@@ -1,0 +1,5 @@
+/tmp/tmpl2qt7q3b/compiler
+-riscv
+/opt/bin/testcases/lv1/6_whitespaces.c
+-o
+/tmp/tmpl2qt7q3b/b4d9050bbe874196af0652ddb0d5f449.S

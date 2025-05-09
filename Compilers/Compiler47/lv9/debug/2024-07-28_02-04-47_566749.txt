@@ -1,0 +1,5 @@
+/tmp/tmputzgviyu/compiler
+-riscv
+/opt/bin/testcases/lv1/4_int_hex.c
+-o
+/tmp/tmputzgviyu/c7119462131241db8bda6810fd7310f0.S

@@ -1,0 +1,5 @@
+debug/
+build/
+.vscode/
+hello.*
+src/koopa.h

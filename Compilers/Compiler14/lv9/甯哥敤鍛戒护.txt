@@ -1,0 +1,25 @@
+打开docker并将编译器文件夹挂载到容器：
+docker run -it --rm -v C:\Users\86187\Desktop\compiler_cxz_2100012930:/root/compiler maxxing/compiler-dev bash
+
+gitlab提交：
+git add . //添加项目中的所有文件
+git add file1.txt  //选择性添加
+git commit -m "message" //提交你添加的文件，提交信息是为了描述你这次提交的目的
+git push -u origin master 
+//-u 参数用于将 origin 作为默认的远程仓库，以后推送代码时可以省略。
+//master 是分支名称，GitLab 默认使用 main 作为主分支
+
+若推送失败：
+git pull --rebase origin master //将远程仓库中的更改拉取到本地并合并到你的当前分支
+//在成功拉取并合并远程更改后，再次尝试推送
+
+make
+build/compiler -koopa hello.c -o hello.koopa
+build/compiler -riscv hello.c -o hello.riscv
+
+autotest -koopa -s lv1 /root/compiler
+autotest -riscv -s lv1 /root/compiler
+
+
+autotest -koopa /root/compiler
+autotest -riscv /root/compiler

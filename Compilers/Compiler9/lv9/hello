@@ -1,0 +1,393 @@
+global @d_0 = alloc i32, zeroinit
+global @temp_0 = alloc [i32, 2097152], zeroinit
+global @a_2 = alloc [i32, 2097152], zeroinit
+global @b_2 = alloc [i32, 2097152], zeroinit
+global @c_0 = alloc [i32, 2097152], zeroinit
+decl @getint(): i32
+decl @getch(): i32
+decl @getarray(*i32): i32
+decl @putint(i32)
+decl @putch(i32)
+decl @putarray(i32, *i32)
+decl @starttime()
+decl @stoptime()
+fun @multiply(%a: i32, %b: i32): i32 {
+%multiply_entry:
+    @a_0 = alloc i32
+    store %a, @a_0
+    @b_0 = alloc i32
+    store %b, @b_0
+    %0 = load @b_0
+    %1 = eq %0, 0
+    br %1, %then_0, %end_0
+%then_0:
+    ret 0
+%end_0:
+    %2 = load @b_0
+    %3 = eq %2, 1
+    br %3, %then_1, %end_1
+%then_1:
+    %4 = load @a_0
+    %5 = mod %4, 998244353
+    ret %5
+%end_1:
+    @cur_0 = alloc i32
+    %6 = load @a_0
+    %7 = load @b_0
+    %8 = div %7, 2
+    %9 = call @multiply(%6, %8)
+    store %9, @cur_0
+    %10 = load @cur_0
+    %11 = load @cur_0
+    %12 = add %10, %11
+    %13 = mod %12, 998244353
+    store %13, @cur_0
+    %15 = load @b_0
+    %16 = mod %15, 2
+    %17 = eq %16, 1
+    br %17, %then_2, %else_2
+%then_2:
+    %18 = load @cur_0
+    %19 = load @a_0
+    %20 = add %18, %19
+    %21 = mod %20, 998244353
+    ret %21
+%else_2:
+    %22 = load @cur_0
+    ret %22
+%end_2:
+    ret 0
+}
+fun @power(%a: i32, %b: i32): i32 {
+%power_entry:
+    @a_1 = alloc i32
+    store %a, @a_1
+    @b_1 = alloc i32
+    store %b, @b_1
+    %23 = load @b_1
+    %24 = eq %23, 0
+    br %24, %then_3, %end_3
+%then_3:
+    ret 1
+%end_3:
+    @cur_1 = alloc i32
+    %25 = load @a_1
+    %26 = load @b_1
+    %27 = div %26, 2
+    %28 = call @power(%25, %27)
+    store %28, @cur_1
+    %29 = load @cur_1
+    %30 = load @cur_1
+    %31 = call @multiply(%29, %30)
+    store %31, @cur_1
+    %33 = load @b_1
+    %34 = mod %33, 2
+    %35 = eq %34, 1
+    br %35, %then_4, %else_4
+%then_4:
+    %36 = load @cur_1
+    %37 = load @a_1
+    %38 = call @multiply(%36, %37)
+    ret %38
+%else_4:
+    %39 = load @cur_1
+    ret %39
+%end_4:
+    ret 0
+}
+fun @MemMove(%dst: *i32, %dst_pos: i32, %src: *i32, %len: i32): i32 {
+%MemMove_entry:
+    @dst_0 = alloc *i32
+    store %dst, @dst_0
+    @dst_pos_0 = alloc i32
+    store %dst_pos, @dst_pos_0
+    @src_0 = alloc *i32
+    store %src, @src_0
+    @len_0 = alloc i32
+    store %len, @len_0
+    @i_0 = alloc i32
+    store 0, @i_0
+    jump %while_entry_5
+%while_entry_5:
+    %40 = load @i_0
+    %41 = load @len_0
+    %42 = lt %40, %41
+    br %42, %while_body_5, %while_end_5
+%while_body_5:
+    %43 = load @i_0
+    %ptr_src_0_ptr_44 = load @src_0
+    %ptr_src_0_0_ptr_44 = getptr %ptr_src_0_ptr_44, %43
+    %44 = load %ptr_src_0_0_ptr_44
+    %45 = load @dst_pos_0
+    %46 = load @i_0
+    %47 = add %45, %46
+    %ptr_dst_0_ptr_48 = load @dst_0
+    %ptr_dst_0_0_ptr_48 = getptr %ptr_dst_0_ptr_48, %47
+    store %44, %ptr_dst_0_0_ptr_48
+    %49 = load @i_0
+    %50 = add %49, 1
+    store %50, @i_0
+    jump %while_entry_5
+%while_end_5:
+    %52 = load @i_0
+    ret %52
+}
+fun @fft(%arr: *i32, %begin_pos: i32, %n: i32, %w: i32): i32 {
+%fft_entry:
+    @arr_0 = alloc *i32
+    store %arr, @arr_0
+    @begin_pos_0 = alloc i32
+    store %begin_pos, @begin_pos_0
+    @n_0 = alloc i32
+    store %n, @n_0
+    @w_0 = alloc i32
+    store %w, @w_0
+    %53 = load @n_0
+    %54 = eq %53, 1
+    br %54, %then_6, %end_6
+%then_6:
+    ret 1
+%end_6:
+    @i_1 = alloc i32
+    store 0, @i_1
+    jump %while_entry_7
+%while_entry_7:
+    %55 = load @i_1
+    %56 = load @n_0
+    %57 = lt %55, %56
+    br %57, %while_body_7, %while_end_7
+%while_body_7:
+    %58 = load @i_1
+    %59 = mod %58, 2
+    %60 = eq %59, 0
+    br %60, %then_8, %else_8
+%then_8:
+    %61 = load @i_1
+    %62 = load @begin_pos_0
+    %63 = add %61, %62
+    %ptr_arr_0_ptr_64 = load @arr_0
+    %ptr_arr_0_0_ptr_64 = getptr %ptr_arr_0_ptr_64, %63
+    %64 = load %ptr_arr_0_0_ptr_64
+    %65 = load @i_1
+    %66 = div %65, 2
+    %ptr_temp_0_0_array_67 = getelemptr @temp_0, %66
+    store %64, %ptr_temp_0_0_array_67
+    jump %end_8
+%else_8:
+    %68 = load @i_1
+    %69 = load @begin_pos_0
+    %70 = add %68, %69
+    %ptr_arr_0_ptr_71 = load @arr_0
+    %ptr_arr_0_0_ptr_71 = getptr %ptr_arr_0_ptr_71, %70
+    %71 = load %ptr_arr_0_0_ptr_71
+    %72 = load @n_0
+    %73 = div %72, 2
+    %74 = load @i_1
+    %75 = div %74, 2
+    %76 = add %73, %75
+    %ptr_temp_0_0_array_77 = getelemptr @temp_0, %76
+    store %71, %ptr_temp_0_0_array_77
+    jump %end_8
+%end_8:
+    %78 = load @i_1
+    %79 = add %78, 1
+    store %79, @i_1
+    jump %while_entry_7
+%while_end_7:
+    %ptr_arr_0_ptr_81 = load @arr_0
+    %ptr_arr_0_0_ptr_81 = getptr %ptr_arr_0_ptr_81, 0
+    %82 = load @begin_pos_0
+    %ptr_temp_0_0_array_83 = getelemptr @temp_0, 0
+    %84 = load @n_0
+    %85 = call @MemMove(%ptr_arr_0_0_ptr_81, %82, %ptr_temp_0_0_array_83, %84)
+    %ptr_arr_0_ptr_86 = load @arr_0
+    %ptr_arr_0_0_ptr_86 = getptr %ptr_arr_0_ptr_86, 0
+    %87 = load @begin_pos_0
+    %88 = load @n_0
+    %89 = div %88, 2
+    %90 = load @w_0
+    %91 = load @w_0
+    %92 = call @multiply(%90, %91)
+    %93 = call @fft(%ptr_arr_0_0_ptr_86, %87, %89, %92)
+    %ptr_arr_0_ptr_94 = load @arr_0
+    %ptr_arr_0_0_ptr_94 = getptr %ptr_arr_0_ptr_94, 0
+    %95 = load @begin_pos_0
+    %96 = load @n_0
+    %97 = div %96, 2
+    %98 = add %95, %97
+    %99 = load @n_0
+    %100 = div %99, 2
+    %101 = load @w_0
+    %102 = load @w_0
+    %103 = call @multiply(%101, %102)
+    %104 = call @fft(%ptr_arr_0_0_ptr_94, %98, %100, %103)
+    store 0, @i_1
+    @wn_0 = alloc i32
+    store 1, @wn_0
+    jump %while_entry_9
+%while_entry_9:
+    %106 = load @i_1
+    %107 = load @n_0
+    %108 = div %107, 2
+    %109 = lt %106, %108
+    br %109, %while_body_9, %while_end_9
+%while_body_9:
+    @x_0 = alloc i32
+    %110 = load @begin_pos_0
+    %111 = load @i_1
+    %112 = add %110, %111
+    %ptr_arr_0_ptr_113 = load @arr_0
+    %ptr_arr_0_0_ptr_113 = getptr %ptr_arr_0_ptr_113, %112
+    %113 = load %ptr_arr_0_0_ptr_113
+    store %113, @x_0
+    @y_0 = alloc i32
+    %114 = load @begin_pos_0
+    %115 = load @i_1
+    %116 = add %114, %115
+    %117 = load @n_0
+    %118 = div %117, 2
+    %119 = add %116, %118
+    %ptr_arr_0_ptr_120 = load @arr_0
+    %ptr_arr_0_0_ptr_120 = getptr %ptr_arr_0_ptr_120, %119
+    %120 = load %ptr_arr_0_0_ptr_120
+    store %120, @y_0
+    %121 = load @x_0
+    %122 = load @wn_0
+    %123 = load @y_0
+    %124 = call @multiply(%122, %123)
+    %125 = add %121, %124
+    %126 = mod %125, 998244353
+    %127 = load @begin_pos_0
+    %128 = load @i_1
+    %129 = add %127, %128
+    %ptr_arr_0_ptr_130 = load @arr_0
+    %ptr_arr_0_0_ptr_130 = getptr %ptr_arr_0_ptr_130, %129
+    store %126, %ptr_arr_0_0_ptr_130
+    %131 = load @x_0
+    %132 = load @wn_0
+    %133 = load @y_0
+    %134 = call @multiply(%132, %133)
+    %135 = sub %131, %134
+    %136 = add %135, 998244353
+    %137 = mod %136, 998244353
+    %138 = load @begin_pos_0
+    %139 = load @i_1
+    %140 = add %138, %139
+    %141 = load @n_0
+    %142 = div %141, 2
+    %143 = add %140, %142
+    %ptr_arr_0_ptr_144 = load @arr_0
+    %ptr_arr_0_0_ptr_144 = getptr %ptr_arr_0_ptr_144, %143
+    store %137, %ptr_arr_0_0_ptr_144
+    %145 = load @wn_0
+    %146 = load @w_0
+    %147 = call @multiply(%145, %146)
+    store %147, @wn_0
+    %149 = load @i_1
+    %150 = add %149, 1
+    store %150, @i_1
+    jump %while_entry_9
+%while_end_9:
+    ret 0
+}
+fun @main(): i32 {
+%main_entry:
+    @n_1 = alloc i32
+    %ptr_a_2_0_array_152 = getelemptr @a_2, 0
+    %153 = call @getarray(%ptr_a_2_0_array_152)
+    store %153, @n_1
+    @m_0 = alloc i32
+    %ptr_b_2_0_array_154 = getelemptr @b_2, 0
+    %155 = call @getarray(%ptr_b_2_0_array_154)
+    store %155, @m_0
+    call @starttime()
+    store 1, @d_0
+    jump %while_entry_10
+%while_entry_10:
+    %157 = load @d_0
+    %158 = load @n_1
+    %159 = load @m_0
+    %160 = add %158, %159
+    %161 = sub %160, 1
+    %162 = lt %157, %161
+    br %162, %while_body_10, %while_end_10
+%while_body_10:
+    %163 = load @d_0
+    %164 = mul %163, 2
+    store %164, @d_0
+    jump %while_entry_10
+%while_end_10:
+    %ptr_a_2_0_array_166 = getelemptr @a_2, 0
+    %167 = load @d_0
+    %168 = load @d_0
+    %169 = div 998244352, %168
+    %170 = call @power(3, %169)
+    %171 = call @fft(%ptr_a_2_0_array_166, 0, %167, %170)
+    %ptr_b_2_0_array_172 = getelemptr @b_2, 0
+    %173 = load @d_0
+    %174 = load @d_0
+    %175 = div 998244352, %174
+    %176 = call @power(3, %175)
+    %177 = call @fft(%ptr_b_2_0_array_172, 0, %173, %176)
+    @i_2 = alloc i32
+    store 0, @i_2
+    jump %while_entry_11
+%while_entry_11:
+    %178 = load @i_2
+    %179 = load @d_0
+    %180 = lt %178, %179
+    br %180, %while_body_11, %while_end_11
+%while_body_11:
+    %181 = load @i_2
+    %ptr_a_2_0_array_182 = getelemptr @a_2, %181
+    %182 = load %ptr_a_2_0_array_182
+    %183 = load @i_2
+    %ptr_b_2_0_array_184 = getelemptr @b_2, %183
+    %184 = load %ptr_b_2_0_array_184
+    %185 = call @multiply(%182, %184)
+    %186 = load @i_2
+    %ptr_a_2_0_array_187 = getelemptr @a_2, %186
+    store %185, %ptr_a_2_0_array_187
+    %188 = load @i_2
+    %189 = add %188, 1
+    store %189, @i_2
+    jump %while_entry_11
+%while_end_11:
+    %ptr_a_2_0_array_191 = getelemptr @a_2, 0
+    %192 = load @d_0
+    %193 = load @d_0
+    %194 = div 998244352, %193
+    %195 = sub 998244352, %194
+    %196 = call @power(3, %195)
+    %197 = call @fft(%ptr_a_2_0_array_191, 0, %192, %196)
+    store 0, @i_2
+    jump %while_entry_12
+%while_entry_12:
+    %199 = load @i_2
+    %200 = load @d_0
+    %201 = lt %199, %200
+    br %201, %while_body_12, %while_end_12
+%while_body_12:
+    %202 = load @i_2
+    %ptr_a_2_0_array_203 = getelemptr @a_2, %202
+    %203 = load %ptr_a_2_0_array_203
+    %204 = load @d_0
+    %205 = call @power(%204, 998244351)
+    %206 = call @multiply(%203, %205)
+    %207 = load @i_2
+    %ptr_a_2_0_array_208 = getelemptr @a_2, %207
+    store %206, %ptr_a_2_0_array_208
+    %209 = load @i_2
+    %210 = add %209, 1
+    store %210, @i_2
+    jump %while_entry_12
+%while_end_12:
+    call @stoptime()
+    %212 = load @n_1
+    %213 = load @m_0
+    %214 = add %212, %213
+    %215 = sub %214, 1
+    %ptr_a_2_0_array_216 = getelemptr @a_2, 0
+    call @putarray(%215, %ptr_a_2_0_array_216)
+    ret 0
+}

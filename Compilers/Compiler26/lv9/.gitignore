@@ -1,0 +1,9 @@
+*.DS_Store
+/build
+/src/koopa.h
+.vscode
+*.sh
+.devcontainer
+
+test*
+hello*

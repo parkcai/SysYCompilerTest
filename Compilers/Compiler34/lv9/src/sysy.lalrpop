@@ -1,0 +1,207 @@
+use crate::ast::*;
+use crate::ast::expression::*;
+use crate::ast::variable::*;
+// lalrpop 里的约定
+grammar;
+
+// 约束 lexer 的行为
+match {
+  // 跳过空白符和注释
+  r"\s*" => {},
+  r"//[^\n\r]*[\n\r]*" => {}, // handle "// something"
+  r"/\*[^*]*\*+([^/*][^*]*\*+)*/" => {},
+  // 剩下的情况采用默认方式处理
+  _
+}
+
+// 定义 CompUnit, 其返回值类型为 String
+// parser 在解析完成后的行为是返回 FuncDef 的值
+pub CompUnit: Box<CompUnit> = {
+  <unit: CompUnit?> <decl: Decl> => Box::new(CompUnit::Decl(decl, unit)),
+  <unit: CompUnit?> <func_def: FuncDef> => Box::new(CompUnit::FuncDef(func_def, unit)),
+};
+
+// 同上, 不解释
+FuncDef: FuncDef = {
+  <head: FuncHead> <mut params: (<FuncFParam> ",")*> <p: FuncFParam?> ")" <block: Block> => {
+    let (func_type, identity) = head;
+    match p {
+      Some(p) => {
+        params.push(p);
+        FuncDef { func_type, identity, params, block}
+      },
+      None => FuncDef {func_type, identity, params, block}
+    }
+  }
+};
+
+FuncHead: (FuncType, String) = {
+  "int" <Ident> "(" => (FuncType::Int, <>),
+  "void" <Ident> "(" => (FuncType::Void, <>)
+}
+
+FuncFParam: FuncFParam = {
+  "int" <identity: Ident> <index: ArrayParam?> => FuncFParam { param_type: BType::Int, <>}
+}
+
+ArrayParam: Vec<ConstExp> = "[" "]" <ArrayDecl*> => <>;
+
+Block: Block = "{" <items: BlockItem*> "}" => Block::Items(<>);
+BlockItem: BlockItem = {
+  Decl => BlockItem::Decl(<>),
+  Stmt => BlockItem::Stmt(<>)
+};
+
+Decl: Decl = {
+  ConstDecl => Decl::ConstDecl(<>),
+  VarDecl => Decl::VarDecl(<>)
+};
+
+Stmt: Stmt = {
+  OpenStmt => <>,
+  ClosedStmt => <>
+};
+
+OpenStmt: Stmt = {
+  "if" "(" <e:Exp> ")" <t:Stmt> => Stmt::If(e, Box::new(t), Option::None),
+  "if" "(" <e:Exp> ")" <t:ClosedStmt> "else" <f:OpenStmt> => Stmt::If(e, Box::new(t), Some(Box::new(f))),
+  "while" "(" <e:Exp> ")" <l:OpenStmt> => Stmt::While(e, Box::new(l)),
+}
+
+ClosedStmt: Stmt = {
+  NonIfStmt => <>,
+  "if" "(" <e:Exp> ")" <t:ClosedStmt> "else" <f:ClosedStmt> => Stmt::If(e, Box::new(t), Some(Box::new(f))),
+  "while" "(" <e:Exp> ")" <l:ClosedStmt> => Stmt::While(e, Box::new(l)),
+}
+
+NonIfStmt: Stmt = {
+  "break" ";" => Stmt::Break,
+  "continue" ";" => Stmt::Continue,
+  <LVal> "=" <Exp> ";" => Stmt::Assign(<>),
+  <Exp?> ";" => Stmt::Exp(<>),
+  Block => Stmt::Block(<>),
+  "return" <Exp?> ";" => Stmt::Return(<>),
+}
+
+ConstDecl: ConstDecl = "const" "int" <mut defs:(<ConstDef> ",")*> <d:ConstDef?> ";" => match d {
+  Some(def) => {
+    defs.push(def);
+    ConstDecl::ConstDecl(BType::Int, defs)
+  }
+  None => ConstDecl::ConstDecl(BType::Int, defs)
+};
+VarDecl: VarDecl = "int" <mut defs:(<VarDef> ",")*> <d:VarDef?> ";" => match d {
+  Some(def) => {
+    defs.push(def);
+    VarDecl::VarDecl(BType::Int, defs)
+  }
+  None => VarDecl::VarDecl(BType::Int, defs)
+};
+
+ConstDef: ConstDef = <Ident> <ArrayDecl*> "=" <ConstInitVal> => ConstDef::ConstDef(<>);
+VarDef: VarDef = {
+  <Ident> <ArrayDecl*> "=" <InitVal> => VarDef::VarDefInit(<>),
+  <Ident> <ArrayDecl*> => VarDef::VarDef(<>)
+};
+ArrayDecl: ConstExp = "[" <ConstExp> "]" => <>;
+
+ConstInitVal: ConstInitVal = {
+  ConstExp => ConstInitVal::ConstExp(<>),
+  "{" <mut vec:(<ConstInitVal> ",")*> <last:ConstInitVal?> "}" => {
+    match last {
+      Some(v) => { vec.push(v); ConstInitVal::ConstList(vec) }
+      None => ConstInitVal::ConstList(vec)
+    }
+  }
+};
+InitVal: InitVal = {
+  Exp => InitVal::Exp(<>),
+  "{" <mut vec:(<InitVal> ",")*> <last:InitVal?> "}" => {
+    match last {
+      Some(v) => { vec.push(v); InitVal::List(vec) }
+      None => InitVal::List(vec)
+    }
+  }
+};
+
+LVal: LVal = <Ident> <ArrayIndex*> => LVal::Ident(<>);
+ArrayIndex: Exp = "[" <Exp> "]" => <>;
+ConstExp: ConstExp = <e:Exp> => ConstExp::Exp(Box::new(e));
+Exp : Exp = LOrExp => Exp::LOr(Box::new(<>));
+PrimaryExp : PrimaryExp = {
+  "(" <Exp> ")" => PrimaryExp::Parenthese(Box::new(<>)),
+   Number => PrimaryExp::Num(<>),
+   LVal => PrimaryExp::LVal(<>)
+}
+LOrExp : LOrExp = {
+  LAndExp => LOrExp::LAnd(Box::new(<>)),
+  <lhs:LOrExp> "||" <rhs:LAndExp> => LOrExp::LOrOp(Box::new(lhs), Box::new(rhs)), 
+}
+LAndExp : LAndExp = {
+  EqExp => LAndExp::Eq(Box::new(<>)),
+  <lhs:LAndExp> "&&" <rhs:EqExp> => LAndExp::LAndOp(Box::new(lhs), Box::new(rhs)),
+}
+EqExp : EqExp = {
+  RelExp => EqExp::Rel(Box::new(<>)),
+  <lhs:EqExp> <op:EqOp> <rhs:RelExp> => EqExp::EqOp(op, Box::new(lhs), Box::new(rhs)),
+}
+RelExp : RelExp = {
+  AddExp => RelExp::Add(Box::new(<>)),
+  <lhs:RelExp> <op:RelOp> <rhs:AddExp> => RelExp::RelOp(op, Box::new(lhs), Box::new(rhs))
+}
+AddExp : AddExp = {
+  MulExp => AddExp::Mul(Box::new(<>)),
+  <lhs: AddExp> <op:AddOp> <rhs: MulExp> => AddExp::AddOp(op, Box::new(lhs), Box::new(rhs))
+}
+MulExp : MulExp = {
+  UnaryExp => MulExp::Unary(Box::new(<>)),
+  <lhs: MulExp> <op: MulOp> <rhs: UnaryExp> => MulExp::MulOp(op, Box::new(lhs), Box::new(rhs))
+}
+UnaryExp : UnaryExp = {
+  PrimaryExp => UnaryExp::Primary(Box::new(<>)),
+  <id: Ident> "(" <mut params: (<Exp> ",")*> <p: Exp?> ")" => match p {
+    Some(p) => {
+      params.push(p);
+      UnaryExp::FuncCall(id, params)
+    },
+    None => UnaryExp::FuncCall(id, params)
+  },
+  <op: UnaryOp> <ue: UnaryExp> => UnaryExp::UnaryOp(op, Box::new(ue))
+}
+RelOp : RelOp = {
+  "<" => RelOp::Lt,
+  "<=" => RelOp::Le,
+  ">" => RelOp::Gt,
+  ">=" => RelOp::Ge 
+}
+EqOp : EqOp = {
+  "==" => EqOp::Eq,
+  "!=" => EqOp::Ne
+}
+AddOp : AddOp = {
+  "+" => AddOp::Add,
+  "-" => AddOp::Sub
+}
+MulOp : MulOp = {
+  "*" => MulOp::Mul,
+  "/" => MulOp::Div,
+  "%" => MulOp::Mod
+}
+UnaryOp : UnaryOp = {
+  "+" => UnaryOp::Pos,
+  "-" => UnaryOp::Neg,
+  "!" => UnaryOp::Opp
+}
+Number: i32 = IntConst;
+
+// 如果匹配到标识符, 就返回这个字符串
+// 一对尖括号在此处指代的是正则表达式匹配到的字符串 (&str)
+// 关于尖括号到底代表什么, 请 RTFM
+Ident: String = r"[_a-zA-Z][_a-zA-Z0-9]*" => <>.to_string();
+
+// 对整数字面量的处理方式: 把匹配到的字符串按对应进制转换成数字
+IntConst: i32 = {
+  r"[1-9][0-9]*" => i32::from_str_radix(<>, 10).unwrap(),
+  r"0[0-7]*" => i32::from_str_radix(<>, 8).unwrap(),
+  r"0[xX][0-9a-fA-F]+" => i32::from_str_radix(&<>[2..], 16).unwrap(),
+}

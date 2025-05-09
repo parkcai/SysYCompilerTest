@@ -1,0 +1,19 @@
+[package]
+name = "compiler"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+authors = ["crlcrl1"]
+repository = "https://github.com/crlcrl1/SysY-compiler"
+description = "A compiler for SysY language"
+build = "build.rs"
+
+[dependencies]
+lalrpop-util = { version = "0.22.0", features = ["lexer", "unicode"] }
+koopa = "0.0.8"
+colored = "2.1.0"
+concat-idents = "1.1.5"
+compiler_macro = { path = "./compiler_macro" }
+
+[build-dependencies]
+lalrpop = "0.22.0"

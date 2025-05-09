@@ -1,0 +1,13 @@
+[package]
+name = "sysy_compiler"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+lalrpop-util = { version = "0.20.2", features = ["lexer"] }
+koopa = "0.0.7"
+lazy_static = "1.4.0"
+regex = "1"
+
+[build-dependencies]
+lalrpop = "0.20.2"

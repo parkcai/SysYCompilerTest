@@ -1,0 +1,3 @@
+cd /root
+lks
+ls

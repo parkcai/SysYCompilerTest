@@ -1,0 +1,10 @@
+*.DS_Store
+/build
+/.vscode
+/debug
+look_koopa.sh
+look_riscv.sh
+hello.koopa
+hello.riscv
+autotest.sh
+src/koopa.h

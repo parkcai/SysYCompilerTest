@@ -1,0 +1,12 @@
+[package]
+name = "rust-ver"
+version = "0.1.0"
+author = ["Lychnis"]
+edition = "2021"
+
+[dependencies]
+koopa = "0.0.7"
+lalrpop-util = { version="0.21.0", features=["lexer", "unicode"] }
+
+[build-dependencies]
+lalrpop = "0.21.0"

@@ -1,0 +1,5 @@
+/tmp/tmpdp7lgnqy/compiler
+-riscv
+/opt/bin/testcases/lv1/5_compact.c
+-o
+/tmp/tmpdp7lgnqy/e5a2feaac1504367803d7852c71613af.S

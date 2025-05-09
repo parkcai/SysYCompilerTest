@@ -1,0 +1,1 @@
+set args -koopa hello.c -o hello.koopa

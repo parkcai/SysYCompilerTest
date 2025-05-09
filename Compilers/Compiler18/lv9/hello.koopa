@@ -1,0 +1,78 @@
+decl @getint(): i32
+decl @getch(): i32
+decl @getarray(*i32): i32
+decl @putint(i32)
+decl @putch(i32)
+decl @putarray(i32, *i32)
+decl @starttime()
+decl @stoptime()
+
+fun @f1d( @arr: *i32){
+%entry:
+  @BLOCK_1_arr = alloc *i32
+  store @arr, @BLOCK_1_arr
+  @BLOCK_1_i = alloc i32
+  %0 = add 0, 0
+  store %0, @BLOCK_1_i
+  jump %while_entry_0
+%while_entry_0:
+  %1 = load @BLOCK_1_i
+  %2 = add 0, 10
+  %3 = lt %1, %2
+  br %3, %while_body_0, %while_exit_0
+%while_body_0:
+  %4 = load @BLOCK_1_i
+  %5 = load @BLOCK_1_arr
+  %6 = load @BLOCK_1_i
+  %7 = getptr %5, %6
+  store %4, %7
+  %8 = load @BLOCK_1_i
+  %9 = add 0, 1
+  %10 = add %8, %9
+  store %10, @BLOCK_1_i
+  jump %while_entry_0
+%while_exit_0:
+  ret
+}
+
+fun @f2d( @arr: *[i3210]){
+%entry:
+  @BLOCK_5_arr = alloc *[i32, 10]
+  store @arr, @BLOCK_5_arr
+  %11 = add 0, 3
+  %12 = load @BLOCK_5_arr
+  %13 = add 0, 1
+  %14 = getptr %12, %13
+  %15 = add 0, 2
+  %16 = getelemptr %14, %15
+  store %11, %16
+  @BLOCK_5_i = alloc i32
+  %17 = add 0, 0
+  store %17, @BLOCK_5_i
+  jump %while_entry_1
+%while_entry_1:
+  %18 = load @BLOCK_5_i
+  %19 = add 0, 10
+  %20 = lt %18, %19
+  br %20, %while_body_1, %while_exit_1
+%while_body_1:
+  %21 = load @BLOCK_5_arr
+  %22 = load @BLOCK_5_i
+  %23 = getptr %21, %22
+  %24 = getelemptr %23, 0
+  call @f1d(%24)
+  %25 = load @BLOCK_5_i
+  %26 = add 0, 1
+  %27 = add %25, %26
+  store %27, @BLOCK_5_i
+  jump %while_entry_1
+%while_exit_1:
+  ret
+}
+
+fun @main(): i32{
+%entry:
+  %28 = add 0, 33
+  ret %28
+}
+

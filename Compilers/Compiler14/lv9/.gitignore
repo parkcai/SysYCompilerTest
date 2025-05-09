@@ -1,0 +1,5 @@
+*.DS_Store
+/build
+hello.c
+hello.koopa
+hello.riscv

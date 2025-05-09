@@ -1,0 +1,303 @@
+// lalrpop 里的约定
+use crate::ast_def::{ *, declaration::*, expression::*, function::*, statement::*, terminal_symbol::* };
+
+grammar;
+
+// 约束 lexer 的行为
+match {
+    r"\s*" => {},
+    r"//[^\n\r]*[\n\r]*" => {},
+    r"/\*[^*]*\*+(?:[^/*][^*]*\*+)*/" => {},
+    _
+}
+
+/*==============================basic start==============================*/
+
+pub CompUnit: CompUnit = {
+    <units : (BasicUnit)*> => {
+        CompUnit::CompUnit(units)
+    }
+}
+
+BasicUnit: BasicUnit =  {
+    <func_def : FuncDef> => BasicUnit::FuncDef(func_def),
+    <decl : Decl> => BasicUnit::Decl(decl),
+    // <func_decl : FuncDecl> => BasicUnit::FuncDecl(func_decl),
+}
+
+Block: Block = {
+    "{" <blocks: BlockItem*> "}" => {
+        Block::Block ( blocks )
+    }
+}
+
+BlockItem : BlockItem = {
+    <stmt : Stmt> => BlockItem::Stmt(stmt),
+    <decl : Decl> => BlockItem::Decl(decl)
+}
+
+/*==============================basic end==============================*/
+
+/*==============================declaration start==============================*/
+
+Decl : Decl = {
+    <ConstDecl : ConstDecl> => {
+        Decl::ConstDecl(ConstDecl)
+    },
+    <VarDecl : VarDecl> => {
+        Decl::VarDecl(VarDecl)
+    }
+}
+
+VarDecl : VarDecl = {
+    <bType : BType> <VarDef : VarDef> <VarDefs : ("," <VarDef>)*> ";" => {
+        let mut v = Vec::<VarDef>::new();
+        v.push(VarDef);
+
+        // let var_defs: Vec<VarDef> = VarDefs.into_iter().map(|(_, vd)| vd).collect();
+        v.extend(VarDefs);
+        
+        VarDecl::VarDecl(bType, v)
+    }
+}
+
+VarDef : VarDef = {
+    <IDENT : IDENT> <ConstExp : ("[" <ConstExp> "]")*> <InitVal : ("=" <InitVal>)?> => VarDef::VarDef(IDENT, ConstExp, InitVal)
+}
+
+InitVal : InitVal = {
+    <Exp : Exp> => InitVal::Exp(Exp),
+    "{" "}" => InitVal::Arr(Vec::<Box<InitVal>>::new()),
+    "{" <InitVal : InitVal> <InitVals : ("," <InitVal>)*> "}" => {
+        let mut v = Vec::<Box<InitVal>>::new();
+        v.push(Box::new(InitVal));
+        for val in InitVals {
+            v.push(Box::new(val));
+        }
+        InitVal::Arr(v)
+    }
+}
+
+ConstDecl : ConstDecl = {
+    "const" <bType : BType> <ConstDef : ConstDef> <ConstDefs : ("," <ConstDef>)*> ";" => {
+        let mut v = Vec::<ConstDef>::new();
+        v.push(ConstDef);
+
+        // let const_defs: Vec<ConstDef> = ConstDefs.into_iter().map(|(_, cd)| cd).collect();
+        v.extend(ConstDefs);
+        
+        ConstDecl::ConstDecl(bType, v)
+    }
+}
+
+ConstDef : ConstDef = {
+    <IDENT : IDENT> <ConstExp : ("[" <ConstExp> "]")*> "=" <ConstInitVal : InitVal> => {
+        ConstDef::ConstDef(IDENT, ConstExp, ConstInitVal)
+    }
+}
+
+/*==============================declaration end==============================*/
+
+/*==============================function start==============================*/
+
+FuncDef: FuncDef = {
+    <func_type: BType> <id: IDENT> "(" <f_params : FuncFParams?> ")" <block: Block> => {
+        FuncDef::FuncDef(func_type, id, f_params, block)
+    }
+}
+
+FuncFParams : FuncFParams = {
+    <_f_param : FuncFParam> <_f_params : ("," <FuncFParam>)*> => {
+        let mut v = Vec::<FuncFParam>::new();
+        v.push(_f_param);
+        v.extend(_f_params);
+        FuncFParams::FuncFParams(v)
+    }
+}
+
+FuncFParam : FuncFParam = {
+    <paramType : BType> <identity : IDENT> => {
+        FuncFParam::FuncFParam(paramType, identity, None)
+    },
+    <paramType : BType> <identity : IDENT> "[" "]" <indexes : ("[" <ConstExp> "]")*> => {
+        FuncFParam::FuncFParam(paramType, identity, Some(indexes))
+    },
+}
+
+FuncRParams : FuncRParams = {
+    <_r_param : FuncRParam> <_r_params : ("," <FuncRParam>)*> => {
+        let mut v = Vec::<FuncRParam>::new();
+        v.push(_r_param);
+        v.extend(_r_params);
+        FuncRParams::FuncRParams(v)
+    }
+}
+
+FuncRParam : FuncRParam = {
+    <Exp : Exp> => FuncRParam::FuncRParam(Exp)
+}
+
+//FuncDecl : FuncDecl = {
+//    <func_type: BType> <id: IDENT> "(" <f_params : FuncFParams?> ")" ";" => {
+//        FuncDecl::FuncDecl(func_type, id, f_params)
+//    }
+//}
+
+/*==============================function end==============================*/
+
+/*==============================statement start==============================*/
+// 为了消除if else的二义性，引入OpenStmt和CloseStmt
+// 参考自：https://en.wikipedia.org/wiki/Dangling_else
+
+Stmt : Stmt = {
+    <OpenStmt : OpenStmt> => OpenStmt,
+    <CloseStmt : CloseStmt> => CloseStmt,
+}
+
+OpenStmt : Stmt = {
+    "if" "(" <Exp : Exp> ")" <Stmt : Stmt> => Stmt::IfStmt(IfStmt::IfStmt(Exp, Box::new(Stmt), None)),
+    "if" "(" <Exp : Exp> ")" <CloseStmt : CloseStmt> "else" <OpenStmt : OpenStmt> => Stmt::IfStmt(IfStmt::IfStmt(Exp, Box::new(CloseStmt), Some(Box::new(OpenStmt)))),
+    "while" "(" <Exp : Exp> ")" <OpenStmt : OpenStmt> => Stmt::WhileStmt(WhileStmt::WhileStmt(Exp, Box::new(OpenStmt))),
+}
+
+CloseStmt : Stmt = {
+    <NonIfStmt : NonIfStmt> => NonIfStmt,
+    "if" "(" <Exp : Exp> ")" <CloseStmt1 : CloseStmt> "else" <CloseStmt2 : CloseStmt> => Stmt::IfStmt(IfStmt::IfStmt(Exp, Box::new(CloseStmt1), Some(Box::new(CloseStmt2)))),
+    "while" "(" <Exp : Exp> ")" <CloseStmt : CloseStmt> => Stmt::WhileStmt(WhileStmt::WhileStmt(Exp, Box::new(CloseStmt))),
+}
+
+ElseStmt : Stmt = {
+    "else" <Stmt : Stmt> => Stmt
+}
+
+NonIfStmt: Stmt = {
+    <AssignStmt : AssignStmt> => Stmt::AssignStmt(AssignStmt),
+    <ExpStmt : ExpStmt> => Stmt::ExpStmt(ExpStmt),
+    <BlockStmt : BlockStmt> => Stmt::BlockStmt(BlockStmt),
+    <ReturnStmt : ReturnStmt> => Stmt::ReturnStmt(ReturnStmt),
+    <breakStmt : BreakStmt> => Stmt::BreakStmt(breakStmt),
+    <continueStmt : ContinueStmt> => Stmt::ContinueStmt(continueStmt),
+}
+
+ReturnStmt : ReturnStmt = {
+    "return" <Exp : (Exp)?> ";" => ReturnStmt::ReturnStmt(Exp)
+}
+
+ExpStmt : ExpStmt = {
+    <Exp : (Exp)?> ";" => {
+        ExpStmt::ExpStmt(Exp)
+    }
+}
+
+BlockStmt : BlockStmt = {
+    <Block : Block> => {
+        BlockStmt::BlockStmt(Block)
+    }
+}
+
+AssignStmt : AssignStmt = {
+    <LVal : LVal> "=" <Exp : Exp> ";" => {
+        AssignStmt::AssignStmt(LVal, Exp)
+    }
+}
+
+BreakStmt : BreakStmt = {
+    "break" ";" => BreakStmt::BreakStmt,
+}
+
+ContinueStmt : ContinueStmt = {
+    "continue" ";" => ContinueStmt::ContinueStmt
+}
+/*==============================statement end==============================*/
+
+/*==============================expression start==============================*/
+
+ConstExp : ConstExp = {
+    <Exp : Exp> => {
+        ConstExp::Exp(Exp)
+    }
+}
+
+Exp : Exp = {
+    <LOrExp : LOrExp> => Exp::LOrExp(LOrExp)
+}
+
+LOrExp : LOrExp = {
+    <LAndExp : LAndExp> => LOrExp::LAndExp(LAndExp),
+    <LOrExp : LOrExp> "||" <LAndExp : LAndExp> => LOrExp::LOrExp(Box::new(LOrExp), LAndExp),
+}
+
+LAndExp : LAndExp = {
+    <EqExp : EqExp> => LAndExp::EqExp(EqExp),
+    <LAndExp : LAndExp> "&&" <EqExp : EqExp> => LAndExp::LAndExp(Box::new(LAndExp), EqExp),
+}
+
+EqExp : EqExp = {
+    <RelExp : RelExp> => EqExp::RelExp(RelExp),
+    <EqExp : EqExp> "==" <RelExp : RelExp> => EqExp::EqExp(Box::new(EqExp), RelExp),
+    <EqExp : EqExp> "!=" <RelExp : RelExp> => EqExp::NeqExp(Box::new(EqExp), RelExp),
+}
+
+RelExp : RelExp = {
+    <AddExp : AddExp> => RelExp::AddExp(AddExp),
+    <RelExp : RelExp> "<" <AddExp : AddExp> => RelExp::LtRelExp(Box::new(RelExp), AddExp),
+    <RelExp : RelExp> ">" <AddExp : AddExp> => RelExp::GtRelExp(Box::new(RelExp), AddExp),
+    <RelExp : RelExp> "<=" <AddExp : AddExp> => RelExp::LeRelExp(Box::new(RelExp), AddExp),
+    <RelExp : RelExp> ">=" <AddExp : AddExp> => RelExp::GeRelExp(Box::new(RelExp), AddExp),
+}
+
+AddExp : AddExp = {
+    <MulExp : MulExp> => AddExp::MulExp(MulExp),
+    <AddExp : AddExp> "+" <MulExp : MulExp> => AddExp::AddExp(Box::new(AddExp), MulExp),
+    <AddExp : AddExp> "-" <MulExp : MulExp> => AddExp::MinusExp(Box::new(AddExp), MulExp),
+}
+
+MulExp : MulExp = {
+    <UnaryExp : UnaryExp> => MulExp::UnaryExp(UnaryExp),
+    <MulExp : MulExp> "*" <UnaryExp : UnaryExp> => MulExp::MulExp(Box::new(MulExp), UnaryExp),
+    <MulExp : MulExp> "/" <UnaryExp : UnaryExp> => MulExp::DivideExp(Box::new(MulExp), UnaryExp),
+    <MulExp : MulExp> "%" <UnaryExp : UnaryExp> => MulExp::ModExp(Box::new(MulExp), UnaryExp),
+}
+
+UnaryExp : UnaryExp = {
+    <PrimaryExp : PrimaryExp> => UnaryExp::PrimaryExp(PrimaryExp),
+    <IDENT : IDENT> "(" <FuncRParams : (FuncRParams)?> ")" => UnaryExp::FunctionCall(IDENT, FuncRParams),
+    <UnaryOp : UnaryOp> <UnaryExp : UnaryExp> => UnaryExp::UnaryExp(UnaryOp, Box::new(UnaryExp)),
+}
+
+PrimaryExp : PrimaryExp = {
+    <Number : Number> => PrimaryExp::Number(Number),
+    <LVal : LVal> => PrimaryExp::LVal(LVal),
+    "(" <Exp : Exp> ")" => PrimaryExp::Exp(Box::new(Exp)),
+}
+
+LVal : LVal = {
+    <IDENT : IDENT> <Exps : ("[" <Exp> "]")*> => LVal::LVal(IDENT, Exps),
+}
+
+UnaryOp : UnaryOp = {
+    "+" => UnaryOp::Plus,
+    "-" => UnaryOp::Minus,
+    "!" => UnaryOp::Not,
+}
+
+/*==============================expression end==============================*/
+
+Number: INT_CONST = {
+    r"[1-9][0-9]*" => INT_CONST::Value(i32::from_str_radix(<>, 10).unwrap()),
+    r"0[0-7]*" => INT_CONST::Value(i32::from_str_radix(<>, 8).unwrap()),
+    r"0[xX][0-9a-fA-F]+" => INT_CONST::Value(i32::from_str_radix(&<>[2..], 16).unwrap()),
+}
+
+IDENT: IDENT = {
+    r"[_a-zA-Z][_a-zA-Z0-9]*" => {
+        IDENT::IDENT(<>.to_string())
+    }
+}
+
+BType : BType = {
+    "int" => BType::int,
+    "void" => BType::void,
+}
+
+// 对整数字面量的处理方式: 把匹配到的字符串按对应进制转换成数字

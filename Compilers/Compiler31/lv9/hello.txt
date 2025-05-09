@@ -1,0 +1,687 @@
+  .data
+  .global A
+A:
+  .zero 4194304
+  .data
+  .global B
+B:
+  .zero 4194304
+  .data
+  .global C
+C:
+  .zero 4194304
+  .text
+  .global mm
+mm:
+  addi sp, sp, -464
+  mv t3, a0
+  sw t3, 0(sp)
+  mv t3, a1
+  sw t3, 4(sp)
+  mv t3, a2
+  sw t3, 8(sp)
+  mv t3, a3
+  sw t3, 12(sp)
+  li t3, 0
+  sw t3, 16(sp)
+  li t3, 0
+  sw t3, 20(sp)
+  j mm_while_loop_cond
+mm_while_loop_cond:
+  lw t3, 16(sp)
+  sw t3, 24(sp)
+  lw t3, 0(sp)
+  sw t3, 28(sp)
+  lw t0, 24(sp)
+  lw t1, 28(sp)
+  slt t0, t0, t1
+  sw t0, 32(sp)
+  lw t0, 32(sp)
+  bnez t0, mm_while_loop_body_temp
+  j mm_while_loop_end
+mm_while_loop_body_temp:
+  j mm_while_loop_body
+mm_while_loop_body:
+  li t3, 0
+  sw t3, 20(sp)
+  j mm_while_loop_cond_0
+mm_while_loop_end:
+  li t3, 0
+  sw t3, 16(sp)
+  li t3, 0
+  sw t3, 20(sp)
+  li t3, 0
+  sw t3, 36(sp)
+  j mm_while_loop_cond_1
+mm_while_loop_cond_0:
+  lw t3, 20(sp)
+  sw t3, 40(sp)
+  lw t3, 0(sp)
+  sw t3, 44(sp)
+  lw t0, 40(sp)
+  lw t1, 44(sp)
+  slt t0, t0, t1
+  sw t0, 48(sp)
+  lw t0, 48(sp)
+  bnez t0, mm_while_loop_body_0_temp
+  j mm_while_loop_end_0
+mm_while_loop_body_0_temp:
+  j mm_while_loop_body_0
+mm_while_loop_cond_1:
+  lw t3, 36(sp)
+  sw t3, 52(sp)
+  lw t3, 0(sp)
+  sw t3, 56(sp)
+  lw t0, 52(sp)
+  lw t1, 56(sp)
+  slt t0, t0, t1
+  sw t0, 60(sp)
+  lw t0, 60(sp)
+  bnez t0, mm_while_loop_body_1_temp
+  j mm_while_loop_end_1
+mm_while_loop_body_1_temp:
+  j mm_while_loop_body_1
+mm_while_loop_body_0:
+  lw t3, 12(sp)
+  sw t3, 64(sp)
+  lw t3, 16(sp)
+  sw t3, 68(sp)
+  addi t0, sp, 64
+  lw t1, 68(sp)
+  lw t0, 0(t0)
+  li t2, 4096
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 72(sp)
+  lw t3, 20(sp)
+  sw t3, 76(sp)
+  addi t0, sp, 72
+  lw t1, 76(sp)
+  lw t0, 0(t0)
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 80(sp)
+  li t3, 0
+  lw t2, 80(sp)
+  sw t3, 0(t2)
+  lw t3, 20(sp)
+  sw t3, 84(sp)
+  lw t0, 84(sp)
+  li t1, 1
+  add t0, t0, t1
+  sw t0, 88(sp)
+  lw t3, 88(sp)
+  sw t3, 20(sp)
+  j mm_while_loop_cond_0
+mm_while_loop_end_0:
+  lw t3, 16(sp)
+  sw t3, 92(sp)
+  lw t0, 92(sp)
+  li t1, 1
+  add t0, t0, t1
+  sw t0, 96(sp)
+  lw t3, 96(sp)
+  sw t3, 16(sp)
+  j mm_while_loop_cond
+mm_while_loop_body_1:
+  li t3, 0
+  sw t3, 16(sp)
+  j mm_while_loop_cond_2
+mm_while_loop_end_1:
+  addi sp, sp, 464
+  ret
+mm_while_loop_cond_2:
+  lw t3, 16(sp)
+  sw t3, 100(sp)
+  lw t3, 0(sp)
+  sw t3, 104(sp)
+  lw t0, 100(sp)
+  lw t1, 104(sp)
+  slt t0, t0, t1
+  sw t0, 108(sp)
+  lw t0, 108(sp)
+  bnez t0, mm_while_loop_body_2_temp
+  j mm_while_loop_end_2
+mm_while_loop_body_2_temp:
+  j mm_while_loop_body_2
+mm_while_loop_body_2:
+  lw t3, 4(sp)
+  sw t3, 112(sp)
+  lw t3, 16(sp)
+  sw t3, 116(sp)
+  addi t0, sp, 112
+  lw t1, 116(sp)
+  lw t0, 0(t0)
+  li t2, 4096
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 120(sp)
+  lw t3, 36(sp)
+  sw t3, 124(sp)
+  addi t0, sp, 120
+  lw t1, 124(sp)
+  lw t0, 0(t0)
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 128(sp)
+  lw t3, 128(sp)
+  lw t3, 0(t3)
+  sw t3, 132(sp)
+  lw t0, 132(sp)
+  li t1, 0
+  xor t0, t0, t1
+  seqz t0, t0
+  sw t0, 136(sp)
+  lw t0, 136(sp)
+  bnez t0, mm_true_temp
+  j mm_false
+mm_true_temp:
+  j mm_true
+mm_while_loop_end_2:
+  lw t3, 36(sp)
+  sw t3, 140(sp)
+  lw t0, 140(sp)
+  li t1, 1
+  add t0, t0, t1
+  sw t0, 144(sp)
+  lw t3, 144(sp)
+  sw t3, 36(sp)
+  j mm_while_loop_cond_1
+mm_true:
+  lw t3, 16(sp)
+  sw t3, 148(sp)
+  lw t0, 148(sp)
+  li t1, 1
+  add t0, t0, t1
+  sw t0, 152(sp)
+  lw t3, 152(sp)
+  sw t3, 16(sp)
+  j mm_while_loop_cond_2
+mm_false:
+  li t3, 0
+  sw t3, 20(sp)
+  j mm_while_loop_cond_3
+mm_while_loop_cond_3:
+  lw t3, 20(sp)
+  sw t3, 156(sp)
+  lw t3, 0(sp)
+  sw t3, 160(sp)
+  lw t0, 156(sp)
+  lw t1, 160(sp)
+  slt t0, t0, t1
+  sw t0, 164(sp)
+  lw t0, 164(sp)
+  bnez t0, mm_while_loop_body_3_temp
+  j mm_while_loop_end_3
+mm_while_loop_body_3_temp:
+  j mm_while_loop_body_3
+mm_while_loop_body_3:
+  lw t3, 12(sp)
+  sw t3, 168(sp)
+  lw t3, 16(sp)
+  sw t3, 172(sp)
+  addi t0, sp, 168
+  lw t1, 172(sp)
+  lw t0, 0(t0)
+  li t2, 4096
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 176(sp)
+  lw t3, 20(sp)
+  sw t3, 180(sp)
+  addi t0, sp, 176
+  lw t1, 180(sp)
+  lw t0, 0(t0)
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 184(sp)
+  lw t3, 12(sp)
+  sw t3, 188(sp)
+  lw t3, 16(sp)
+  sw t3, 192(sp)
+  addi t0, sp, 188
+  lw t1, 192(sp)
+  lw t0, 0(t0)
+  li t2, 4096
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 196(sp)
+  lw t3, 20(sp)
+  sw t3, 200(sp)
+  addi t0, sp, 196
+  lw t1, 200(sp)
+  lw t0, 0(t0)
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 204(sp)
+  lw t3, 204(sp)
+  lw t3, 0(t3)
+  sw t3, 208(sp)
+  lw t3, 4(sp)
+  sw t3, 212(sp)
+  lw t3, 16(sp)
+  sw t3, 216(sp)
+  addi t0, sp, 212
+  lw t1, 216(sp)
+  lw t0, 0(t0)
+  li t2, 4096
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 220(sp)
+  lw t3, 36(sp)
+  sw t3, 224(sp)
+  addi t0, sp, 220
+  lw t1, 224(sp)
+  lw t0, 0(t0)
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 228(sp)
+  lw t3, 228(sp)
+  lw t3, 0(t3)
+  sw t3, 232(sp)
+  lw t3, 8(sp)
+  sw t3, 236(sp)
+  lw t3, 36(sp)
+  sw t3, 240(sp)
+  addi t0, sp, 236
+  lw t1, 240(sp)
+  lw t0, 0(t0)
+  li t2, 4096
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 244(sp)
+  lw t3, 20(sp)
+  sw t3, 248(sp)
+  addi t0, sp, 244
+  lw t1, 248(sp)
+  lw t0, 0(t0)
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 252(sp)
+  lw t3, 252(sp)
+  lw t3, 0(t3)
+  sw t3, 256(sp)
+  lw t0, 232(sp)
+  lw t1, 256(sp)
+  mul t0, t0, t1
+  sw t0, 260(sp)
+  lw t0, 208(sp)
+  lw t1, 260(sp)
+  add t0, t0, t1
+  sw t0, 264(sp)
+  lw t3, 264(sp)
+  lw t2, 184(sp)
+  sw t3, 0(t2)
+  lw t3, 20(sp)
+  sw t3, 268(sp)
+  lw t0, 268(sp)
+  li t1, 1
+  add t0, t0, t1
+  sw t0, 272(sp)
+  lw t3, 272(sp)
+  sw t3, 20(sp)
+  j mm_while_loop_cond_3
+mm_while_loop_end_3:
+  lw t3, 16(sp)
+  sw t3, 276(sp)
+  lw t0, 276(sp)
+  li t1, 1
+  add t0, t0, t1
+  sw t0, 280(sp)
+  lw t3, 280(sp)
+  sw t3, 16(sp)
+  j mm_while_loop_cond_2
+  .global main
+main:
+  addi sp, sp, -480
+  sw ra, 476(sp)
+  call getint
+  sw a0, 0(sp)
+  lw t3, 0(sp)
+  sw t3, 4(sp)
+  li t3, 0
+  sw t3, 8(sp)
+  li t3, 0
+  sw t3, 12(sp)
+  j main_while_loop_cond
+main_while_loop_cond:
+  lw t3, 8(sp)
+  sw t3, 16(sp)
+  lw t3, 4(sp)
+  sw t3, 20(sp)
+  lw t0, 16(sp)
+  lw t1, 20(sp)
+  slt t0, t0, t1
+  sw t0, 24(sp)
+  lw t0, 24(sp)
+  bnez t0, main_while_loop_body_temp
+  j main_while_loop_end
+main_while_loop_body_temp:
+  j main_while_loop_body
+main_while_loop_body:
+  li t3, 0
+  sw t3, 12(sp)
+  j main_while_loop_cond_0
+main_while_loop_end:
+  li t3, 0
+  sw t3, 8(sp)
+  li t3, 0
+  sw t3, 12(sp)
+  j main_while_loop_cond_1
+main_while_loop_cond_0:
+  lw t3, 12(sp)
+  sw t3, 28(sp)
+  lw t3, 4(sp)
+  sw t3, 32(sp)
+  lw t0, 28(sp)
+  lw t1, 32(sp)
+  slt t0, t0, t1
+  sw t0, 36(sp)
+  lw t0, 36(sp)
+  bnez t0, main_while_loop_body_0_temp
+  j main_while_loop_end_0
+main_while_loop_body_0_temp:
+  j main_while_loop_body_0
+main_while_loop_cond_1:
+  lw t3, 8(sp)
+  sw t3, 40(sp)
+  lw t3, 4(sp)
+  sw t3, 44(sp)
+  lw t0, 40(sp)
+  lw t1, 44(sp)
+  slt t0, t0, t1
+  sw t0, 48(sp)
+  lw t0, 48(sp)
+  bnez t0, main_while_loop_body_1_temp
+  j main_while_loop_end_1
+main_while_loop_body_1_temp:
+  j main_while_loop_body_1
+main_while_loop_body_0:
+  lw t3, 8(sp)
+  sw t3, 52(sp)
+  la t0, A
+  lw t1, 52(sp)
+  li t2, 4096
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 56(sp)
+  lw t3, 12(sp)
+  sw t3, 60(sp)
+  addi t0, sp, 56
+  lw t1, 60(sp)
+  lw t0, 0(t0)
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 64(sp)
+  call getint
+  sw a0, 68(sp)
+  lw t3, 68(sp)
+  lw t2, 64(sp)
+  sw t3, 0(t2)
+  lw t3, 12(sp)
+  sw t3, 72(sp)
+  lw t0, 72(sp)
+  li t1, 1
+  add t0, t0, t1
+  sw t0, 76(sp)
+  lw t3, 76(sp)
+  sw t3, 12(sp)
+  j main_while_loop_cond_0
+main_while_loop_end_0:
+  lw t3, 8(sp)
+  sw t3, 80(sp)
+  lw t0, 80(sp)
+  li t1, 1
+  add t0, t0, t1
+  sw t0, 84(sp)
+  lw t3, 84(sp)
+  sw t3, 8(sp)
+  j main_while_loop_cond
+main_while_loop_body_1:
+  li t3, 0
+  sw t3, 12(sp)
+  j main_while_loop_cond_2
+main_while_loop_end_1:
+  call starttime
+  sw a0, 88(sp)
+  li t3, 0
+  sw t3, 8(sp)
+  j main_while_loop_cond_3
+main_while_loop_cond_2:
+  lw t3, 12(sp)
+  sw t3, 92(sp)
+  lw t3, 4(sp)
+  sw t3, 96(sp)
+  lw t0, 92(sp)
+  lw t1, 96(sp)
+  slt t0, t0, t1
+  sw t0, 100(sp)
+  lw t0, 100(sp)
+  bnez t0, main_while_loop_body_2_temp
+  j main_while_loop_end_2
+main_while_loop_body_2_temp:
+  j main_while_loop_body_2
+main_while_loop_cond_3:
+  lw t3, 8(sp)
+  sw t3, 104(sp)
+  lw t0, 104(sp)
+  li t1, 5
+  slt t0, t0, t1
+  sw t0, 108(sp)
+  lw t0, 108(sp)
+  bnez t0, main_while_loop_body_3_temp
+  j main_while_loop_end_3
+main_while_loop_body_3_temp:
+  j main_while_loop_body_3
+main_while_loop_body_2:
+  lw t3, 8(sp)
+  sw t3, 112(sp)
+  la t0, B
+  lw t1, 112(sp)
+  li t2, 4096
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 116(sp)
+  lw t3, 12(sp)
+  sw t3, 120(sp)
+  addi t0, sp, 116
+  lw t1, 120(sp)
+  lw t0, 0(t0)
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 124(sp)
+  call getint
+  sw a0, 128(sp)
+  lw t3, 128(sp)
+  lw t2, 124(sp)
+  sw t3, 0(t2)
+  lw t3, 12(sp)
+  sw t3, 132(sp)
+  lw t0, 132(sp)
+  li t1, 1
+  add t0, t0, t1
+  sw t0, 136(sp)
+  lw t3, 136(sp)
+  sw t3, 12(sp)
+  j main_while_loop_cond_2
+main_while_loop_end_2:
+  lw t3, 8(sp)
+  sw t3, 140(sp)
+  lw t0, 140(sp)
+  li t1, 1
+  add t0, t0, t1
+  sw t0, 144(sp)
+  lw t3, 144(sp)
+  sw t3, 8(sp)
+  j main_while_loop_cond_1
+main_while_loop_body_3:
+  lw t3, 4(sp)
+  sw t3, 148(sp)
+  la t0, A
+  li t1, 0
+  li t2, 4096
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 152(sp)
+  la t0, B
+  li t1, 0
+  li t2, 4096
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 156(sp)
+  la t0, C
+  li t1, 0
+  li t2, 4096
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 160(sp)
+  lw a0, 148(sp)
+  lw a1, 152(sp)
+  lw a2, 156(sp)
+  lw a3, 160(sp)
+  call mm
+  sw a0, 164(sp)
+  lw t3, 4(sp)
+  sw t3, 168(sp)
+  la t0, A
+  li t1, 0
+  li t2, 4096
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 172(sp)
+  la t0, C
+  li t1, 0
+  li t2, 4096
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 176(sp)
+  la t0, B
+  li t1, 0
+  li t2, 4096
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 180(sp)
+  lw a0, 168(sp)
+  lw a1, 172(sp)
+  lw a2, 176(sp)
+  lw a3, 180(sp)
+  call mm
+  sw a0, 184(sp)
+  lw t3, 8(sp)
+  sw t3, 188(sp)
+  lw t0, 188(sp)
+  li t1, 1
+  add t0, t0, t1
+  sw t0, 192(sp)
+  lw t3, 192(sp)
+  sw t3, 8(sp)
+  j main_while_loop_cond_3
+main_while_loop_end_3:
+  li t3, 0
+  sw t3, 196(sp)
+  li t3, 0
+  sw t3, 8(sp)
+  j main_while_loop_cond_4
+main_while_loop_cond_4:
+  lw t3, 8(sp)
+  sw t3, 200(sp)
+  lw t3, 4(sp)
+  sw t3, 204(sp)
+  lw t0, 200(sp)
+  lw t1, 204(sp)
+  slt t0, t0, t1
+  sw t0, 208(sp)
+  lw t0, 208(sp)
+  bnez t0, main_while_loop_body_4_temp
+  j main_while_loop_end_4
+main_while_loop_body_4_temp:
+  j main_while_loop_body_4
+main_while_loop_body_4:
+  li t3, 0
+  sw t3, 12(sp)
+  j main_while_loop_cond_5
+main_while_loop_end_4:
+  call stoptime
+  sw a0, 212(sp)
+  lw t3, 196(sp)
+  sw t3, 216(sp)
+  lw a0, 216(sp)
+  call putint
+  sw a0, 220(sp)
+  li a0, 10
+  call putch
+  sw a0, 224(sp)
+  lw ra, 476(sp)
+  li a0, 0
+  addi sp, sp, 480
+  ret
+main_while_loop_cond_5:
+  lw t3, 12(sp)
+  sw t3, 228(sp)
+  lw t3, 4(sp)
+  sw t3, 232(sp)
+  lw t0, 228(sp)
+  lw t1, 232(sp)
+  slt t0, t0, t1
+  sw t0, 236(sp)
+  lw t0, 236(sp)
+  bnez t0, main_while_loop_body_5_temp
+  j main_while_loop_end_5
+main_while_loop_body_5_temp:
+  j main_while_loop_body_5
+main_while_loop_body_5:
+  lw t3, 196(sp)
+  sw t3, 240(sp)
+  lw t3, 8(sp)
+  sw t3, 244(sp)
+  la t0, B
+  lw t1, 244(sp)
+  li t2, 4096
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 248(sp)
+  lw t3, 12(sp)
+  sw t3, 252(sp)
+  addi t0, sp, 248
+  lw t1, 252(sp)
+  lw t0, 0(t0)
+  li t2, 4
+  mul t1, t1, t2
+  add t0, t0, t1
+  sw t0, 256(sp)
+  lw t3, 256(sp)
+  lw t3, 0(t3)
+  sw t3, 260(sp)
+  lw t0, 240(sp)
+  lw t1, 260(sp)
+  add t0, t0, t1
+  sw t0, 264(sp)
+  lw t3, 264(sp)
+  sw t3, 196(sp)
+  lw t3, 12(sp)
+  sw t3, 268(sp)
+  lw t0, 268(sp)
+  li t1, 1
+  add t0, t0, t1
+  sw t0, 272(sp)
+  lw t3, 272(sp)
+  sw t3, 12(sp)
+  j main_while_loop_cond_5
+main_while_loop_end_5:
+  lw t3, 8(sp)
+  sw t3, 276(sp)
+  lw t0, 276(sp)
+  li t1, 1
+  add t0, t0, t1
+  sw t0, 280(sp)
+  lw t3, 280(sp)
+  sw t3, 8(sp)
+  j main_while_loop_cond_4

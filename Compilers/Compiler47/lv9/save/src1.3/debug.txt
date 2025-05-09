@@ -1,0 +1,9 @@
+/tmp/tmpwn9n_9x5/compiler
+-koopa
+/opt/bin/testcases/lv1/6_whitespaces.c
+-o
+/tmp/tmpwn9n_9x5/db3657a8db094f5dbe6ee3e7c77a1df8.S
+fun @main(): i32 {
+%entry:
+  ret 0
+}

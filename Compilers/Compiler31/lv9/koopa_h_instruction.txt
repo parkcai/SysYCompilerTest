@@ -1,0 +1,53 @@
+koopa_raw_program_builder_t
+koopa_new_raw_program_builder()
+返回一个builder指针
+
+koopa_delete_raw_program_builder()
+释放一个builder
+
+///
+/// Builds a raw program of the given Koopa IR program
+/// using the given raw program builder.
+koopa_raw_program_t koopa_build_raw_program(
+    koopa_raw_program_builder_t builder, koopa_program_t program);
+/// Generates the given raw program to the Koopa IR program.
+/// Updates the `program` if no errors occurred.
+koopa_error_code_t koopa_generate_raw_to_koopa(
+    const koopa_raw_program_t *raw, koopa_program_t *program);
+
+koopa_raw_slice_item_kind_t
+   enum包含KOOPA_RSIK_TYPE, FUNCTION, BASIC_BLOCK, VALUE
+
+koopa_raw_slice_t;
+   存储raw slice的结构
+   const void **buffer, 
+   uint32_t len 表示长度
+   koopa_raw_slice_item_kind_t kind表示类型
+
+koopa_raw_type_tag_t
+    表示TYPE的tag
+    INT32, UNIT, ARRAY, POINTER, FUNCTION
+
+koopa_raw_type_t/koopa_raw_type_kind_t
+    表示TYPE的种类
+    koopa_raw_type_tag_t tag
+    array/pointer/function的data
+
+koopa_raw_program_t
+    表示Koopa程序
+    koopa_raw_slice_t Values
+    koopa_raw_slice_t funcs
+
+koopa_raw_function_t
+    表示一个函数
+koopa_raw_basic_block_t
+    表示一个basic_block
+
+koopa_raw_value_kind_t
+    value的种类 koopa_raw_value_tag_t
+    data
+koopa_raw_value_t
+    koopa_raw_type_t ty
+    const char *name;
+    koopa_raw_slice_t used_by;
+    koopa_raw_value_kind_t kind;

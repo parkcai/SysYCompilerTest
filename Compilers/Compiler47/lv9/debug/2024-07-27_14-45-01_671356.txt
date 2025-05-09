@@ -1,0 +1,5 @@
+/tmp/tmpa2w52txw/compiler
+-riscv
+/opt/bin/testcases/lv1/6_whitespaces.c
+-o
+/tmp/tmpa2w52txw/32b0a61ec12b4723805430b6fe5d4d61.S

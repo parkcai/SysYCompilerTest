@@ -1,0 +1,5 @@
+/target
+.idea
+temp*
+/testcases
+.gdb_history

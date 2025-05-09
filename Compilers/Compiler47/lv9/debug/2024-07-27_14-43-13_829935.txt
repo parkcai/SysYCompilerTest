@@ -1,0 +1,5 @@
+/tmp/tmpc30ykybl/compiler
+-riscv
+/opt/bin/testcases/lv1/0_main.c
+-o
+/tmp/tmpc30ykybl/fc0307b7d34f4a9c9c75c27744985823.S

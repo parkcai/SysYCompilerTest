@@ -1,0 +1,386 @@
+use crate::front::ast::*;
+use crate::front::parser_context::ParserContext;
+use crate::util::logger::show_error_range;
+use std::str::FromStr;
+use std::process::exit;
+use std::rc::Rc;
+
+grammar<'a, 'b>(context: &'a mut ParserContext<'b>);
+
+match {
+    r"\s*" => {},
+    r"//[^\n\r]*[\n\r]*" => {},
+    r"/\*[^*]*\*+(?:[^/*][^*]*\*+)*/" => {},
+    _
+}
+
+pub Number: i32 = {
+    <l: @L> <s: r"[1-9][0-9]*"> <r: @R> => match i32::from_str(s) {
+        Ok(v) => v,
+        Err(_) => {
+            show_error_range(context.input, l, r, "Number is out of range", context.file_path);
+            exit(1)
+        },
+    },
+    <l: @L> <s: r"0[0-7]*"> <r: @R> => match i32::from_str_radix(s, 8) {
+        Ok(v) => v,
+        Err(_) => {
+            show_error_range(context.input, l, r, "Number is out of range", context.file_path);
+            exit(1)
+        },
+    },
+    <l: @L> <s: r"0[xX][0-9a-fA-F]+"> <r: @R> => match i32::from_str_radix(&s[2..], 16) {
+        Ok(v) => v,
+        Err(_) => {
+            show_error_range(context.input, l, r, "Number is out of range", context.file_path);
+            exit(1)
+        },
+    }
+};
+
+UnaryOp: UnaryOp = {
+    "+" => UnaryOp::Pos,
+    "-" => UnaryOp::Neg,
+    "!" => UnaryOp::Not,
+};
+
+pub Ident: String = {
+    <s:r"[_a-zA-Z][_a-zA-Z0-9]*"> => s.to_string(),
+};
+
+pub CompUnit: CompUnit = {
+    <s: Decl> => CompUnit {
+        items: vec![GlobalItem::Decl(s)],
+    },
+    <s: FuncDef> => CompUnit {
+        items: vec![GlobalItem::FuncDef(s)],
+    },
+    <mut c: CompUnit> <s: Decl> => CompUnit {
+        items: { c.items.push(GlobalItem::Decl(s)); c.items },
+    },
+    <mut c: CompUnit> <s: FuncDef> => CompUnit {
+        items: { c.items.push(GlobalItem::FuncDef(s)); c.items },
+    },
+};
+
+Decl: Decl = {
+    <s: ConstDecl> => Decl::ConstDecl(s),
+    <s: VarDecl> => Decl::VarDecl(s),
+};
+
+DeclHead: (DataType, String, usize, usize) = {
+    <t: DataType> <l: @L> <s: Ident> <r: @R> => (t, s, l, r),
+};
+
+DataType: DataType = {
+    "void" => DataType::Void,
+    "int" => DataType::Int,
+};
+
+FuncDef: Rc<FuncDef> = {
+    <l: @L> <h: DeclHead> "(" <p: Comma<FuncFParam>> ")" <r: @R> <b: Block> => {
+        let def = FuncDef {
+            name: h.1,
+            ret_type: h.0,
+            params: p,
+            body: b,
+        };
+        let def = Rc::new(def);
+        def
+    },
+};
+
+FuncFParam: Rc<FuncFParam> = {
+    "int" <l: @L> <s: Ident> <r: @R> => {
+        let param = Rc::new(FuncFParam::NormalFParam(NormalFParam{
+            name: s,
+        }));
+        param
+    },
+
+    "int" <l: @L> <s: Ident> "[" "]" <a_shape: ConstArrayShape?> <r: @R> => {
+        let param = Rc::new(FuncFParam::ArrayFParam(ArrayFParam{
+            name: s,
+            placeholder: true,
+            shape: a_shape.unwrap_or(vec![]),
+        }));
+        param
+    },
+
+    "int" <l: @L> <s: Ident> <a_shape: ConstArrayShape> <r: @R> => {
+        let param = Rc::new(FuncFParam::ArrayFParam(ArrayFParam{
+            name: s,
+            placeholder: false,
+            shape: a_shape,
+        }));
+        param
+    },
+};
+
+BlockStart: i32 = {
+    "{" => context.generator.generate()
+};
+
+BlockEnd: () = {
+    "}" => ()
+};
+
+Block: Block = {
+    BlockStart <v: BlockItem*> BlockEnd => {
+        let b = Block {
+            items: v,
+            id: context.generator.get_current_id(),
+        };
+        context.generator.pop();
+        b
+    },
+};
+
+BlockItem: BlockItem = {
+    <d: Decl> => BlockItem::Decl(d),
+    <s: Stmt> => BlockItem::Stmt(s),
+};
+
+Comma<T>: Vec<T> = {
+    <mut v:(<T> ",")*> <e:T?> => match e {
+        None => v,
+        Some(e) => {
+            v.push(e);
+            v
+        }
+    }
+};
+
+BeginComma<T>: Vec<T> = {
+    <mut v:("," <T>)*> <e:T?> => match e {
+        None => v,
+        Some(e) => {
+            v.push(e);
+            v
+        }
+    }
+};
+
+ConstArrayShape: Vec<ConstExpr> = {
+    <v: ("[" <ConstExpr> "]")+> => v
+};
+
+ArrayShape: Vec<Expr> = {
+    <v: ("[" <Expr> "]")+> => v
+};
+
+ConstDecl: Vec<Rc<ConstDef>> = {
+    "const" "int" <v: Comma<ConstDef>> ";" => v,
+};
+
+VarInit: Option<Expr> = {
+    "=" <v: Expr> => Some(v),
+    => None,
+};
+
+ArrayInit: Option<ExprArray> = {
+    "=" <v: ExprArray> => Some(v),
+    => None,
+};
+
+VarDecl: Vec<Rc<VarDef>> = {
+    <left: @L> <h: DeclHead> <right: @R> <init: VarInit> <mut v: BeginComma<VarDef>> ";"  => match h.0 {
+        DataType::Void => {
+            show_error_range(context.input, left, right, "Invalid type void", context.file_path);
+            exit(1)
+        },
+        _ => {
+            let first = Rc::new(VarDef::NormalVarDef(NormalVarDef{
+                name: h.1,
+                value: init,
+            }));
+            v.insert(0, first);
+            v
+        },
+    },
+
+    <left: @L> <h: DeclHead> <right: @R> <a_shape: ConstArrayShape> <ar: ArrayInit> <mut v: BeginComma<VarDef>> ";" => match h.0 {
+        DataType::Void => {
+            show_error_range(context.input, left, right, "Invalid type void", context.file_path);
+            exit(1)
+        },
+        _ => {
+            let first = Rc::new(VarDef::ArrayVarDef(ArrayVarDef{
+                name: h.1,
+                shape: a_shape,
+                values: ar,
+            }));
+            v.insert(0, first);
+            v
+        },
+    },
+};
+
+ConstDef: Rc<ConstDef> = {
+    <l: @L> <s: Ident> <r: @R> "=" <v: ConstExpr> => {
+        let def=Rc::new(ConstDef::NormalConstDef(NormalConstDef{
+            name: s,
+            value: v,
+        }));
+        def
+    },
+
+    <l: @L> <s: Ident> <a_shape: ConstArrayShape> "=" <a: ConstArray>  <r: @R> => {
+        let def = Rc::new(ConstDef::ArrayConstDef(ArrayConstDef{
+            name: s,
+            shape: a_shape,
+            values: a,
+        }));
+        def
+    },
+};
+
+ConstExpr: ConstExpr = {
+    <a: LOrExpr> => ConstExpr(Rc::new(a)),
+}
+
+ConstArray: ConstArray = {
+    "{" <v: Comma<ConstArray>> "}" => ConstArray::Array(v),
+    <v: ConstExpr> => ConstArray::Val(v),
+};
+
+VarDef: Rc<VarDef> = {
+    <l: @L> <s: Ident> <r: @R> <init: VarInit> => {
+        let def = Rc::new(VarDef::NormalVarDef(NormalVarDef{
+            name: s,
+            value: init,
+        }));
+        def
+    },
+
+    <l: @L> <s: Ident> <r: @R> <a_shape: ConstArrayShape> <init: ArrayInit> => {
+        let def = Rc::new(VarDef::ArrayVarDef(ArrayVarDef{
+            name: s,
+            shape: a_shape,
+            values: init,
+        }));
+        def
+    },
+};
+
+pub Expr: Expr = {
+    <a: LOrExpr> => Expr(Rc::new(a)),
+};
+
+ExprArray: ExprArray = {
+    "{" <v: Comma<ExprArray>> "}" => ExprArray::Array(v),
+    <v: Expr> => ExprArray::Val(v),
+};
+
+IfMatchStmt: Stmt = {
+    ";" => Stmt::Empty,
+
+    <e: Expr> ";" => Stmt::Expr(e),
+
+    <lval: LVal> "=" <exp: Expr> ";" => Stmt::Assign(Assign { target: lval , value: exp }),
+
+    <b: Block> => Stmt::Block(b),
+
+    "while" "(" <cond: LOrExpr> ")" <stmt: IfMatchStmt> => Stmt::While(While { cond, body: Rc::new(stmt) }),
+
+    "break" ";" => Stmt::Break(Break),
+
+    "continue" ";" => Stmt::Continue(Continue),
+
+    "return" <expr: Expr?> ";" => Stmt::Return(expr),
+
+    "if" "(" <cond: LOrExpr> ")" <stmt: IfMatchStmt> "else" <else_stmt:  IfMatchStmt> =>
+         Stmt::If(If { cond, else_stmt: Some(Rc::new(else_stmt)), then_stmt: Rc::new(stmt) }),
+}
+
+IfOpenStmt: Stmt = {
+    "while" "(" <cond: LOrExpr> ")" <stmt: IfOpenStmt> => Stmt::While(While { cond, body: Rc::new(stmt) }),
+    "if" "(" <cond: LOrExpr> ")" <stmt: Stmt> => Stmt::If(If { cond, then_stmt: Rc::new(stmt), else_stmt: None }),
+    "if" "(" <cond: LOrExpr> ")" <stmt: IfMatchStmt> "else" <else_stmt: IfOpenStmt> =>
+           Stmt::If(If { cond, then_stmt: Rc::new(stmt), else_stmt: Some(Rc::new(else_stmt)) }),
+}
+
+Stmt: Stmt = {
+    <s: IfMatchStmt> => s,
+    <s: IfOpenStmt> => s,
+};
+
+LVal: LVal = {
+    <s: Ident> => LVal::Var(s),
+    <s: Ident> <shape: ArrayShape> => LVal::ArrayElem(ArrayElem {
+        name: s,
+        indices: shape,
+    }),
+};
+
+PrimaryExpr: PrimaryExpr = {
+    <s: Number> => PrimaryExpr::Number(s),
+    <s: LVal> => PrimaryExpr::LVal(s),
+    "(" <e: Expr> ")" => PrimaryExpr::Expr(e),
+};
+
+AddOp: AddOp = {
+    "+" => AddOp::Add,
+    "-" => AddOp::Sub,
+};
+
+MulOp: MulOp = {
+    "*" => MulOp::Mul,
+    "/" => MulOp::Div,
+    "%" => MulOp::Mod,
+};
+
+AddExpr: AddExpr = {
+    <m: MulExpr> => AddExpr::MulExpr(m),
+    <a: AddExpr> <op: AddOp> <m: MulExpr> => AddExpr::Add(Rc::new(a), op, Rc::new(m)),
+};
+
+MulExpr: MulExpr = {
+    <u: UnaryExpr> => MulExpr::UnaryExpr(u),
+    <m: MulExpr> <op: MulOp> <u: UnaryExpr> => MulExpr::Mul(Rc::new(m), op, Rc::new(u)),
+};
+
+UnaryExpr: UnaryExpr = {
+    <p: PrimaryExpr> => UnaryExpr::PrimaryExpr(p),
+    <op: UnaryOp> <u: UnaryExpr> => UnaryExpr::Unary(op, Rc::new(u)),
+    <f: FuncCall> => UnaryExpr::FuncCall(f),
+};
+
+FuncCall: FuncCall = {
+    <s: Ident> "(" <p: Comma<Expr>> ")" => FuncCall {
+        name: s,
+        args: p,
+    },
+};
+
+LOrExpr: LOrExpr = {
+    <s: LAndExpr> => LOrExpr::LAndExpr(s),
+    <l: LOrExpr> "||" <s: LAndExpr> => LOrExpr::Or(Rc::new(l), Rc::new(s)),
+};
+
+LAndExpr: LAndExpr = {
+    <e: EqExpr> => LAndExpr::EqExpr(e),
+    <l: LAndExpr> "&&" <e: EqExpr> => LAndExpr::And(Rc::new(l), Rc::new(e)),
+};
+
+EqExpr: EqExpr = {
+    <r: RelExpr> => EqExpr::RelExpr(r),
+    <l: EqExpr> <op: EqOp> <r: RelExpr> => EqExpr::Eq(Rc::new(l), op, Rc::new(r)),
+};
+
+EqOp: EqOp = {
+    "==" => EqOp::Eq,
+    "!=" => EqOp::Ne,
+};
+
+RelOp: RelOp = {
+    "<" => RelOp::Lt,
+    "<=" => RelOp::Le,
+    ">" => RelOp::Gt,
+    ">=" => RelOp::Ge,
+};
+
+RelExpr: RelExpr = {
+    <a: AddExpr> => RelExpr::AddExpr(a),
+    <l: RelExpr> <op: RelOp> <a: AddExpr> => RelExpr::Rel(Rc::new(l), op, Rc::new(a)),
+};

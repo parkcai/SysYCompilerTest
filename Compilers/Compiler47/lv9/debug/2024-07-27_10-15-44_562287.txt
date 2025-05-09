@@ -1,0 +1,6 @@
+/tmp/tmpfrffuxoa/compiler
+-koopa
+/opt/bin/testcases/lv1/2_int_dec.c
+-o
+/tmp/tmpfrffuxoa/8a80648550774617a8b6cf785e8614df.S
+调试

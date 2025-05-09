@@ -1,0 +1,5 @@
+/tmp/tmp679ploea/compiler
+-riscv
+/opt/bin/testcases/lv1/3_int_oct.c
+-o
+/tmp/tmp679ploea/76e47368829f4a6e946178dc0fcab576.S

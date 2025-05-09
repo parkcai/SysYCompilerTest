@@ -1,0 +1,5 @@
+/tmp/tmpt5_48a60/compiler
+-riscv
+/opt/bin/testcases/lv1/6_whitespaces.c
+-o
+/tmp/tmpt5_48a60/1633322bd67a4bffb502e3cd29a97857.S

@@ -1,0 +1,8 @@
+*.DS_Store
+/build
+
+/sysy-cmake-template
+/help
+/test
+/cases
+/perf

@@ -1,0 +1,5 @@
+*.DS_Store
+/build
+/debug
+hello.koopa
+hello.s

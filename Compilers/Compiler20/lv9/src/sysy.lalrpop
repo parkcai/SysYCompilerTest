@@ -1,0 +1,226 @@
+use crate::ast::*;
+
+grammar;
+
+// 约束 lexer 的行为
+match {
+  // 跳过空白符和注释
+  r"\s*" => {},
+  r"//[^\n\r]*[\n\r]*" => {},
+  //跳过多行注释
+  r"/\*[^*]*\*+(?:[^/*][^*]*\*+)*/" => {},
+  // 剩下的情况采用默认方式处理
+  _
+}
+
+pub IntConst: i32 = {
+  r"[1-9][0-9]*" => i32::from_str_radix(<>, 10).unwrap(),
+  r"0[0-7]*" => i32::from_str_radix(<>, 8).unwrap(),
+  r"0[xX][0-9a-fA-F]+" => i32::from_str_radix(&<>[2..], 16).unwrap(),
+}
+
+pub CompUnit:CompUnit ={
+    <g:GlobalItem> => CompUnit{items:vec![g]},
+    <mut c:CompUnit><g:GlobalItem> => {
+        let mut items = c.items;
+        items.push(g);
+        CompUnit{items}
+    }
+}
+
+GlobalItem:GlobalItem = {
+    <d:Decl> => GlobalItem::Decl(d),
+    <f:FuncDef> => GlobalItem::FuncDef(f),
+}
+
+Comma<T>: Vec<T> = {
+    <mut v:(<T> ",")*> <e:T?> => match e {
+        None => v,
+        Some(e) => {
+            v.push(e);
+            v
+        }
+    }
+};
+
+Decl:Decl = {
+    "const" "int" <c:Comma<ConstDef>> ";" => Decl::ConstDecl(c),
+    "int" <v:Comma<VarDef>> ";" => Decl::VarDecl(v),
+}
+
+ConstDef:ConstDef = {
+    <id:Ident> <v:("[" <ConstExp> "]")*> "=" <val:ConstInitVal> =>{
+       ConstDef{id, shape:v, val}
+    }
+}
+
+Ident:String = {
+    r"[a-zA-Z_][a-zA-Z0-9_]*" => <>.to_string()
+}
+
+VarDef:VarDef = {
+    <id:Ident> <v:("[" <ConstExp> "]")*> => VarDef{id, shape:v, init:None},
+    <id:Ident> <v:("[" <ConstExp> "]")*> "=" <val:InitVal> => VarDef{id, shape:v, init:Some(val)},
+}
+
+ConstInitVal:ConstInitVal = {
+    <c:ConstExp> => ConstInitVal::ConstExp(c),
+    "{" <v:Comma<ConstInitVal>> "}" => ConstInitVal::ConstInitList(v),
+}
+
+ConstExp:ConstExp = {
+    <l:LOrExp>=>ConstExp{exp : l},
+}
+
+AddExp:AddExp = {
+    <m:MulExp> => AddExp::MulExp(Box::new(m)),
+    <l:AddExp> <op:AddOp> <r:MulExp> => AddExp::AddMul(Box::new(l), op, r),
+}
+
+MulExp:MulExp = {
+    <u:UnaryExp> => MulExp::UnaryExp(Box::new(u)),
+    <l:MulExp> <op:MulOp> <r:UnaryExp> => MulExp::MulUnary(Box::new(l), op, r),
+}
+
+UnaryExp:UnaryExp = {
+    <p:PrimaryExp> => UnaryExp::PrimaryExp(Box::new(p)),
+    <op:UnaryOp> <u:UnaryExp> => UnaryExp::Unary(op, Box::new(u)),
+    <f:FuncCall> => UnaryExp::Call(f),
+}
+
+AddOp:AddOp = {
+    "+" => AddOp::Add,
+    "-" => AddOp::Sub,
+}
+
+MulOp:MulOp = {
+    "*" => MulOp::Mul,
+    "/" => MulOp::Div,
+    "%" => MulOp::Mod,
+}
+
+UnaryOp:UnaryOp = {
+    "+" => UnaryOp::Pos,
+    "-" => UnaryOp::Neg,
+    "!" => UnaryOp::Not,
+}
+
+EqOp:EqOp = {
+    "==" => EqOp::Eq,
+    "!=" => EqOp::Neq,
+}
+
+RelOp:RelOp = {
+    "<" => RelOp::Lt,
+    "<=" => RelOp::Le,
+    ">" => RelOp::Gt,
+    ">=" => RelOp::Ge,
+}
+
+PrimaryExp:PrimaryExp = {
+    "(" <e:Exp> ")" => PrimaryExp::Exp(Box::new(e)),
+    <l:LVal> => PrimaryExp::LVal(l),
+    <i:IntConst> => PrimaryExp::IntConst(i),
+}
+
+Exp:Exp = {
+    <l:LOrExp> => Exp{exp:Box::new(l)}
+}
+
+InitVal:InitVal = {
+    <e:Exp> => InitVal::Exp(e),
+    "{" <v:Comma<InitVal>> "}" => InitVal::InitList(v),
+}
+
+LVal:LVal = {
+    <id:Ident> <v:("[" <Exp> "]")*> => LVal{id, indices:v}
+}
+
+FuncDef:FuncDef ={
+    "void" <id:Ident>  <p:(FuncFParams)> ")" <b:Block>=>{
+        FuncDef{ ret_type:FuncType::Void, id, params:p, body:b}
+    },
+    "int" <id:Ident>  <p:(FuncFParams)> ")" <b:Block>=>{
+        FuncDef{ ret_type:FuncType::Int, id, params:p, body:b}
+        }
+}
+
+FuncFParams:FuncFParams = {
+    "(" <c:Comma<FuncFParam>> => FuncFParams{params:c}
+}
+
+FuncFParam:FuncFParam = {
+    <n:NormalParam> => FuncFParam::NormalParam(n),
+    <a:ArrayParam> => FuncFParam::ArrayParam(a),
+}
+
+NormalParam:NormalParam = {
+    "int" <id:Ident> => NormalParam{id}
+}
+
+ArrayParam:ArrayParam = {
+    "int" <id:Ident> "[" "]" <s:("[" <Exp> "]")*> => ArrayParam{id, shape:s}
+}
+
+FuncCall:FuncCall = {
+    <id:Ident> "(" <c:Comma<Exp>> ")" => FuncCall{id, args:c}
+}
+
+Block:Block = {
+    "{" <s:(BlockItem)*> "}" => Block{items:s}
+}
+
+BlockItem:BlockItem = {
+    <d:Decl> => BlockItem::Decl(d),
+    <s:Stmt> => BlockItem::Stmt(s),
+}
+
+Stmt:Stmt = {
+    <ms:MatchedStmt> => ms,
+    <us:UnMatchedStmt> => us,
+}
+
+MatchedStmt:Stmt = {
+    <l:LVal> "=" <e:Exp> ";" => Stmt::Assign(Assign{lhs:l,rhs:e}),
+    <e:Exp?> ";" =>Stmt::Exp(ExpStmt{exp:e}),
+    <b:Block> => Stmt::Block(b),
+    "break" ";" => Stmt::Break,
+    "continue" ";" => Stmt::Continue,
+    "return" <e:Exp?> ";" => Stmt::Return(Return{exp:e}),
+    "if" "(" <c:Cond> ")" <s1:MatchedStmt> "else" <s2:MatchedStmt> =>{
+        Stmt::If(Box::new(If{cond:c,then:Box::new(s1),else_:Some(s2)}))
+    },
+    "while" "("<c:Cond> ")" <s:MatchedStmt> =>{
+        Stmt::While(Box::new(While{cond:c,body:Box::new(s)}))
+    },
+}
+
+UnMatchedStmt:Stmt = {
+    "if" "(" <c:Cond> ")" <s:Stmt> => Stmt::If(Box::new(If{cond:c,then:Box::new(s),else_:None})),
+    "if" "(" <c:Cond> ")" <s1:MatchedStmt> "else" <s2:UnMatchedStmt> => Stmt::If(Box::new(If{cond:c,then:Box::new(s1),else_:Some(s2)})),
+    "while" "("<c:Cond> ")" <s:UnMatchedStmt> => Stmt::While(Box::new(While{cond:c,body:Box::new(s)})),
+}
+
+Cond:Cond = {
+    <l:LOrExp> => Cond{lor:l},
+}
+
+LOrExp:LOrExp = {
+    <l:LAndExp> => LOrExp::LAndExp(l),
+    <l:LOrExp> "||" <r:LAndExp> => LOrExp::Or(Box::new(l), r),
+}
+
+LAndExp:LAndExp = {
+    <l:EqExp> => LAndExp::EqExp(l),
+    <l:LAndExp> "&&" <r:EqExp> => LAndExp::And(Box::new(l), r),
+}
+
+EqExp:EqExp = {
+    <l:RelExp> => EqExp::RelExp(l),
+    <l:EqExp> <op:EqOp> <r:RelExp> => EqExp::Eq(Box::new(l),op, r),
+}
+
+RelExp:RelExp = {
+    <l:AddExp> => RelExp::AddExp(l),
+    <l:RelExp> <op:RelOp> <r:AddExp> => RelExp::Rel(Box::new(l),op, r),
+}

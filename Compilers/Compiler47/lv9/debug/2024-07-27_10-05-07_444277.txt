@@ -1,0 +1,6 @@
+/tmp/tmphk8w5avn/compiler
+-koopa
+/opt/bin/testcases/lv1/5_compact.c
+-o
+/tmp/tmphk8w5avn/fc01446d69f44068b659adeed33b0e31.S
+调试

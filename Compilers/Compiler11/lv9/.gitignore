@@ -1,0 +1,10 @@
+*.DS_Store
+/build
+/ref
+/debug
+hello.c
+source.cpp
+output.txt
+koopa.txt
+/.vscode
+temp.cpp

@@ -1,0 +1,126 @@
+.text
+.globl main
+main:
+	addi sp, sp, -256
+	li  t0, 10
+	sw  t0, 4(sp)
+	lw    t0, 4(sp)
+	sw    t0, 0(sp)
+	lw    t0, 0(sp)
+	sw   t0, 8(sp)
+	li  t0, 1
+	sw  t0, 12(sp)
+	lw t0, 8(sp)
+	lw t1, 12(sp)
+	sgt   t2, t0, t1
+	sw t2, 16(sp)
+	lw    t0, 16(sp)
+	bnez  t0, then0
+	j     end0
+then0:
+	addi sp, sp, -256
+	lw    t0, 0(sp)
+	sw   t0, 20(sp)
+	li  t0, 2
+	sw  t0, 24(sp)
+	lw t0, 20(sp)
+	lw t1, 24(sp)
+	sgt   t2, t0, t1
+	sw t2, 28(sp)
+	lw    t0, 28(sp)
+	bnez  t0, then1
+	j     end1
+end0:
+	addi sp, sp, -256
+	li  t0, 0
+	sw  t0, 32(sp)
+	li  t0, 1
+	sw  t0, 36(sp)
+	lw t0, 32(sp)
+	lw t1, 36(sp)
+	sub   t2, t0, t1
+	sw t2, 40(sp)
+	lw a0, 40(sp)
+	addi sp, sp, 256
+	ret
+then1:
+	addi sp, sp, -256
+	lw    t0, 0(sp)
+	sw   t0, 44(sp)
+	li  t0, 3
+	sw  t0, 48(sp)
+	lw t0, 44(sp)
+	lw t1, 48(sp)
+	slt   t2, t0, t1
+	sw t2, 52(sp)
+	lw    t0, 52(sp)
+	bnez  t0, then2
+	j     else2
+end1:
+	addi sp, sp, -256
+	j     end0
+then2:
+	addi sp, sp, -256
+	lw    t0, 0(sp)
+	sw   t0, 56(sp)
+	lw a0, 56(sp)
+	addi sp, sp, 256
+	ret
+else2:
+	addi sp, sp, -256
+	lw    t0, 0(sp)
+	sw   t0, 60(sp)
+	li  t0, 4
+	sw  t0, 64(sp)
+	lw t0, 60(sp)
+	lw t1, 64(sp)
+	sgt   t2, t0, t1
+	sw t2, 68(sp)
+	lw    t0, 68(sp)
+	bnez  t0, then3
+	j     end3
+then3:
+	addi sp, sp, -256
+	lw    t0, 0(sp)
+	sw   t0, 72(sp)
+	li  t0, 5
+	sw  t0, 76(sp)
+	lw t0, 72(sp)
+	lw t1, 76(sp)
+	slt   t2, t0, t1
+	sw t2, 80(sp)
+	lw    t0, 80(sp)
+	bnez  t0, then4
+	j     else4
+end3:
+	addi sp, sp, -256
+	j     end2
+then4:
+	addi sp, sp, -256
+	lw    t0, 0(sp)
+	sw   t0, 84(sp)
+	li  t0, 1
+	sw  t0, 88(sp)
+	lw t0, 84(sp)
+	lw t1, 88(sp)
+	add   t2, t0, t1
+	sw t2, 92(sp)
+	lw a0, 92(sp)
+	addi sp, sp, 256
+	ret
+else4:
+	addi sp, sp, -256
+	lw    t0, 0(sp)
+	sw   t0, 96(sp)
+	li  t0, 2
+	sw  t0, 100(sp)
+	lw t0, 96(sp)
+	lw t1, 100(sp)
+	add   t2, t0, t1
+	sw t2, 104(sp)
+	lw a0, 104(sp)
+	addi sp, sp, 256
+	ret
+end2:
+	addi sp, sp, -256
+	j     end1
