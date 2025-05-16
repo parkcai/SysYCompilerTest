@@ -1,7 +1,20 @@
-import subprocess
 import os
+import subprocess
+from typing import Optional
 
-def compiler_coverage_score(compiler_path, c_files_folder_path):
+
+def compiler_coverage_score(
+    compiler_path: str,
+    c_source_codes: list[str],
+)-> Optional[str]:
+    
+    
+
+
+def compiler_coverage_score_original(
+    compiler_path: str, 
+    c_files_folder_path: str, 
+)-> Optional[float]:
     # 创建一个列表来存储 profraw 文件名
     profraw_files = []
 
